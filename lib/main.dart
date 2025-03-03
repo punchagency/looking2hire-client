@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/provider/Auth_Provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:provider/provider.dart';
@@ -44,31 +45,41 @@ class MyApp extends StatelessWidget {
     //   ),
     // );
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
-      ],
-      child: ScreenUtilInit(
-        designSize: const Size(414.0, 896.0),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (child, _) => MaterialApp(
-          title: 'Looking2hire client',
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            // primarySwatch: Color(0xfffaf9f9),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            scaffoldBackgroundColor: Colors.white,
-            textTheme: TextTheme(
-              bodyMedium: TextStyle(
-                fontSize: 14.0.sp,
-              ),
-            ),
-          ),
-          home: const SplashScreen(),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'L2H',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      home: const HomePage(),
     );
+
+    // return MultiProvider(
+    //   providers: [
+    //     ChangeNotifierProvider(create: (context) => AuthProvider()),
+    //   ],
+    //   child: ScreenUtilInit(
+    //     designSize: const Size(414.0, 896.0),
+    //     minTextAdapt: true,
+    //     splitScreenMode: true,
+    //     builder: (child, _) => MaterialApp(
+    //       title: 'Looking2hire client',
+    //       navigatorKey: navigatorKey,
+    //       debugShowCheckedModeBanner: false,
+    //       theme: ThemeData(
+    //         // primarySwatch: Color(0xfffaf9f9),
+    //         visualDensity: VisualDensity.adaptivePlatformDensity,
+    //         scaffoldBackgroundColor: Colors.white,
+    //         textTheme: TextTheme(
+    //           bodyMedium: TextStyle(
+    //             fontSize: 14.0.sp,
+    //           ),
+    //         ),
+    //       ),
+    //       home: const SplashScreen(),
+    //     ),
+    //   ),
+    // );
   }
 }
