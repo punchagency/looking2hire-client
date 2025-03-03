@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (child, _) => MaterialApp(
-          title: 'Stillbia',
+          title: 'Looking2hire client',
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
