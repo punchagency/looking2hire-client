@@ -197,6 +197,8 @@ class AppColor{
   static const Color notificationRideBG = Color(0xFFE0F3E1);
   static const Color notificationRatingBG = Color(0xFFE2EDFB);
   static const Color scanBackground = Color(0xFF041023);
+  static const Color arrowColor = Color(0xFF006AB7);
+  static const Color buttonColor = Color(0xFF2C2C2C);
 
   // Indicator Color
   static const Color availableColor = Color(0xFFF1F1F1);

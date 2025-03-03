@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_text.dart';
+import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
+import 'package:looking2hire/features/onboarding/screens/create_employer_account_screen.dart';
+import 'package:looking2hire/utils/next_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -20,30 +24,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Positioned(
                 top: 50,
                 left: 36,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.arrow_back),
-                    SizedBox(height: 10),
-                    CustomRobotoText(text: "Looking\nTo\nHire", textSize: 50, fontWeight: FontWeight.w700),
-                  ],
+                child: GestureDetector(
+                  onTap: (){
+                    nextScreen(context, CreateEmployerAccountScreen());
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.arrow_back, color: AppColor.arrowColor,),
+                      SizedBox(height: 17),
+                      CustomRobotoText(text: "Looking\nTo\nHire", textSize: 50, fontWeight: FontWeight.w700),
+                    ],
+                  ),
                 ),
               ),
               Positioned(
                 bottom: 140,
                 right: 36,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(Icons.arrow_forward),
-                    SizedBox(height: 10),
-                    CustomRobotoText(
-                      text: "Looking\nTo\nWork",
-                      textSize: 50,
-                      fontWeight: FontWeight.w700,
-                      alignText: TextAlign.end,
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: (){
+                    nextScreen(context, CreateCandidateAccountScreen());
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Icon(Icons.arrow_forward, color: AppColor.arrowColor,),
+                      SizedBox(height: 17),
+                      CustomRobotoText(
+                        text: "Looking\nTo\nWork",
+                        textSize: 50,
+                        fontWeight: FontWeight.w700,
+                        alignText: TextAlign.end,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

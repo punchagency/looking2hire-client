@@ -21,10 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CustomRobotoText(text: "Looking 2 Hire", textSize: 20,),
-      ),
-    );
+    return Scaffold(body: Center(child: CustomRobotoText(text: "Looking 2 Hire", textSize: 20)));
   }
 }
