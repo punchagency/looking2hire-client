@@ -17,7 +17,8 @@ class ProfilePhoto extends StatelessWidget {
           color: Colors.transparent,
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: NetworkImage(imageUrl),
+            // image: NetworkImage(imageUrl),
+            image: AssetImage(imageUrl),
             fit: BoxFit.cover,
           ),
         ),

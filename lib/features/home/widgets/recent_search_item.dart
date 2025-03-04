@@ -21,7 +21,7 @@ class RecentSearchItem extends StatelessWidget {
         border: selected
             ? Border.all(
                 width: 0.6,
-                color: AppColors.lightBlack.withValues(alpha: 0.8),
+                color: AppColors.lightBlack.withOpacity(0.8),
               )
             : null,
       ),
