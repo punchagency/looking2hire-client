@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/constants/app_assets.dart';
 
 import '../../../app_colors.dart';
 
@@ -9,7 +12,7 @@ class JobHistoryItem extends StatelessWidget {
   final String location;
   final String startDate;
   final String endDate;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   const JobHistoryItem({
     super.key,
     required this.imageUrl,
@@ -18,7 +21,7 @@ class JobHistoryItem extends StatelessWidget {
     required this.location,
     required this.startDate,
     required this.endDate,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override
@@ -28,15 +31,17 @@ class JobHistoryItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
       child: Container(
         width: double.infinity,
-        height: 114.0,
+        //height: 114.0,
         padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 0),
-              color: Color(0xFF00000024),
+
+              color: Colors.black.withOpacity(0.14),
               blurRadius: 7,
             ),
           ],
@@ -44,15 +49,15 @@ class JobHistoryItem extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: 92,
+              height: 92,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: const Color(0xFFDBDBDB)),
                 image: DecorationImage(
                   image: AssetImage(imageUrl),
                   // image: NetworkImage(logoUrl),
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   alignment: Alignment.center,
                 ),
               ),
@@ -61,12 +66,15 @@ class JobHistoryItem extends StatelessWidget {
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               title,
@@ -75,9 +83,26 @@ class JobHistoryItem extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.lightBlack,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 14),
+                            Text(
+                              description,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.darkGrey2,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
+                      ),
+                      Icon(
+                        CupertinoIcons.right_chevron,
+                        color: AppColors.lightBlack,
                       ),
                     ],
                   ),
@@ -97,15 +122,16 @@ class JobHistoryItem extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          SvgPicture.asset(AppAssets.location),
+                          const SizedBox(width: 6),
                           Text(
-                            "$startDate • $endDate",
+                            location,
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: AppColors.lighterBlack,
                             ),
                           ),
-                          const SizedBox(width: 6),
                         ],
                       ),
                     ],

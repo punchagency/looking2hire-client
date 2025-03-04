@@ -4,7 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/features/home/pages/job_search_page.dart';
 import 'package:looking2hire/features/home/widgets/job_card.dart';
+import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 import 'package:looking2hire/reuseable/extensions.dart';
@@ -48,6 +50,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void viewAllJobs() {}
+
+  void gotoJobSearch() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => JobSearchPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     const jobWidgets = [
@@ -73,8 +82,39 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
 
+    const jobHistoryWidgets = [
+      JobHistoryItem(
+        imageUrl: AppAssets.bananaRepublic,
+        title: "Target - Marketing Specialist",
+        description:
+            "Implemented campaigns focusing on community engagement..,",
+        location: "California",
+        startDate: "Jan 2020",
+        endDate: "Feb 2023",
+      ),
+
+      JobHistoryItem(
+        imageUrl: AppAssets.gap,
+        title: "Google - Product Designer",
+        description:
+            "Specialized in creating intuitive interfaces for web applications...",
+        location: "Pakistan",
+        startDate: "Jan 2020",
+        endDate: "Feb 2023",
+      ),
+
+      JobHistoryItem(
+        imageUrl: AppAssets.apple,
+        title: "Apple - UX Designer",
+        description:
+            "Focused on enhancing user experience for mobile applications...",
+        location: "London",
+        startDate: "Jan 2020",
+        endDate: "Feb 2023",
+      ),
+    ];
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: "Looking to work",
         fontSize: 26,
@@ -95,12 +135,15 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         SvgPicture.asset(AppAssets.search),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            "Search jobs within 10 miles",
-                            style: TextStyle(
-                              color: AppColors.darkGrey,
-                              fontWeight: FontWeight.w400,
+                        GestureDetector(
+                          onTap: gotoJobSearch,
+                          child: Expanded(
+                            child: Text(
+                              "Search jobs within 10 miles",
+                              style: TextStyle(
+                                color: AppColors.darkGrey,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),
@@ -114,100 +157,119 @@ class _HomePageState extends State<HomePage> {
                 OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
               ],
             ),
-            const SizedBox(height: 11),
-            Text(
-              "Recent searches",
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlack,
-              ),
-            ),
-            const SizedBox(height: 4),
-            SizedBox(
-              height: 30,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: recentSearches.length,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 5);
-                },
-                itemBuilder: (context, index) {
-                  final search = recentSearches[index];
-                  return RecentSearchItem(
-                    title: search,
-                    selected: selectedSearch == search,
-                    onPressed: () => updateSearch(search),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 35),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Popular jobs",
+            Expanded(
+              child: ListView(
+                children: [
+                  const SizedBox(height: 11),
+                  Text(
+                    "Recent searches",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.lightBlack,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: 30,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: recentSearches.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 5);
+                      },
+                      itemBuilder: (context, index) {
+                        final search = recentSearches[index];
+                        return RecentSearchItem(
+                          title: search,
+                          selected: selectedSearch == search,
+                          onPressed: () => updateSearch(search),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 35),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Popular jobs",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.lightBlack,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: viewAllJobs,
+                        child: Text(
+                          "View all",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.lightBlack,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  // SizedBox(
+                  //   height: 170,
+                  //   child: ListView.separated(
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemCount: jobWidgets.length,
+                  //     separatorBuilder: (context, index) {
+                  //       return const SizedBox(width: 15);
+                  //     },
+                  //     itemBuilder: (context, index) {
+                  //       final widget = jobWidgets[index];
+                  //       return widget;
+                  //     },
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 170,
+                    child: PageView.builder(
+                      controller: pageController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: jobWidgets.length,
+
+                      itemBuilder: (context, index) {
+                        final widget = jobWidgets[index];
+                        return widget;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Text(
+                    "Job History",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                       color: AppColors.lightBlack,
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: viewAllJobs,
-                  child: Text(
-                    "View all",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.lightBlack,
-                      decoration: TextDecoration.underline,
-                    ),
+                  const SizedBox(height: 14),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: jobHistoryWidgets.length,
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 15);
+                    },
+                    itemBuilder: (context, index) {
+                      final widget = jobHistoryWidgets[index];
+                      return widget;
+                    },
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            // SizedBox(
-            //   height: 170,
-            //   child: ListView.separated(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: jobWidgets.length,
-            //     separatorBuilder: (context, index) {
-            //       return const SizedBox(width: 15);
-            //     },
-            //     itemBuilder: (context, index) {
-            //       final widget = jobWidgets[index];
-            //       return widget;
-            //     },
-            //   ),
-            // ),
-            SizedBox(
-              height: 170,
-              child: PageView.builder(
-                controller: pageController,
-                scrollDirection: Axis.horizontal,
-                itemCount: jobWidgets.length,
-
-                itemBuilder: (context, index) {
-                  final widget = jobWidgets[index];
-                  return widget;
-                },
+                  const SizedBox(height: 50),
+                ],
               ),
             ),
-            const SizedBox(height: 25),
-            Text(
-              "Job History",
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlack,
-              ),
-            ),
-            const SizedBox(height: 14),
           ],
         ),
       ),
