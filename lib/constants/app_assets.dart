@@ -16,4 +16,5 @@ class AppAssets {
   static const share = "assets/svgs/share.svg";
   static const backArrow = "assets/svgs/back_arrow.svg";
   static const location = "assets/svgs/location.svg";
+  static const forwardArrow = "assets/svgs/forward_arrow.svg";
 }

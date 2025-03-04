@@ -19,18 +19,17 @@ class _CreateCandidateAccountScreenState extends State<CreateCandidateAccountScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(title: "Get Hired Now!", arrowColor: AppColor.arrowColor, ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
-          top: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40),
-              CustomAppBar(title: "Get Hired Now!"),
-              SizedBox(height: 70),
+              // SizedBox(height: 40),
+              // CustomAppBar(title: "Get Hired Now!", arrowColor: AppColor.arrowColor, ),
+              SizedBox(height: 64),
               CustomRobotoText(text: "Create Candidate Account", textSize: 24, fontWeight: FontWeight.w600),
-
               SizedBox(height: 15),
               CustomText(
                 text: "Your profile creation takes just seconds with AI",
@@ -57,6 +56,7 @@ class _CreateCandidateAccountScreenState extends State<CreateCandidateAccountScr
                   Checkbox(
                     value: isChecked,
                     activeColor: AppColor.arrowColor,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (changed) {
                       isChecked = !isChecked;
                       setState(() {});

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/service/navigation_service.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -10,13 +11,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? fontSize;
   final FontWeight? fontWeight;
   final Color? arrowColor;
+  final bool? canNotGoBack;
   const CustomAppBar({
     super.key,
     required this.title,
     this.rightChild,
     this.fontSize,
     this.fontWeight,
-    this.arrowColor,
+    this.arrowColor, this.canNotGoBack,
   });
 
   @override
@@ -28,7 +30,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.pop(context);
+                if(canNotGoBack == null || canNotGoBack == false) {
+                  Navigator.pop(context);
+                }
               },
               // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
               child: SvgPicture.asset(AppAssets.backArrow, color: arrowColor),
@@ -38,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Expanded(
               child: CustomRobotoText(
                 text: title,
-                textSize: fontSize ?? 32,
+                textSize: fontSize ?? 28,
                 fontWeight: fontWeight ?? FontWeight.w400,
               ),
             ),
