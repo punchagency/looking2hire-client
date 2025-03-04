@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/custom_text.dart';
+import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/create_employer_account_screen.dart';
@@ -25,13 +27,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 top: 50,
                 left: 36,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     nextScreen(context, CreateEmployerAccountScreen());
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.arrow_back, color: AppColor.arrowColor,),
+                      SvgPicture.asset(AppAssets.backArrow, color: AppColor.arrowColor),
                       SizedBox(height: 17),
                       CustomRobotoText(text: "Looking\nTo\nHire", textSize: 50, fontWeight: FontWeight.w700),
                     ],
@@ -39,16 +41,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ),
               Positioned(
-                bottom: 140,
+                bottom: 50,
                 right: 36,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     nextScreen(context, CreateCandidateAccountScreen());
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Icon(Icons.arrow_forward, color: AppColor.arrowColor,),
+                      SvgPicture.asset(AppAssets.forwardArrow, color: AppColor.arrowColor),
                       SizedBox(height: 17),
                       CustomRobotoText(
                         text: "Looking\nTo\nWork",
