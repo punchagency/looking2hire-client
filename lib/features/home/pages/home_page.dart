@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
@@ -19,15 +20,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final pageController = PageController(viewportFraction: 0.9);
   List<String> recentSearches = [
     "All Jobs",
     "Designer",
     "Doctor",
     "Engineer",
     "Artist",
-    "Musician"
+    "Musician",
   ];
   String selectedSearch = "";
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSearch = recentSearches.firstOrNull ?? "";
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   void updateSearch(String search) {
     selectedSearch = search;
@@ -35,38 +49,44 @@ class _HomePageState extends State<HomePage> {
   }
 
   void viewAllJobs() {}
-
   @override
   Widget build(BuildContext context) {
     const jobWidgets = [
       JobCard(
-          logoUrl: AppAssets.jobLogo1,
-          price: "\$50 - \$75 / Mo",
-          title: "Senior Project Manager",
-          location: "Tokopedia - Jakarta, ID",
-          isFullTime: true,
-          isRemote: true,
-          isSenior: true),
+        logoUrl: AppAssets.jobLogo1,
+        price: "\$50 - \$75 / Mo",
+        title: "Senior Project Manager",
+        location: "Tokopedia - Jakarta, ID",
+        isFullTime: true,
+        isRemote: true,
+        isSenior: true,
+        selected: true,
+      ),
       JobCard(
-          logoUrl: AppAssets.jobLogo2,
-          price: "\$50 - \$75 / Mo",
-          title: "Junior Graphic Designer",
-          location: "OLX - Jakarta, ID",
-          isFullTime: true,
-          isRemote: true,
-          isSenior: false),
+        logoUrl: AppAssets.jobLogo2,
+        price: "\$50 - \$75 / Mo",
+        title: "Junior Graphic Designer",
+        location: "OLX - Jakarta, ID",
+        isFullTime: true,
+        isRemote: true,
+        isSenior: false,
+        selected: false,
+      ),
     ];
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: CustomAppBar(
+        title: "Looking to work",
+        fontSize: 26,
+        fontWeight: FontWeight.w500,
+        rightChild: ProfilePhoto(imageUrl: AppAssets.profilePicture),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomAppBar(
-              title: "Looking to work",
-              rightChild: ProfilePhoto(imageUrl: AppAssets.profilePicture),
-            ),
             const SizedBox(height: 30),
             Row(
               children: [
@@ -74,37 +94,39 @@ class _HomePageState extends State<HomePage> {
                   child: OutlinedContainer(
                     child: Row(
                       children: [
-                        Image.asset(AppAssets.search),
+                        SvgPicture.asset(AppAssets.search),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             "Search jobs within 10 miles",
                             style: TextStyle(
-                                color: AppColors.darkGrey,
-                                fontWeight: FontWeight.w400),
+                              color: AppColors.darkGrey,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Image.asset(AppAssets.share),
+                        SvgPicture.asset(AppAssets.share),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(width: 8),
-                OutlinedContainer(child: Image.asset(AppAssets.filter))
+                OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
               ],
             ),
             const SizedBox(height: 11),
             Text(
               "Recent searches",
               style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.lightBlack),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.lightBlack,
+              ),
             ),
             const SizedBox(height: 4),
             SizedBox(
-              height: 40,
+              height: 30,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: recentSearches.length,
@@ -114,9 +136,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final search = recentSearches[index];
                   return RecentSearchItem(
-                      title: search,
-                      selected: selectedSearch == search,
-                      onPressed: () => updateSearch(search));
+                    title: search,
+                    selected: selectedSearch == search,
+                    onPressed: () => updateSearch(search),
+                  );
                 },
               ),
             ),
@@ -127,9 +150,10 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Popular jobs",
                     style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.lightBlack),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.lightBlack,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -144,18 +168,31 @@ class _HomePageState extends State<HomePage> {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 14),
+            // SizedBox(
+            //   height: 170,
+            //   child: ListView.separated(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: jobWidgets.length,
+            //     separatorBuilder: (context, index) {
+            //       return const SizedBox(width: 15);
+            //     },
+            //     itemBuilder: (context, index) {
+            //       final widget = jobWidgets[index];
+            //       return widget;
+            //     },
+            //   ),
+            // ),
             SizedBox(
-              height: 160,
-              child: ListView.separated(
+              height: 170,
+              child: PageView.builder(
+                controller: pageController,
                 scrollDirection: Axis.horizontal,
                 itemCount: jobWidgets.length,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 15);
-                },
+
                 itemBuilder: (context, index) {
                   final widget = jobWidgets[index];
                   return widget;
@@ -166,9 +203,10 @@ class _HomePageState extends State<HomePage> {
             Text(
               "Job History",
               style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.lightBlack),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: AppColors.lightBlack,
+              ),
             ),
             const SizedBox(height: 14),
           ],

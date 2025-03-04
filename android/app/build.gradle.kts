@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.punch.looking2hire"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
