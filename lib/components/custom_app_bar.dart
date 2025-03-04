@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget {
             },
               child: Icon(Icons.arrow_back, color: AppColor.arrowColor,)),
           SizedBox(width: 23,),
-          CustomRobotoText(text: title, textSize: 32, fontWeight: FontWeight.w400,)
+          CustomRobotoText(text: title, textSize: 28, fontWeight: FontWeight.w400,)
         ],
       );
   }
