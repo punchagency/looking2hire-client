@@ -4,7 +4,6 @@ import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/widgets/job_detail_item.dart';
 import 'package:looking2hire/features/home/widgets/job_logo.dart';
-import 'package:looking2hire/reuseable/extensions.dart';
 
 class JobCard extends StatelessWidget {
   final String logoUrl;

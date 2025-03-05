@@ -15,12 +15,16 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      nextScreen(context, WelcomeScreen());
+      nextScreenReplace(context, WelcomeScreen());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: CustomRobotoText(text: "Looking 2 Hire", textSize: 20)));
+    return Scaffold(
+      body: Center(
+        child: CustomRobotoText(text: "Looking 2 Hire", textSize: 20),
+      ),
+    );
   }
 }

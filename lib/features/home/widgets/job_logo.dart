@@ -13,7 +13,7 @@ class JobLogo extends StatelessWidget {
       height: size,
 
       decoration: BoxDecoration(
-        color: Color(0xFF3A77FF1A).withOpacity(0.1),
+        color: Color(0xff3a77ff1a).withOpacity(0.1),
         image: DecorationImage(
           image: AssetImage(logoUrl),
           // image: NetworkImage(logoUrl),

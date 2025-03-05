@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
@@ -10,7 +9,6 @@ import 'package:looking2hire/features/home/widgets/job_card.dart';
 import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
-import 'package:looking2hire/reuseable/extensions.dart';
 
 import '../../../resusable/widgets/outlined_container.dart';
 
