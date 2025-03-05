@@ -5,6 +5,8 @@ import 'package:looking2hire/components/bottom_sheet_container.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_popup.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
@@ -23,9 +25,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   List<String> menuLogos = [AppAssets.save2, AppAssets.share2];
 
   void toggleTab(int tab) {
-    setState(() {
-      selectedTab = tab;
-    });
+    if (tab == 1) {
+      context.pushTo(ActiveJobsPage());
+    } else {}
+    // setState(() {
+    //   selectedTab = tab;
+    // });
   }
 
   void toggleSelectOptions(String option) {}
@@ -33,7 +38,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   void apply() {}
   @override
   Widget build(BuildContext context) {
-    const tabs = ["Description", "Details"];
+    const tabs = ["Description", "Company"];
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,

@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.fontSize,
     this.fontWeight,
     this.arrowColor,
-   this.titleColor,
+    this.titleColor,
     this.canNotGoBack,
     this.centeredTitle = false,
   });
@@ -42,16 +42,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   top: 0,
                   bottom: 0,
                   left: 0,
-                  child: InkWell(
-                    onTap: () {
-                      if (canNotGoBack == null || canNotGoBack == false) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
-                    child: SvgPicture.asset(
-                      AppAssets.backArrow,
-                      color: arrowColor,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {
+                        if (canNotGoBack == null || canNotGoBack == false) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
+                      child: SvgPicture.asset(
+                        AppAssets.backArrow,
+                        color: arrowColor,
+                      ),
                     ),
                   ),
                 ),
@@ -62,12 +65,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   bottom: 0,
                   left: 50,
                   right: 50,
-                  child: CustomRobotoText(
-                    text: title,
-                    textSize: fontSize ?? 28,
-                    fontWeight: fontWeight ?? FontWeight.w400,
-                    textColor: titleColor,
-                    alignText: centeredTitle ? TextAlign.center : null,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CustomRobotoText(
+                      text: title,
+                      textSize: fontSize ?? 28,
+                      fontWeight: fontWeight ?? FontWeight.w400,
+                      textColor: titleColor,
+                      alignText: centeredTitle ? TextAlign.center : null,
+                    ),
                   ),
                 ),
                 if (rightChild != null)
@@ -75,9 +81,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     right: 0,
                     top: 0,
                     bottom: 0,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [const SizedBox(width: 10), rightChild!],
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [const SizedBox(width: 10), rightChild!],
+                      ),
                     ),
                   ),
               ],

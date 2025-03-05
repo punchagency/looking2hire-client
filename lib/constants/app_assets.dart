@@ -17,6 +17,8 @@ class AppAssets {
   static const save = "assets/svgs/save.svg";
   static const share = "assets/svgs/share.svg";
   static const save2 = "assets/svgs/save2.svg";
+  static const save3 = "assets/svgs/save3.svg";
+
   static const share2 = "assets/svgs/share2.svg";
   static const backArrow = "assets/svgs/back_arrow.svg";
   static const location = "assets/svgs/location.svg";
@@ -27,6 +29,8 @@ class AppAssets {
   static const add = "assets/svgs/add.svg";
   static const subtract = "assets/svgs/subtract.svg";
   static const close = "assets/svgs/close.svg";
+  static const menu = "assets/svgs/menu.svg";
+  static const arrowRight = "assets/svgs/arrow_right.svg";
 
   static const forwardArrow = "assets/svgs/forward_arrow.svg";
 }
