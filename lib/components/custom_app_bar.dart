@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? titleColor;
   final bool centeredTitle;
 
-  final bool? canNotGoBack;
+  final bool canNotGoBack;
   const CustomAppBar({
     super.key,
     required this.title,
@@ -23,8 +23,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.fontSize,
     this.fontWeight,
     this.arrowColor,
-   this.titleColor,
-    this.canNotGoBack,
+    this.titleColor,
+    this.canNotGoBack = false,
     this.centeredTitle = false,
   });
 
@@ -33,28 +33,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (centeredTitle) {
       return SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: SizedBox(
             height: 50,
             child: Stack(
               children: [
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  child: InkWell(
-                    onTap: () {
-                      if (canNotGoBack == null || canNotGoBack == false) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
-                    child: SvgPicture.asset(
-                      AppAssets.backArrow,
-                      color: arrowColor,
+                if (!canNotGoBack)
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
+                        icon: SvgPicture.asset(
+                          AppAssets.backArrow,
+                          color: arrowColor,
+                        ),
+                      ),
                     ),
                   ),
-                ),
                 SizedBox(width: 20),
 
                 Positioned(
@@ -62,12 +64,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   bottom: 0,
                   left: 50,
                   right: 50,
-                  child: CustomRobotoText(
-                    text: title,
-                    textSize: fontSize ?? 24,
-                    fontWeight: fontWeight ?? FontWeight.w400,
-                    textColor: titleColor,
-                    alignText: centeredTitle ? TextAlign.center : null,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CustomRobotoText(
+                      text: title,
+                      textSize: fontSize ?? 28,
+                      fontWeight: fontWeight ?? FontWeight.w400,
+                      textColor: titleColor,
+                      alignText: centeredTitle ? TextAlign.center : null,
+                    ),
                   ),
                 ),
                 if (rightChild != null)
@@ -75,9 +80,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     right: 0,
                     top: 0,
                     bottom: 0,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [const SizedBox(width: 10), rightChild!],
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [const SizedBox(width: 10), rightChild!],
+                      ),
                     ),
                   ),
               ],
@@ -88,19 +96,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Row(
           children: [
-            InkWell(
-              onTap: () {
-                if (canNotGoBack == null || canNotGoBack == false) {
-                  Navigator.pop(context);
-                }
-              },
-              // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
-              child: SvgPicture.asset(AppAssets.backArrow, color: arrowColor),
-            ),
-            SizedBox(width: 20),
+            if (!canNotGoBack)
+              IconButton(
+                onPressed: () {
+                  if (canNotGoBack == null || canNotGoBack == false) {
+                    Navigator.pop(context);
+                  }
+                },
+                // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
+                icon: SvgPicture.asset(AppAssets.backArrow, color: arrowColor),
+              ),
+            SizedBox(width: 10),
 
             Expanded(
               child: CustomRobotoText(

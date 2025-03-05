@@ -22,38 +22,6 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // return ScreenUtilInit(
-    //   designSize: const Size(414.0, 896.0),
-    //   minTextAdapt: true,
-    //   splitScreenMode: true,
-    //   builder: (child, _) => MaterialApp(
-    //     title: 'Stillbia',
-    //     navigatorKey: navigatorKey,
-    //     debugShowCheckedModeBanner: false,
-    //     theme: ThemeData(
-    //       primarySwatch: Palette.kCustomColour,
-    //       visualDensity: VisualDensity.adaptivePlatformDensity,
-    //       scaffoldBackgroundColor: kScaffoldColour,
-    //       textTheme: TextTheme(
-    //         bodyMedium: TextStyle(
-    //           fontSize: 14.0.sp,
-    //         ),
-    //       ),
-    //     ),
-    //     home: const SplashScreen(),
-    //   ),
-    // );
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   title: 'L2H',
-    //   theme: ThemeData(
-    //     scaffoldBackgroundColor: Colors.white,
-    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    //     useMaterial3: true,
-    //   ),
-    //   home: const HomePage(),
-    // );
 
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],

@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/job_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_search_page.dart';
 import 'package:looking2hire/features/home/widgets/job_card.dart';
@@ -51,20 +53,20 @@ class _HomePageState extends State<HomePage> {
   void viewAllJobs() {}
 
   void gotoJobSearch() {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => JobSearchPage()));
+    context.pushTo(JobSearchPage());
   }
 
   void gotoJobDetails() {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));
+    context.pushTo(JobDetailsPage());
+  }
+
+  void gotoJobActiveJobs() {
+    context.pushTo(ActiveJobsPage());
   }
 
   @override
   Widget build(BuildContext context) {
-    const jobWidgets = [
+    final jobWidgets = [
       JobCard(
         logoUrl: AppAssets.jobLogo1,
         price: "\$50 - \$75 / Mo",
@@ -74,6 +76,7 @@ class _HomePageState extends State<HomePage> {
         isRemote: true,
         isSenior: true,
         selected: true,
+        onPressed: gotoJobDetails,
       ),
       JobCard(
         logoUrl: AppAssets.jobLogo2,
@@ -84,6 +87,7 @@ class _HomePageState extends State<HomePage> {
         isRemote: true,
         isSenior: false,
         selected: false,
+        onPressed: gotoJobDetails,
       ),
     ];
 
@@ -96,7 +100,7 @@ class _HomePageState extends State<HomePage> {
         location: "California",
         startDate: "Jan 2020",
         endDate: "Feb 2023",
-        onPressed: gotoJobDetails,
+        onPressed: gotoJobActiveJobs,
       ),
 
       JobHistoryItem(
@@ -107,7 +111,7 @@ class _HomePageState extends State<HomePage> {
         location: "Pakistan",
         startDate: "Jan 2020",
         endDate: "Feb 2023",
-        onPressed: gotoJobDetails,
+        onPressed: gotoJobActiveJobs,
       ),
 
       JobHistoryItem(
@@ -118,7 +122,7 @@ class _HomePageState extends State<HomePage> {
         location: "London",
         startDate: "Jan 2020",
         endDate: "Feb 2023",
-        onPressed: gotoJobDetails,
+        onPressed: gotoJobActiveJobs,
       ),
     ];
 

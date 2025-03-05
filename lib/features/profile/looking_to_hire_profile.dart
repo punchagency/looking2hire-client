@@ -52,14 +52,21 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         arrowColor: AppColor.arrowColor,
         centeredTitle: true,
         fontWeight: FontWeight.w600,
-        rightChild: SvgPicture.asset(AppAssets.menu),
+        rightChild: IconButton(
+          icon: SvgPicture.asset(AppAssets.menu),
+          onPressed: () {},
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileCard(name: "Michael Smith", address: "Hallandale Beach, FL 33009", milesAway: 0.5),
+            ProfileCard(
+              name: "Michael Smith",
+              address: "Hallandale Beach, FL 33009",
+              milesAway: 0.5,
+            ),
             SizedBox(height: 14),
             JobInformationItem(
               title: "Reliable and hardworking, expert in retail sales.",
@@ -70,7 +77,11 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
             SizedBox(height: 35),
             Text(
               "Job History",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.lightBlack),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: AppColors.lightBlack,
+              ),
             ),
             const SizedBox(height: 14),
             ListView.separated(

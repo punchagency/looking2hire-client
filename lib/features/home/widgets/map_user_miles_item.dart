@@ -15,14 +15,14 @@ class MapUserMilesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onPressed,
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         height: 40.0,
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: Colors.white,
-
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(

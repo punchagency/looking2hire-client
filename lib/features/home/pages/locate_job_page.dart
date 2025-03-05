@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/bottom_sheet_container.dart';
+import 'package:looking2hire/components/bottom_sheet_container_copy.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
-import 'package:looking2hire/features/home/widgets/distance_action_item.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/pages/job_details_page.dart';
 import 'package:looking2hire/features/home/widgets/map_user_miles_item.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/next_screen.dart';
+
+import '../widgets/mile_action_item.dart';
 
 class LocateJobPage extends StatefulWidget {
   const LocateJobPage({super.key});
@@ -18,23 +22,70 @@ class LocateJobPage extends StatefulWidget {
   State<LocateJobPage> createState() => _LocateJobPageState();
 }
 
-class _LocateJobPageState extends State<LocateJobPage> {
-  double distance = 0;
+class _LocateJobPageState extends State<LocateJobPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  bool showSheet = true;
+  double mile = 0;
+  double maxMiles = 10;
   List<int> miles = [1, 3, 5, 7, 10];
   int selectedMileIndex = 0;
+  String time = "23 min";
 
-  void decrementDistance() {}
-  void incrementDistance() {}
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+  }
 
-  void updateMile(int index) {
-    selectedMileIndex = index;
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void gotoEmployerProfile() {
+    context.pushTo(LookingToHireProfile());
+  }
+
+  void decrementMile() {
+    if (mile.toInt() <= 0) return;
+    mile = mile.toInt() - 1;
     setState(() {});
   }
 
-  void updateDistance(double value) {
-    setState(() {
-      distance = value;
-    });
+  void incrementMile() {
+    if (mile.toInt() >= maxMiles) return;
+    mile = mile.toInt() + 1;
+    setState(() {});
+  }
+
+  void updateSelectedMiles(int index) {
+    selectedMileIndex = index;
+    mile = miles[index].toDouble();
+    setState(() {});
+  }
+
+  void updateMile(double value) {
+    final mileIndex = miles.indexWhere((miles) => miles >= value);
+    selectedMileIndex = mileIndex != -1 ? mileIndex : 0;
+    mile = value;
+
+    setState(() {});
+  }
+
+  void openSheet() {
+    showSheet = true;
+    setState(() {});
+  }
+
+  void closeSheet() {
+    showSheet = false;
+    setState(() {});
   }
 
   @override
@@ -60,9 +111,7 @@ class _LocateJobPageState extends State<LocateJobPage> {
               child: MapUserMilesItem(
                 imageUrl: AppAssets.profilePicture,
                 mile: 5,
-                onPressed: () {
-
-                },
+                onPressed: gotoEmployerProfile,
               ),
             ),
 
@@ -72,7 +121,7 @@ class _LocateJobPageState extends State<LocateJobPage> {
               child: MapUserMilesItem(
                 imageUrl: AppAssets.profilePicture,
                 mile: 6,
-                onPressed: () {},
+                onPressed: gotoEmployerProfile,
               ),
             ),
 
@@ -82,123 +131,240 @@ class _LocateJobPageState extends State<LocateJobPage> {
               child: MapUserMilesItem(
                 imageUrl: AppAssets.profilePicture,
                 mile: 10,
-                onPressed: () {
-                  nextScreen(context, LookingToHireProfile());
-                },
+                onPressed: gotoEmployerProfile,
               ),
             ),
           ],
         ),
       ),
-      bottomSheet: BottomSheet(
-        onClosing: () {},
-        builder: (context) {
-          return SizedBox(
-            height: 280,
-            child: BottomSheetContainer(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+      bottomSheet:
+          showSheet
+              ? SizedBox(
+                height: 270,
+
+                child: BottomSheetContainer(
+                  onClose: closeSheet,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset(AppAssets.share),
-                      const SizedBox(width: 10),
-                      Text(
-                        "Set distance",
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.lighterBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Set distance within 10 miles",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.lighterBlack,
-                              ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(AppAssets.share),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Set Distance",
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.lighterBlack,
                             ),
-                            const SizedBox(height: 4),
-                            Row(
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SetDistanceItem(
-                                  image: AppAssets.clock,
-                                  title: "28 min",
+                                Text(
+                                  "Set distance within 10 miles",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.lighterBlack,
+                                  ),
                                 ),
-                                const SizedBox(width: 10),
-                                SetDistanceItem(
-                                  image: AppAssets.miles,
-                                  title: "10 miles",
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    SetDistanceItem(
+                                      image: AppAssets.clock,
+                                      title: time,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    SetDistanceItem(
+                                      image: AppAssets.miles,
+                                      title: "${mile.toInt()} miles",
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
+                          const SizedBox(width: 10),
+                          MileActionItem(
+                            isIncrement: false,
+                            onPressed: decrementMile,
+                          ),
+                          const SizedBox(width: 10),
+                          MileActionItem(
+                            isIncrement: true,
+                            onPressed: incrementMile,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+
+                      SizedBox(
+                        height: 15,
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            padding: const EdgeInsets.all(0),
+                            inactiveTrackColor: const Color(0xFFF2F2F2),
+                            activeTrackColor: const Color(0xFF2C58B8),
+                            thumbColor: const Color(0xFF2C58B8),
+                            thumbShape: RoundSliderThumbShape(
+                              enabledThumbRadius: 6.0,
+                            ), // Adjust size
+                          ),
+                          child: Slider.adaptive(
+                            min: 0,
+                            max: maxMiles,
+                            value: mile,
+                            onChanged: updateMile,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      DistanceActionItem(
-                        isIncrement: false,
-                        onPressed: decrementDistance,
-                      ),
-                      const SizedBox(width: 10),
-                      DistanceActionItem(
-                        isIncrement: true,
-                        onPressed: incrementDistance,
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(miles.length, (index) {
+                          final mile = miles[index];
+                          return MileItem(
+                            selected: selectedMileIndex == index,
+                            index: index,
+                            mile: mile,
+                            onChanged: updateSelectedMiles,
+                          );
+                        }),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-
-                  SizedBox(
-                    height: 15,
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        padding: const EdgeInsets.all(0),
-                        inactiveTrackColor: const Color(0xFFF2F2F2),
-                        activeTrackColor: const Color(0xFF2C58B8),
-                        thumbColor: const Color(0xFF2C58B8),
-                        thumbShape: RoundSliderThumbShape(
-                          enabledThumbRadius: 12.0,
-                        ), // Adjust size
-                      ),
-                      child: Slider.adaptive(
-                        min: 0,
-                        max: 100,
-                        value: distance,
-                        onChanged: updateDistance,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(miles.length, (index) {
-                      final mile = miles[index];
-                      return MileItem(
-                        selected: selectedMileIndex == index,
-                        index: index,
-                        mile: mile,
-                        onChanged: updateMile,
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              )
+              // ? BottomSheet(
+              //   onClosing: () {},
+              //   enableDrag: true,
+              //   showDragHandle: true,
+              //   animationController: _animationController,
+              //   dragHandleColor: const Color(0xFFBABABA),
+              //   constraints: BoxConstraints(maxHeight: 400, minHeight: 100),
+              //   backgroundColor: Colors.white,
+              //   builder: (context) {
+              //     return Container(
+              //       color: Colors.red,
+              //       // constraints: BoxConstraints(maxHeight: 400, minHeight: 100),
+              //     );
+              //     return SizedBox(
+              //       height: 280,
+              //       child: BottomSheetContainer(
+              //         onClose: closeSheet,
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Row(
+              //               children: [
+              //                 SvgPicture.asset(AppAssets.share),
+              //                 const SizedBox(width: 10),
+              //                 Text(
+              //                   "Set Distance",
+              //                   style: const TextStyle(
+              //                     fontSize: 26,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: AppColors.lighterBlack,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //             const SizedBox(height: 18),
+              //             Row(
+              //               children: [
+              //                 Expanded(
+              //                   child: Column(
+              //                     crossAxisAlignment: CrossAxisAlignment.start,
+              //                     children: [
+              //                       Text(
+              //                         "Set distance within 10 miles",
+              //                         style: const TextStyle(
+              //                           fontSize: 16,
+              //                           fontWeight: FontWeight.w400,
+              //                           color: AppColors.lighterBlack,
+              //                         ),
+              //                       ),
+              //                       const SizedBox(height: 4),
+              //                       Row(
+              //                         children: [
+              //                           SetDistanceItem(
+              //                             image: AppAssets.clock,
+              //                             title: time,
+              //                           ),
+              //                           const SizedBox(width: 10),
+              //                           SetDistanceItem(
+              //                             image: AppAssets.miles,
+              //                             title: "${mile.toInt()} miles",
+              //                           ),
+              //                         ],
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ),
+              //                 const SizedBox(width: 10),
+              //                 MileActionItem(
+              //                   isIncrement: false,
+              //                   onPressed: decrementMile,
+              //                 ),
+              //                 const SizedBox(width: 10),
+              //                 MileActionItem(
+              //                   isIncrement: true,
+              //                   onPressed: incrementMile,
+              //                 ),
+              //               ],
+              //             ),
+              //             const SizedBox(height: 20),
+              //             SizedBox(
+              //               height: 15,
+              //               child: SliderTheme(
+              //                 data: SliderTheme.of(context).copyWith(
+              //                   padding: const EdgeInsets.all(0),
+              //                   inactiveTrackColor: const Color(0xFFF2F2F2),
+              //                   activeTrackColor: const Color(0xFF2C58B8),
+              //                   thumbColor: const Color(0xFF2C58B8),
+              //                   thumbShape: RoundSliderThumbShape(
+              //                     enabledThumbRadius: 6.0,
+              //                   ), // Adjust size
+              //                 ),
+              //                 child: Slider.adaptive(
+              //                   min: 0,
+              //                   max: maxMiles,
+              //                   value: mile,
+              //                   onChanged: updateMile,
+              //                 ),
+              //               ),
+              //             ),
+              //             const SizedBox(height: 20),
+              //             Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: List.generate(miles.length, (index) {
+              //                 final mile = miles[index];
+              //                 return MileItem(
+              //                   selected: selectedMileIndex == index,
+              //                   index: index,
+              //                   mile: mile,
+              //                   onChanged: updateSelectedMiles,
+              //                 );
+              //               }),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // )
+              : null,
     );
   }
 }
