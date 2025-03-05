@@ -9,5 +9,8 @@ class AppColors {
   static const lighterBlack = Color(0xFF2C2C2C);
   static const grey1 = Color(0xFF333333);
   static const grey3 = Color(0xFF828282);
+  static const lightestGrey = Color(0xFFEEEEEE);
+
   static const dividerColor = Color(0xFF3C3C43);
+  static const blue = Color(0xFF3E4F88);
 }

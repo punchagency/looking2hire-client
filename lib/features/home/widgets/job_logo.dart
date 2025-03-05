@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 
 class JobLogo extends StatelessWidget {
   final String logoUrl;
-  const JobLogo({super.key, required this.logoUrl});
+  final double size;
+  const JobLogo({super.key, required this.logoUrl, this.size = 50});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: size,
+      height: size,
 
       decoration: BoxDecoration(
         color: Color(0xFF3A77FF1A).withOpacity(0.1),

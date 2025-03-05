@@ -8,13 +8,25 @@ class AppAssets {
   static const bananaRepublic = "assets/images/banana_republic.png";
   static const gap = "assets/images/gap.png";
   static const apple = "assets/images/apple.png";
+  static const jobDetailsImage = "assets/images/job_details_image.png";
+  static const map = "assets/images/map.png";
 
   //Svgs
   static const search = "assets/svgs/search.svg";
   static const filter = "assets/svgs/filter.svg";
   static const save = "assets/svgs/save.svg";
   static const share = "assets/svgs/share.svg";
+  static const save2 = "assets/svgs/save2.svg";
+  static const share2 = "assets/svgs/share2.svg";
   static const backArrow = "assets/svgs/back_arrow.svg";
   static const location = "assets/svgs/location.svg";
+  static const location2 = "assets/svgs/location2.svg";
+  static const more = "assets/svgs/more.svg";
+  static const clock = "assets/svgs/clock.svg";
+  static const miles = "assets/svgs/miles.svg";
+  static const add = "assets/svgs/add.svg";
+  static const subtract = "assets/svgs/subtract.svg";
+  static const close = "assets/svgs/close.svg";
+
   static const forwardArrow = "assets/svgs/forward_arrow.svg";
 }

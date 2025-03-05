@@ -16,10 +16,7 @@ class OutlinedContainer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: AppColors.grey.withOpacity(0.2),
-            width: 1,
-          ),
+          border: Border.all(color: AppColors.grey.withOpacity(0.2), width: 1),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: child,

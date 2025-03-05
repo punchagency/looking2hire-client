@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/features/home/pages/locate_job_page.dart';
 import 'package:looking2hire/features/home/widgets/search_result_item.dart';
 import 'package:looking2hire/resusable/widgets/outlined_container.dart';
 
@@ -51,7 +52,11 @@ class _JobSearchPageState extends State<JobSearchPage> {
     super.dispose();
   }
 
-  void viewJob(Job job) {}
+  void viewJob(Job job) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => LocateJobPage()));
+  }
   // void searchJobs(String searchString) {}
 
   @override
@@ -127,6 +132,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
                   itemCount: searchedJobs.length,
                   separatorBuilder: (context, index) {
                     return Divider(
+                      thickness: 1,
                       color: AppColors.dividerColor.withOpacity(0.12),
                       indent: 0,
                       endIndent: 0,
