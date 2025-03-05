@@ -6,6 +6,7 @@ import 'package:looking2hire/components/bottom_sheet_container.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/widgets/distance_action_item.dart';
+import 'package:looking2hire/features/home/widgets/map_user_miles_item.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 
@@ -50,7 +51,39 @@ class _LocateJobPageState extends State<LocateJobPage> {
             alignment: Alignment.center,
           ),
         ),
-        child: Stack(children: []),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 50,
+              left: 100,
+              child: MapUserMilesItem(
+                imageUrl: AppAssets.profilePicture,
+                mile: 5,
+                onPressed: () {},
+              ),
+            ),
+
+            Positioned(
+              top: 150,
+              right: 80,
+              child: MapUserMilesItem(
+                imageUrl: AppAssets.profilePicture,
+                mile: 6,
+                onPressed: () {},
+              ),
+            ),
+
+            Positioned(
+              bottom: 400,
+              right: 80,
+              child: MapUserMilesItem(
+                imageUrl: AppAssets.profilePicture,
+                mile: 10,
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
       ),
       bottomSheet: BottomSheet(
         onClosing: () {},
