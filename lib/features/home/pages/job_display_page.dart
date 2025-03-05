@@ -6,6 +6,8 @@ import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 
+import '../../profile/components/profile_card.dart';
+
 class JobDisplayPage extends StatefulWidget {
   const JobDisplayPage({super.key});
 
@@ -36,6 +38,15 @@ class _JobDisplayPageState extends State<JobDisplayPage> {
             ListView(
               children: [
                 const SizedBox(height: 16),
+                ProfileCard(
+                  name: "Crate & Barrel",
+                  address: "600 Silks Run\nHallandale Beach, FL 33009",
+                  milesAway: 0.5,
+                  imageUrl: AppAssets.hireImage,
+                  showSave: false,
+                ),
+                const SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(

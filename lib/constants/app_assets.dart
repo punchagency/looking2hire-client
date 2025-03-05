@@ -11,6 +11,7 @@ class AppAssets {
   static const jobDetailsImage = "assets/images/job_details_image.png";
   static const map = "assets/images/map.png";
   static const profileImage = "assets/images/profile_image.png";
+  static const hireImage = "assets/images/hire_image.png";
 
   //Svgs
   static const search = "assets/svgs/search.svg";
