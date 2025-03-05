@@ -5,12 +5,13 @@ import 'package:looking2hire/app_colors.dart';
 class JobInformationItem extends StatelessWidget {
   final String title;
   final String? value;
+  final double? fontSize;
   final List<String>? options;
   const JobInformationItem({
     super.key,
     required this.title,
     this.value,
-    this.options,
+    this.options, this.fontSize,
   });
 
   @override
@@ -21,8 +22,8 @@ class JobInformationItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 14,
+          style:  TextStyle(
+            fontSize: fontSize ?? 14,
             fontWeight: FontWeight.w600,
             color: AppColors.lighterBlack,
           ),

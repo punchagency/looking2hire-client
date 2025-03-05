@@ -9,6 +9,8 @@ import 'package:looking2hire/features/home/pages/job_details_page.dart';
 import 'package:looking2hire/features/home/widgets/map_user_miles_item.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/utils/next_screen.dart';
 
 import '../widgets/mile_action_item.dart';
 
@@ -28,7 +30,7 @@ class _LocateJobPageState extends State<LocateJobPage> {
   String time = "23 min";
 
   void gotoEmployerProfile() {
-    context.pushTo(JobDetailsPage());
+    context.pushTo(LookingToHireProfile());
   }
 
   void decrementMile() {

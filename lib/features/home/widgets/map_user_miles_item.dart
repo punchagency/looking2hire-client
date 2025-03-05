@@ -5,7 +5,7 @@ import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 class MapUserMilesItem extends StatelessWidget {
   final String imageUrl;
   final int mile;
-  final VoidCallback onPressed;
+  final Function()? onPressed;
   const MapUserMilesItem({
     super.key,
     required this.imageUrl,
