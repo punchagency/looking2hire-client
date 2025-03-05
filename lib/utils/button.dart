@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
 class Button extends StatelessWidget {
@@ -39,7 +38,9 @@ class Button extends StatelessWidget {
       decoration: BoxDecoration(
         color: color ?? AppColor.buttonColor,
         borderRadius: BorderRadius.circular(8.sp),
-        border: Border.all(color: borderColor != null ? borderColor! : Colors.white),
+        border: Border.all(
+          color: borderColor != null ? borderColor! : Colors.white,
+        ),
       ),
       child: ElevatedButton(
         onPressed: onPressed,
@@ -60,7 +61,14 @@ class Button extends StatelessWidget {
                     // k30HorizontalSpacing,
                     // k10HorizontalSpacing,
                     // k10HorizontalSpacing,
-                    Icon(icon, color: light == false ? Colors.white : textColor ?? (color ?? Colors.blue), size: 25),
+                    Icon(
+                      icon,
+                      color:
+                          light == false
+                              ? Colors.white
+                              : textColor ?? (color ?? Colors.blue),
+                      size: 25,
+                    ),
                     const SizedBox(width: 7),
                     // k5HorizontalSpacing,
                     Expanded(
@@ -68,7 +76,10 @@ class Button extends StatelessWidget {
                         "$text  ",
                         style: TextStyle(
                           letterSpacing: 1,
-                          color: light == false ? Colors.white : textColor ?? (color ?? Colors.blue),
+                          color:
+                              light == false
+                                  ? Colors.white
+                                  : textColor ?? (color ?? Colors.blue),
                           fontWeight: FontWeight.w500,
                           fontSize: 11,
                         ),
@@ -85,7 +96,9 @@ class Button extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           letterSpacing: 1,
-                          color: textColor ?? (light == false ? Colors.white : Colors.blue),
+                          color:
+                              textColor ??
+                              (light == false ? Colors.white : Colors.blue),
                           fontWeight: FontWeight.w500,
                           fontSize: textSize ?? 12,
                         ),
@@ -130,7 +143,9 @@ class RectangleButton extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.sp),
-        border: Border.all(color: borderColor != null ? borderColor! : Colors.white),
+        border: Border.all(
+          color: borderColor != null ? borderColor! : Colors.white,
+        ),
       ),
       child: ElevatedButton(
         onPressed: onPressed,
@@ -151,7 +166,14 @@ class RectangleButton extends StatelessWidget {
                     // k30HorizontalSpacing,
                     // k10HorizontalSpacing,
                     // k10HorizontalSpacing,
-                    Icon(icon, color: light == false ? Colors.white : textColor ?? (color ?? Colors.blue), size: 25),
+                    Icon(
+                      icon,
+                      color:
+                          light == false
+                              ? Colors.white
+                              : textColor ?? (color ?? Colors.blue),
+                      size: 25,
+                    ),
                     const SizedBox(width: 7),
                     // k5HorizontalSpacing,
                     Expanded(
@@ -159,7 +181,10 @@ class RectangleButton extends StatelessWidget {
                         "$text  ",
                         style: TextStyle(
                           letterSpacing: 1,
-                          color: light == false ? Colors.white : textColor ?? (color ?? Colors.blue),
+                          color:
+                              light == false
+                                  ? Colors.white
+                                  : textColor ?? (color ?? Colors.blue),
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -173,7 +198,9 @@ class RectangleButton extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1,
-                      color: textColor ?? (light == false ? Colors.white : Colors.blue),
+                      color:
+                          textColor ??
+                          (light == false ? Colors.white : Colors.blue),
                       fontWeight: FontWeight.w500,
                       fontSize: textSize ?? 13,
                     ),

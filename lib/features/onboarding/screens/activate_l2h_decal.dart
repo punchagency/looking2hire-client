@@ -4,7 +4,9 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/utils/button.dart';
+import 'package:looking2hire/utils/next_screen.dart';
 
 class ActivateL2hDecal extends StatefulWidget {
   const ActivateL2hDecal({super.key});
@@ -19,7 +21,10 @@ class _ActivateL2hDecalState extends State<ActivateL2hDecal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Hire Candidates Now!", arrowColor: AppColor.arrowColor,),
+      appBar: CustomAppBar(
+        title: "Hire Candidates Now!",
+        arrowColor: AppColor.arrowColor,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
@@ -28,7 +33,11 @@ class _ActivateL2hDecalState extends State<ActivateL2hDecal> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 64),
-              CustomRobotoText(text: "Activate Your L2H Decal", textSize: 24, fontWeight: FontWeight.w600),
+              CustomRobotoText(
+                text: "Activate Your L2H Decal",
+                textSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
               SizedBox(height: 15),
               CustomText(
                 text: "Account creation takes just seconds",
@@ -76,14 +85,15 @@ class _ActivateL2hDecalState extends State<ActivateL2hDecal> {
                         TextSpan(text: 'I accepts the Terms '),
                         TextSpan(
                           text: 'Read our T&Cs',
-                          style: TextStyle(color: Colors.grey.shade400, decoration: TextDecoration.underline),
+                          style: TextStyle(
+                            color: Colors.grey.shade400,
+                            decoration: TextDecoration.underline,
+                          ),
                           recognizer:
-                          TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-
-                              });
-                            },
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  setState(() {});
+                                },
                         ),
                       ],
                     ),
@@ -91,7 +101,14 @@ class _ActivateL2hDecalState extends State<ActivateL2hDecal> {
                 ],
               ),
               SizedBox(height: 50),
-              Button(onPressed: () {}, text: "Create account", block: true, color: AppColor.buttonColor),
+              Button(
+                onPressed: () {
+                  nextScreen(context, HomePage());
+                },
+                text: "Create account",
+                block: true,
+                color: AppColor.buttonColor,
+              ),
             ],
           ),
         ),

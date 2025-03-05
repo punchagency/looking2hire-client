@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
-import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/service/navigation_service.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -25,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.fontSize,
     this.fontWeight,
     this.arrowColor,
-    this.titleColor,
+   this.titleColor,
     this.canNotGoBack,
     this.centeredTitle = false,
   });
