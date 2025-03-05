@@ -36,6 +36,8 @@ class _LocateJobPageState extends State<LocateJobPage> {
     });
   }
 
+  void closeSheet() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +93,7 @@ class _LocateJobPageState extends State<LocateJobPage> {
           return SizedBox(
             height: 280,
             child: BottomSheetContainer(
+              onClose: closeSheet,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
