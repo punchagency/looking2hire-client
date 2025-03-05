@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:looking2hire/constants/app_assets.dart';
 
 import '../../../app_colors.dart';
 
