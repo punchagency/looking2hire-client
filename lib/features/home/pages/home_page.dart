@@ -129,6 +129,7 @@ class _HomePageState extends State<HomePage> {
         title: "Looking to work",
         fontSize: 26,
         fontWeight: FontWeight.w500,
+        canNotGoBack: true,
         rightChild: ProfilePhoto(imageUrl: AppAssets.profilePicture),
       ),
       body: SizedBox(

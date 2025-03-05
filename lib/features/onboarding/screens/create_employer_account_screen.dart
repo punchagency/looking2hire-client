@@ -22,7 +22,7 @@ class _CreateEmployerAccountScreenState extends State<CreateEmployerAccountScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Hire Candidates Now!", arrowColor: AppColor.arrowColor,),
+      appBar: CustomAppBar(title: "Hire Candidates Now!", arrowColor: AppColor.arrowColor),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
@@ -30,7 +30,6 @@ class _CreateEmployerAccountScreenState extends State<CreateEmployerAccountScree
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               SizedBox(height: 64),
               CustomRobotoText(text: "Create Employer Account", textSize: 24, fontWeight: FontWeight.w600),
 
