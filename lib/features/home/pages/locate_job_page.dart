@@ -8,6 +8,8 @@ import 'package:looking2hire/features/home/widgets/distance_action_item.dart';
 import 'package:looking2hire/features/home/widgets/map_user_miles_item.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/utils/next_screen.dart';
 
 class LocateJobPage extends StatefulWidget {
   const LocateJobPage({super.key});
@@ -58,7 +60,9 @@ class _LocateJobPageState extends State<LocateJobPage> {
               child: MapUserMilesItem(
                 imageUrl: AppAssets.profilePicture,
                 mile: 5,
-                onPressed: () {},
+                onPressed: () {
+
+                },
               ),
             ),
 
@@ -78,7 +82,9 @@ class _LocateJobPageState extends State<LocateJobPage> {
               child: MapUserMilesItem(
                 imageUrl: AppAssets.profilePicture,
                 mile: 10,
-                onPressed: () {},
+                onPressed: () {
+                  nextScreen(context, LookingToHireProfile());
+                },
               ),
             ),
           ],

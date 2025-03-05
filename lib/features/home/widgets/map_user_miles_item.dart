@@ -5,7 +5,7 @@ import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 class MapUserMilesItem extends StatelessWidget {
   final String imageUrl;
   final int mile;
-  final VoidCallback onPressed;
+  final Function()? onPressed;
   const MapUserMilesItem({
     super.key,
     required this.imageUrl,
@@ -15,36 +15,39 @@ class MapUserMilesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40.0,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 40.0,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: Colors.white,
 
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(1.61, 1.61),
-            color: Colors.black.withOpacity(0.35),
-            blurRadius: 4.46,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ProfilePhoto(imageUrl: imageUrl, size: 30),
-          const SizedBox(width: 4),
-          Text(
-            "$mile mile${mile == 1 ? "" : "s"}",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(1.61, 1.61),
+              color: Colors.black.withOpacity(0.35),
+              blurRadius: 4.46,
             ),
-          ),
-          const SizedBox(width: 4),
-        ],
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ProfilePhoto(imageUrl: imageUrl, size: 30),
+            const SizedBox(width: 4),
+            Text(
+              "$mile mile${mile == 1 ? "" : "s"}",
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(width: 4),
+          ],
+        ),
       ),
     );
   }

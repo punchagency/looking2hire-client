@@ -64,7 +64,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   right: 50,
                   child: CustomRobotoText(
                     text: title,
-                    textSize: fontSize ?? 28,
+                    textSize: fontSize ?? 24,
                     fontWeight: fontWeight ?? FontWeight.w400,
                     textColor: titleColor,
                     alignText: centeredTitle ? TextAlign.center : null,

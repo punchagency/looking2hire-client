@@ -191,7 +191,7 @@ class AppColor{
   static const Color darker = Color(0xFF1F222A);
   static const Color dark = Color(0xFF35383F);
   static const Color homeCardGrey = Color(0xFF484848);
-  static const Color homeCardByGrey = Color(0xFFA7A7A7);
+  static const Color profileCardByGrey = Color(0xFFF2F2F2);
   static const Color imageCardGrey = Color(0xFFC7C7C7);
   static const Color notificationBG = Color(0xFF191E26);
   static const Color notificationRideBG = Color(0xFFE0F3E1);
