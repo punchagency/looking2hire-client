@@ -4,6 +4,7 @@ import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
 
@@ -48,7 +49,7 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Looking To Hire",
+        title: appTitle,
         arrowColor: AppColor.arrowColor,
         centeredTitle: true,
         fontWeight: FontWeight.w600,

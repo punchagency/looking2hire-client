@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/provider/Auth_Provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:provider/provider.dart';
 
 import 'features/onboarding/screens/splash_screen.dart';
+
+AppType currentAppType = AppType.hire;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

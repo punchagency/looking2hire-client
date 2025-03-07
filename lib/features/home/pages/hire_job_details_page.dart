@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/bottom_sheet_container.dart';
+import 'package:looking2hire/components/bottom_sheet_container_copy.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_popup.dart';
 import 'package:looking2hire/constants/app_assets.dart';
@@ -12,14 +13,14 @@ import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 import 'package:looking2hire/features/home/widgets/job_logo.dart';
 
-class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({super.key});
+class HireJobDetailsPage extends StatefulWidget {
+  const HireJobDetailsPage({super.key});
 
   @override
-  State<JobDetailsPage> createState() => _JobDetailsPageState();
+  State<HireJobDetailsPage> createState() => _HireJobDetailsPageState();
 }
 
-class _JobDetailsPageState extends State<JobDetailsPage> {
+class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
   int selectedTab = 0;
   List<String> menuOptions = ["Save", "Share"];
   List<String> menuLogos = [AppAssets.save2, AppAssets.share2];
@@ -156,7 +157,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
               bottom: 20,
               left: 15,
               right: 15,
-              child: ActionButton(title: "Apply Now", onPressed: apply),
+              child: ActionButton(
+                title: "Apply Now",
+                color: AppColors.lighterBlack,
+                onPressed: apply,
+              ),
             ),
           ],
         ),

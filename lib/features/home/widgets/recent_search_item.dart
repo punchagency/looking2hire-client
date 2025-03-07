@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 
 class RecentSearchItem extends StatelessWidget {
   final String title;
@@ -22,10 +23,13 @@ class RecentSearchItem extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: AppColors.lightGrey.withOpacity(0.3),
+          color:
+              isWork && selected
+                  ? AppColors.lightBlack
+                  : AppColors.lightGrey.withOpacity(0.3),
           borderRadius: BorderRadius.circular(6),
           border:
-              selected
+              isHire && selected
                   ? Border.all(
                     width: 0.6,
                     color: AppColors.lightBlack.withOpacity(0.8),
@@ -34,10 +38,10 @@ class RecentSearchItem extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w400,
-            color: AppColors.lightBlack,
+            color: isWork && selected ? Colors.white : AppColors.lightBlack,
           ),
         ),
       ),

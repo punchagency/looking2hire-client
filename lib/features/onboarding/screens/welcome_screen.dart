@@ -3,6 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/enums/app_type.dart';
+import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
+import 'package:looking2hire/features/onboarding/screens/create_employer_account_screen.dart';
+import 'package:looking2hire/main.dart';
 import 'package:looking2hire/features/create_job/get_related_jobs.dart';
 import 'package:looking2hire/features/create_job/manually_create_job.dart';
 import 'package:looking2hire/features/create_job/upload_cv_screen.dart';
@@ -32,6 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 left: 36,
                 child: GestureDetector(
                   onTap: () {
+                    currentAppType = AppType.hire;
                     nextScreen(context, CreateEmployerAccountScreen());
                   },
                   child: Column(
@@ -56,7 +61,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 right: 36,
                 child: GestureDetector(
                   onTap: () {
-                    nextScreen(context, UploadCvScreen());
+                    currentAppType = AppType.work;
+                    nextScreen(context, CreateCandidateAccountScreen());
+                    //nextScreen(context, UploadCvScreen());
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

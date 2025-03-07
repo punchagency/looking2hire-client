@@ -21,6 +21,7 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
         title: "Looking To Work",
         arrowColor: AppColor.black,
         centeredTitle: true,
+        fontSize: 24,
         fontWeight: FontWeight.w600,
         rightChild: IconButton(
           icon: SvgPicture.asset(AppAssets.menu),

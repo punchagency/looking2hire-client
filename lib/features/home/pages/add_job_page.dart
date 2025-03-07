@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 
 import '../../profile/components/profile_card.dart';
@@ -20,7 +21,7 @@ class _AddJobPageState extends State<AddJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Looking To Hire",
+        title: appTitle,
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,

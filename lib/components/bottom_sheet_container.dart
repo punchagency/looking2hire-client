@@ -6,61 +6,79 @@ import 'package:looking2hire/constants/app_assets.dart';
 class BottomSheetContainer extends StatelessWidget {
   final Widget child;
   final VoidCallback? onClose;
-  const BottomSheetContainer({super.key, required this.child, this.onClose});
+  final bool showHandle;
+  final bool useShadow;
+  final double radius;
+  final EdgeInsets? padding;
+
+  const BottomSheetContainer({
+    super.key,
+    required this.child,
+    this.onClose,
+    this.showHandle = true,
+    this.useShadow = true,
+    this.radius = 30,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      padding:
+          padding ?? const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: Colors.black.withOpacity(0.31),
-            blurRadius: 35,
-          ),
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: Colors.black.withOpacity(0.09),
-            blurRadius: 63,
-          ),
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 85,
-          ),
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: Colors.black.withOpacity(0.01),
-            blurRadius: 101,
-          ),
-          BoxShadow(
-            offset: Offset(0, 0),
-            color: Colors.transparent,
-            blurRadius: 110,
-          ),
-        ],
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+        boxShadow:
+            useShadow
+                ? [
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.black.withOpacity(0.31),
+                    blurRadius: 35,
+                  ),
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.black.withOpacity(0.09),
+                    blurRadius: 63,
+                  ),
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 85,
+                  ),
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.black.withOpacity(0.01),
+                    blurRadius: 101,
+                  ),
+                  BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.transparent,
+                    blurRadius: 110,
+                  ),
+                ]
+                : null,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Container(
-                width: 28,
-                height: 2,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFBABABA),
-                  borderRadius: BorderRadius.circular(34),
+          if (showHandle)
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Container(
+                  width: 28,
+                  height: 2,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFBABABA),
+                    borderRadius: BorderRadius.circular(34),
+                  ),
                 ),
               ),
             ),
-          ),
           if (onClose != null)
             Align(
               alignment: Alignment.centerRight,

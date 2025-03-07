@@ -5,6 +5,8 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/create_job/upload_cv_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 
 class GetRelatedJobs extends StatefulWidget {
@@ -15,6 +17,10 @@ class GetRelatedJobs extends StatefulWidget {
 }
 
 class _GetRelatedJobsState extends State<GetRelatedJobs> {
+  void sendLinkAndGotoCVUpload() {
+    context.pushTo(UploadCvScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +28,7 @@ class _GetRelatedJobsState extends State<GetRelatedJobs> {
         title: "Looking To Work",
         arrowColor: AppColor.black,
         centeredTitle: true,
+        fontSize: 24,
         fontWeight: FontWeight.w600,
         rightChild: IconButton(
           icon: SvgPicture.asset(AppAssets.menu),
@@ -55,7 +62,7 @@ class _GetRelatedJobsState extends State<GetRelatedJobs> {
             ),
             SizedBox(height: 50),
             Button(
-              onPressed: () {},
+              onPressed: sendLinkAndGotoCVUpload,
               text: "Send Link",
               textSize: 18,
               block: true,

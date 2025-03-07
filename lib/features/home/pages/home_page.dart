@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
-import 'package:looking2hire/features/home/pages/job_details_page.dart';
+import 'package:looking2hire/features/home/pages/hire_job_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_search_page.dart';
+import 'package:looking2hire/features/home/pages/work_job_details_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/job_card.dart';
 import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
+import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/main.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 
 import '../../../resusable/widgets/outlined_container.dart';
@@ -32,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     "Musician",
   ];
   String selectedSearch = "";
+  bool firstTime = true;
 
   @override
   void initState() {
@@ -57,11 +64,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   void gotoJobDetails() {
-    context.pushTo(JobDetailsPage());
+    if (isWork) {
+      context.pushTo(WorkJobDetailsPage());
+      return;
+    }
+    context.pushTo(HireJobDetailsPage());
   }
 
   void gotoJobActiveJobs() {
     context.pushTo(ActiveJobsPage());
+  }
+
+  void gotoProfile() {
+    if (isWork) {
+      if (firstTime) {
+        context.pushTo(InitialUserProfilePage());
+      } else {
+        context.pushTo(LookingToHireProfile());
+      }
+      return;
+    }
+    context.pushTo(LookingToHireProfile());
   }
 
   @override
@@ -75,7 +98,7 @@ class _HomePageState extends State<HomePage> {
         isFullTime: true,
         isRemote: true,
         isSenior: true,
-        selected: true,
+        bgColor: AppColors.bluishGrey,
         onPressed: gotoJobDetails,
       ),
       JobCard(
@@ -86,7 +109,7 @@ class _HomePageState extends State<HomePage> {
         isFullTime: true,
         isRemote: true,
         isSenior: false,
-        selected: false,
+        bgColor: Colors.white,
         onPressed: gotoJobDetails,
       ),
     ];
@@ -128,11 +151,14 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Looking to work",
+        title: appTitle,
         fontSize: 26,
         fontWeight: FontWeight.w500,
         canNotGoBack: true,
-        rightChild: ProfilePhoto(imageUrl: AppAssets.profilePicture),
+        rightChild: ProfilePhoto(
+          imageUrl: AppAssets.profilePicture,
+          onPressed: gotoProfile,
+        ),
       ),
       body: SizedBox(
         width: double.infinity,
@@ -247,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                     //   ),
                     // ),
                     SizedBox(
-                      height: 170,
+                      height: 180,
                       child: PageView.builder(
                         controller: pageController,
                         scrollDirection: Axis.horizontal,

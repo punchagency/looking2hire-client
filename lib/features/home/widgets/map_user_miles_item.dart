@@ -1,15 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:looking2hire/features/home/models/user.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 
 class MapUserMilesItem extends StatelessWidget {
-  final String imageUrl;
-  final int mile;
+  final User user;
   final Function()? onPressed;
   const MapUserMilesItem({
     super.key,
-    required this.imageUrl,
-    required this.mile,
+    required this.user,
     required this.onPressed,
   });
 
@@ -35,10 +34,10 @@ class MapUserMilesItem extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ProfilePhoto(imageUrl: imageUrl, size: 30),
+            ProfilePhoto(imageUrl: user.imageUrl, size: 30),
             const SizedBox(width: 4),
             Text(
-              "$mile mile${mile == 1 ? "" : "s"}",
+              "${user.miles} mile${user.miles == 1 ? "" : "s"}",
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

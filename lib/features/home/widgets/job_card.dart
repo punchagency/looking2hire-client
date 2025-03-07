@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/widgets/job_detail_item.dart';
 import 'package:looking2hire/features/home/widgets/job_logo.dart';
@@ -13,7 +13,7 @@ class JobCard extends StatelessWidget {
   final bool isFullTime;
   final bool isRemote;
   final bool isSenior;
-  final bool selected;
+  final Color bgColor;
   final VoidCallback onPressed;
   const JobCard({
     super.key,
@@ -24,9 +24,11 @@ class JobCard extends StatelessWidget {
     required this.isFullTime,
     required this.isRemote,
     required this.isSenior,
-    required this.selected,
     required this.onPressed,
+    required this.bgColor,
   });
+
+  bool get isWhite => bgColor == Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +36,28 @@ class JobCard extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
         child: SizedBox(
           width: 280,
           child: Card(
-            color: selected ? const Color(0xFF6A8BB0) : Colors.white,
+            color: bgColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Padding(
+            elevation: 5,
+            child: Container(
               padding: const EdgeInsets.all(12),
+              // decoration: BoxDecoration(
+              //   color: bgColor,
+              //   borderRadius: BorderRadius.circular(12),
+              //   boxShadow: [
+              //     BoxShadow(
+              //       offset: Offset(0, 5.87),
+              //       color: Color(0xFF3E4F88).withOpacity(0.2),
+              //       blurRadius: 17.6,
+              //     ),
+              //   ],
+              // ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,8 +82,10 @@ class JobCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: selected ? Colors.white : AppColors.grey1,
+                      color: !isWhite ? Colors.white : AppColors.grey1,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -77,8 +93,10 @@ class JobCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: selected ? Colors.white : AppColors.grey3,
+                      color: !isWhite ? Colors.white : AppColors.grey3,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 10),
                   Row(

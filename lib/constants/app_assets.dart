@@ -2,7 +2,7 @@ class AppAssets {
   // Images
   static const splashImage = "assets/images/splash_image2.png";
   static const profilePicture = "assets/images/profile_picture.png";
-
+  static const profilePicture2 = "assets/images/profile_picture2.png";
   static const jobLogo1 = "assets/images/job_logo_1.png";
   static const jobLogo2 = "assets/images/job_logo_2.png";
   static const bananaRepublic = "assets/images/banana_republic.png";
@@ -12,6 +12,7 @@ class AppAssets {
   static const map = "assets/images/map.png";
   static const profileImage = "assets/images/profile_image.png";
   static const hireImage = "assets/images/hire_image.png";
+  static const crateAndBarrelImage = "assets/images/crateandbarrel_image.png";
 
   //Svgs
   static const search = "assets/svgs/search.svg";
@@ -20,7 +21,6 @@ class AppAssets {
   static const share = "assets/svgs/share.svg";
   static const save2 = "assets/svgs/save2.svg";
   static const save3 = "assets/svgs/save3.svg";
-
   static const saved = "assets/svgs/saved.svg";
   static const share2 = "assets/svgs/share2.svg";
   static const backArrow = "assets/svgs/back_arrow.svg";

@@ -39,6 +39,9 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   google_fonts: ^5.1.0
   flutter_svg:
+  google_maps_flutter:
+  widget_to_marker:
+  geolocator:
 
 dev_dependencies:
   flutter_test:
