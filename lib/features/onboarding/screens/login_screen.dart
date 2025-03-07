@@ -42,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: "",
                 placeholder: "LinkedIn Button",
               ),
+              SizedBox(height: 15),
               CustomLabelInputText(
                 keyboardType: TextInputType.text,
                 inputAction: TextInputAction.next,

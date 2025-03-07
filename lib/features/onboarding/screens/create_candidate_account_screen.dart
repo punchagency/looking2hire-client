@@ -55,6 +55,7 @@ class _CreateCandidateAccountScreenState
                 label: "Login",
                 placeholder: "LinkedIn Button",
               ),
+              SizedBox(height: 15),
               CustomLabelInputText(
                 keyboardType: TextInputType.text,
                 inputAction: TextInputAction.next,
