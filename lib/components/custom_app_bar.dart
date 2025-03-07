@@ -102,7 +102,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             if (!canNotGoBack)
               IconButton(
                 onPressed: () {
-                  if (canNotGoBack == null || canNotGoBack == false) {
+                  if (canNotGoBack == false) {
                     Navigator.pop(context);
                   }
                 },
