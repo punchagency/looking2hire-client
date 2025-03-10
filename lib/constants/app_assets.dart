@@ -14,6 +14,7 @@ class AppAssets {
   static const hireImage = "assets/images/hire_image.png";
   static const crateAndBarrelImage = "assets/images/crateandbarrel_image.png";
 
+
   //Svgs
   static const search = "assets/svgs/search.svg";
   static const filter = "assets/svgs/filter.svg";
@@ -45,4 +46,6 @@ class AppAssets {
   static const viewedjobs = "assets/svgs/viewed_jobs.svg";
   static const settings = "assets/svgs/settings.svg";
   static const logout = "assets/svgs/logout.svg";
+  static const mail = "assets/svgs/mail.svg";
+  static const lock = "assets/svgs/lock.svg";
 }
