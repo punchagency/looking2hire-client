@@ -27,10 +27,6 @@ class _AddJobPageState extends State<AddJobPage> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: ListView(

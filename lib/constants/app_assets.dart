@@ -13,6 +13,7 @@ class AppAssets {
   static const profileImage = "assets/images/profile_image.png";
   static const hireImage = "assets/images/hire_image.png";
   static const crateAndBarrelImage = "assets/images/crateandbarrel_image.png";
+  static const nfcScan = "assets/images/nfc_scan.png";
 
 
   //Svgs
@@ -46,6 +47,7 @@ class AppAssets {
   static const viewedjobs = "assets/svgs/viewed_jobs.svg";
   static const settings = "assets/svgs/settings.svg";
   static const logout = "assets/svgs/logout.svg";
+  static const edit = "assets/svgs/edit.svg";
   static const mail = "assets/svgs/mail.svg";
   static const lock = "assets/svgs/lock.svg";
 }

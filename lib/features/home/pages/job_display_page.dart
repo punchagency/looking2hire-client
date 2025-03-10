@@ -28,10 +28,6 @@ class _JobDisplayPageState extends State<JobDisplayPage> {
         fontWeight: FontWeight.w600,
         centeredTitle: true,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: Padding(

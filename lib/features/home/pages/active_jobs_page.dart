@@ -54,10 +54,6 @@ class _ActiveJobsPageState extends State<ActiveJobsPage> {
         fontWeight: FontWeight.w600,
         centeredTitle: true,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: ListView(

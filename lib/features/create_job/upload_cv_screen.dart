@@ -38,26 +38,25 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
     nfcSection();
   }
 
-  Future<void> nfcSection() async{
+  Future<void> nfcSection() async {
     // Check availability
     bool isAvailable = await NfcManager.instance.isAvailable();
-    if(isAvailable){
+    if (isAvailable) {
       print("NFC is available");
-    }else{
+    } else {
       print("NFC is not available");
     }
 
-// Start Session
+    // Start Session
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
         // Do something with an NfcTag instance.
         print(tag.data.values);
       },
-
     );
 
-// Stop Session
-//     NfcManager.instance.stopSession();
+    // Stop Session
+    //     NfcManager.instance.stopSession();
   }
 
   @override
@@ -71,7 +70,10 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
           centeredTitle: true,
           fontSize: 24,
           fontWeight: FontWeight.w600,
-          rightChild: IconButton(icon: SvgPicture.asset(AppAssets.menu), onPressed: () {}),
+          rightChild: IconButton(
+            icon: SvgPicture.asset(AppAssets.menu),
+            onPressed: () {},
+          ),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -89,10 +91,15 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
               //       return Container();
               //     }),
               SizedBox(height: 56),
-              CustomRobotoText(text: "Upload Your CV", textSize: 24, fontWeight: FontWeight.w600),
+              CustomRobotoText(
+                text: "Upload Your CV",
+                textSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
               SizedBox(height: 15),
               CustomText(
-                text: "Let AI enhance your profile by extracting key details from your resume.",
+                text:
+                    "Let AI enhance your profile by extracting key details from your resume.",
                 textSize: 16,
                 fontWeight: FontWeight.w400,
                 textColor: AppColor.grey[500],
@@ -108,12 +115,15 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
                   inputAction: TextInputAction.next,
                   label: "",
                   enabled: false,
-                  placeholder: pdfFile?.path.split("/").last ?? "Select and upload your CV in PDF/DOC format",
+                  placeholder:
+                      pdfFile?.path.split("/").last ??
+                      "Select and upload your CV in PDF/DOC format",
                 ),
               ),
               SizedBox(height: 8),
               CustomText(
-                text: "Our AI will analyze your CV and automatically fill in your profile details, saving you time!",
+                text:
+                    "Our AI will analyze your CV and automatically fill in your profile details, saving you time!",
                 textSize: 16,
                 fontWeight: FontWeight.w400,
                 textColor: AppColor.grey[500],
