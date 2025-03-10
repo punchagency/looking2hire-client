@@ -16,6 +16,10 @@
 	<string>looking2hire</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>NSDocumentPickerUsageDescription</key>
+    <string>This app needs access to documents for selecting PDF files</string>
+    <key>NFCReaderUsageDescription</key>
+    <string>For Testing</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
