@@ -38,6 +38,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.4
   google_fonts: ^5.1.0
+  file_picker: ^9.0.2
+  nfc_manager: ^3.5.0
   flutter_svg:
   google_maps_flutter:
   widget_to_marker:
