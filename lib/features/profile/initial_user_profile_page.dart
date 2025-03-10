@@ -8,6 +8,7 @@ import 'package:looking2hire/features/create_job/get_related_jobs.dart';
 import 'package:looking2hire/features/create_job/manually_create_job.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 class InitialUserProfilePage extends StatefulWidget {
   const InitialUserProfilePage({super.key});
@@ -33,11 +34,13 @@ class _InitialUserProfilePageState extends State<InitialUserProfilePage> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        rightChild: IconButton(
-          icon: SvgPicture.asset(AppAssets.menu),
-          onPressed: () {},
-        ),
+        needsDrawer: true,
+        // rightChild: IconButton(
+        //   icon: SvgPicture.asset(AppAssets.menu),
+        //   onPressed: () {},
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(

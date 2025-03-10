@@ -34,6 +34,15 @@ class AppAssets {
   static const close = "assets/svgs/close.svg";
   static const menu = "assets/svgs/menu.svg";
   static const arrowRight = "assets/svgs/arrow_right.svg";
-
   static const forwardArrow = "assets/svgs/forward_arrow.svg";
+  static const drawerClose = "assets/svgs/drawer_close.svg";
+
+  static const dashboard = "assets/svgs/dashboard.svg";
+  static const profile = "assets/svgs/profile.svg";
+  static const scan = "assets/svgs/scan.svg";
+  static const appliedjobs = "assets/svgs/applied_jobs.svg";
+  static const savedjobs = "assets/svgs/saved_jobs.svg";
+  static const viewedjobs = "assets/svgs/viewed_jobs.svg";
+  static const settings = "assets/svgs/settings.svg";
+  static const logout = "assets/svgs/logout.svg";
 }

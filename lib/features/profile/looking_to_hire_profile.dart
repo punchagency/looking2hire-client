@@ -7,6 +7,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 import '../home/widgets/job_information_item.dart';
 
@@ -53,11 +54,13 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         arrowColor: AppColor.arrowColor,
         centeredTitle: true,
         fontWeight: FontWeight.w600,
-        rightChild: IconButton(
-          icon: SvgPicture.asset(AppAssets.menu),
-          onPressed: () {},
-        ),
+        needsDrawer: true,
+        // rightChild: IconButton(
+        //   icon: SvgPicture.asset(AppAssets.menu),
+        //   onPressed: () {},
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
         child: Column(

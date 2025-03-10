@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? arrowColor;
   final Color? titleColor;
   final bool centeredTitle;
-
+  final bool needsDrawer;
   final bool canNotGoBack;
   const CustomAppBar({
     super.key,
@@ -24,12 +24,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.fontWeight,
     this.arrowColor,
     this.titleColor,
+    this.needsDrawer = false,
     this.canNotGoBack = false,
     this.centeredTitle = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    void showDrawer() {
+      Scaffold.of(context).openEndDrawer();
+    }
+
     if (centeredTitle) {
       return SafeArea(
         child: Padding(
@@ -75,7 +80,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 ),
-                if (rightChild != null)
+                if (rightChild != null || needsDrawer)
                   Positioned(
                     right: 0,
                     top: 0,
@@ -84,7 +89,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [const SizedBox(width: 10), rightChild!],
+                        children: [
+                          const SizedBox(width: 10),
+                          needsDrawer
+                              ? IconButton(
+                                icon: SvgPicture.asset(AppAssets.menu),
+                                onPressed: showDrawer,
+                              )
+                              : rightChild!,
+                        ],
                       ),
                     ),
                   ),
@@ -119,7 +132,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 textColor: titleColor,
               ),
             ),
-            if (rightChild != null) ...[const SizedBox(width: 10), rightChild!],
+            if (rightChild != null || needsDrawer) ...[
+              const SizedBox(width: 10),
+              needsDrawer
+                  ? IconButton(
+                    icon: SvgPicture.asset(AppAssets.menu),
+                    onPressed: showDrawer,
+                  )
+                  : rightChild!,
+            ],
           ],
         ),
       ),

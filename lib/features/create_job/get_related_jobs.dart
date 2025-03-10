@@ -8,6 +8,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/upload_cv_screen.dart';
 import 'package:looking2hire/utils/button.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 class GetRelatedJobs extends StatefulWidget {
   const GetRelatedJobs({super.key});
@@ -30,11 +31,13 @@ class _GetRelatedJobsState extends State<GetRelatedJobs> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        rightChild: IconButton(
-          icon: SvgPicture.asset(AppAssets.menu),
-          onPressed: () {},
-        ),
+        needsDrawer: true,
+        // rightChild: IconButton(
+        //   icon: SvgPicture.asset(AppAssets.menu),
+        //   onPressed: () {},
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(

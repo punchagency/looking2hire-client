@@ -95,12 +95,16 @@ class _LocateJobPageState extends State<LocateJobPage>
   void decrementMile() {
     if (mile.toInt() <= 0) return;
     mile = mile.toInt() - 1;
+    final mileIndex = miles.indexWhere((miles) => miles >= mile);
+    selectedMileIndex = mileIndex != -1 ? mileIndex : 0;
     setState(() {});
   }
 
   void incrementMile() {
     if (mile.toInt() >= maxMiles) return;
     mile = mile.toInt() + 1;
+    final mileIndex = miles.indexWhere((miles) => miles >= mile);
+    selectedMileIndex = mileIndex != -1 ? mileIndex : 0;
     setState(() {});
   }
 
