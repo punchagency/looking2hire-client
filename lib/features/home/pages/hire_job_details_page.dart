@@ -55,101 +55,121 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
           children: [
             SizedBox(
               height: 380,
-              child: Image.asset(AppAssets.jobDetailsImage),
+              child: Image.asset(AppAssets.jobDetailsImage, fit: BoxFit.cover),
             ),
             Positioned(
-              top: 300,
+              top: 0,
               bottom: 0,
               left: 0,
               right: 0,
-              child: BottomSheetContainer(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerScrolled) {
+                  return [
+                    SliverAppBar(
+                      expandedHeight: 180,
+                      collapsedHeight: 180,
+                      backgroundColor: Colors.transparent,
+                      automaticallyImplyLeading: false,
+                      title: Container(),
+                      flexibleSpace: Container(height: 180),
+                    ),
+                  ];
+                },
+                body: Padding(
+                  padding: const EdgeInsets.only(top: 80),
+                  child: BottomSheetContainer(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              JobLogo(logoUrl: AppAssets.jobLogo2),
-                              const SizedBox(width: 13),
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Senior Project Manager",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.lighterBlack,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Row(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  JobLogo(logoUrl: AppAssets.jobLogo2),
+                                  const SizedBox(width: 13),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset(AppAssets.location2),
-                                        const SizedBox(width: 6),
                                         Text(
-                                          "71 Elmwood Avenue",
+                                          "Senior Project Manager",
                                           style: const TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.lighterBlack,
                                           ),
                                         ),
+                                        const SizedBox(height: 6),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              AppAssets.location2,
+                                            ),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              "71 Elmwood Avenue",
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppColors.lighterBlack,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
+                            CustomPopup(
+                              options: menuOptions,
+                              logos: menuLogos,
+                              onSelected: toggleSelectOptions,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+
+                        JobDetailsTabbar(
+                          tabs: tabs,
+                          selectedTab: selectedTab,
+                          onChanged: toggleTab,
+                        ),
+
+                        Expanded(
+                          child: ListView(
+                            padding: EdgeInsets.zero,
+                            children: [
+                              const SizedBox(height: 30),
+
+                              JobInformationItem(
+                                title: "Job Description",
+                                value:
+                                    "Project managers play the lead role in planning, executing, monitoring, controlling, and closing out projects. They are accountable for the entire project scope, the project team and resources, the project budget, and the success or failure of the project.",
+                              ),
+                              const SizedBox(height: 22),
+                              JobInformationItem(
+                                title: "Requirements",
+                                options: [
+                                  "Bachelor's degree in computer science, business, or a related field",
+                                  "5-8 years of project management and related experience",
+                                  "Project Management Professional (PMP) certification preferred",
+                                  "Proven ability to solve problems creatively",
+                                  "Strong familiarity with project management software tools, methodologies, and best practices",
+                                  "Experience seeing projects through the full life cycle",
+                                ],
+                              ),
+                              const SizedBox(height: 70),
                             ],
                           ),
-                        ),
-                        CustomPopup(
-                          options: menuOptions,
-                          logos: menuLogos,
-                          onSelected: toggleSelectOptions,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
-
-                    JobDetailsTabbar(
-                      tabs: tabs,
-                      selectedTab: selectedTab,
-                      onChanged: toggleTab,
-                    ),
-
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: [
-                          const SizedBox(height: 30),
-
-                          JobInformationItem(
-                            title: "Job Description",
-                            value:
-                                "Project managers play the lead role in planning, executing, monitoring, controlling, and closing out projects. They are accountable for the entire project scope, the project team and resources, the project budget, and the success or failure of the project.",
-                          ),
-                          const SizedBox(height: 22),
-                          JobInformationItem(
-                            title: "Requirements",
-                            options: [
-                              "Bachelor's degree in computer science, business, or a related field",
-                              "5-8 years of project management and related experience",
-                              "Project Management Professional (PMP) certification preferred",
-                              "Proven ability to solve problems creatively",
-                              "Strong familiarity with project management software tools, methodologies, and best practices",
-                              "Experience seeing projects through the full life cycle",
-                            ],
-                          ),
-                          const SizedBox(height: 70),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

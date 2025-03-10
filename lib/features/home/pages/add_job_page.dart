@@ -5,6 +5,7 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 import '../../profile/components/profile_card.dart';
 
@@ -25,11 +26,13 @@ class _AddJobPageState extends State<AddJobPage> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        rightChild: IconButton(
-          icon: SvgPicture.asset(AppAssets.menu),
-          onPressed: () {},
-        ),
+        needsDrawer: true,
+        // rightChild: IconButton(
+        //   icon: SvgPicture.asset(AppAssets.menu),
+        //   onPressed: () {},
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
 

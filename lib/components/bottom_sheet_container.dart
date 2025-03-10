@@ -4,21 +4,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 
 class BottomSheetContainer extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final VoidCallback? onClose;
   final bool showHandle;
   final bool useShadow;
   final double radius;
   final EdgeInsets? padding;
+  final bool expanded;
 
   const BottomSheetContainer({
     super.key,
-    required this.child,
+    this.child,
     this.onClose,
     this.showHandle = true,
     this.useShadow = true,
     this.radius = 30,
     this.padding,
+    this.expanded = true,
   });
 
   @override
@@ -88,7 +90,8 @@ class BottomSheetContainer extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 10),
-          Expanded(child: child),
+          if (child != null)
+            if (expanded) Expanded(child: child!) else child!,
         ],
       ),
     );

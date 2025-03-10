@@ -6,6 +6,7 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/utils/button.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 class ManuallyCreateJob extends StatefulWidget {
   const ManuallyCreateJob({super.key});
@@ -24,11 +25,13 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        rightChild: IconButton(
-          icon: SvgPicture.asset(AppAssets.menu),
-          onPressed: () {},
-        ),
+        needsDrawer: true,
+        // rightChild: IconButton(
+        //   icon: SvgPicture.asset(AppAssets.menu),
+        //   onPressed: () {},
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
