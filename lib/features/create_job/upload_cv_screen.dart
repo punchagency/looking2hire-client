@@ -25,10 +25,6 @@ class _UploadCvScreenState extends State<UploadCvScreen> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(

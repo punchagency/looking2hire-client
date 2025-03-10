@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/features/home/enums/enums.dart';
 
 class ActiveJobItem extends StatelessWidget {
   final String title;
   final String desc;
   final String date;
   final String time;
+  final JobStatus? status;
   final VoidCallback? onPressed;
   const ActiveJobItem({
     super.key,
@@ -16,6 +18,7 @@ class ActiveJobItem extends StatelessWidget {
     required this.desc,
     required this.date,
     required this.time,
+    this.status,
     this.onPressed,
   });
 
@@ -54,6 +57,32 @@ class ActiveJobItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+            if (status != null) ...[
+              const SizedBox(height: 8),
+
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      "Status:",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.darkGrey2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  CircleAvatar(
+                    radius: 6,
+                    backgroundColor:
+                        status == JobStatus.ended
+                            ? AppColors.statusRed
+                            : AppColors.statusGreen,
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: 15),
             Row(
               children: [

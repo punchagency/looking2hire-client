@@ -21,8 +21,8 @@ class DrawerItem extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            if (onPressed != null) onPressed!();
             context.pop();
+            if (onPressed != null) onPressed!();
           },
           child: SizedBox(
             height: 55,

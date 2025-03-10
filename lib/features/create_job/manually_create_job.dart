@@ -26,10 +26,6 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(

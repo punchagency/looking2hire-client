@@ -7,6 +7,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
+import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 
 import '../home/widgets/job_information_item.dart';
@@ -46,6 +47,8 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
     ),
   ];
 
+  void gotoEditProfile() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,10 +58,6 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         centeredTitle: true,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(
@@ -66,10 +65,31 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileCard(
-              name: "Michael Smith",
-              address: "Hallandale Beach, FL 33009",
-              milesAway: 0.5,
+            // ProfileCard(
+            //   name: "Michael Smith",
+            //   address: "Hallandale Beach, FL 33009",
+            //   milesAway: 0.5,
+            // ),
+            Row(
+              children: [
+                ProfilePhoto(imageUrl: AppAssets.profilePicture2, size: 80),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Text(
+                    "Michael Smith",
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.lightBlack,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: gotoEditProfile,
+                  icon: SvgPicture.asset(AppAssets.edit),
+                ),
+              ],
             ),
             SizedBox(height: 14),
             JobInformationItem(

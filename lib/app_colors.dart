@@ -15,4 +15,7 @@ class AppColors {
   static const dividerColor = Color(0xFF3C3C43);
   static const blue = Color(0xFF3E4F88);
   static const blackOnSurface = Color(0xFF1D1B20);
+
+  static const statusRed = Color(0xFFF71313);
+  static const statusGreen = Color(0xFF00C524);
 }

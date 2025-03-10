@@ -23,10 +23,10 @@ class WorkJobDetailsPage extends StatefulWidget {
 }
 
 class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
-  int selectedTab = 0;
   List<String> menuOptions = ["Save", "Share"];
   List<String> menuLogos = [AppAssets.save2, AppAssets.share2];
 
+  int selectedTab = 0;
   void toggleTab(int tab) {
     setState(() {
       selectedTab = tab;
@@ -43,7 +43,7 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    const tabs = ["Job Details", "Applied Jobs"];
+    const tabs = ["Job Details", "Company"];
 
     final activeJobWidgets = [
       ActiveJobItem(
@@ -93,10 +93,6 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
-        // rightChild: IconButton(
-        //   icon: SvgPicture.asset(AppAssets.menu),
-        //   onPressed: () {},
-        // ),
       ),
       endDrawer: AppDrawer(),
       body: Stack(
@@ -231,20 +227,55 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                               const SizedBox(height: 70),
                             ],
                           ),
-                          ListView.separated(
-                            padding: const EdgeInsets.only(top: 30),
-                            shrinkWrap: true,
-                            // physics: const NeverScrollableScrollPhysics(),
-                            itemCount: activeJobWidgets.length,
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 26);
-                            },
-                            itemBuilder: (context, index) {
-                              final widget = activeJobWidgets[index];
-                              return widget;
-                            },
+                          ListView(
+                            children: [
+                              const SizedBox(height: 16),
+
+                              Text(
+                                "We have everything we need to inspire our customers. Except you.",
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.lightBlack,
+                                ),
+                              ),
+                              const SizedBox(height: 11),
+                              Text(
+                                """We inspire purpose-filled living that brings joy to the modern home. With a team of more than 8,000 associates spanning 130 store and distribution locations across the U.S and Canada, we achieve together, drive results and innovate to inspire. Drawn together by a shared passion of our customers and a spirit of fun, we deliver high-quality home furnishings that are expertly designed, responsibly sourced and bring beauty and function to people’s homes. From the day we opened our first store in Chicago in 1962 to the digital innovations that engage millions of customers today, our iconic brand is nearly 60 years in the making and our story is unfolding.
+Come make an impact that’s uniquely you.""",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.lightBlack,
+                                ),
+                              ),
+                              const SizedBox(height: 11),
+                              Text(
+                                "Come make an impact that’s uniquely you.",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.lightBlack,
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                            ],
                           ),
-                          const SizedBox(height: 50),
+
+                          // ListView.separated(
+                          //   padding: const EdgeInsets.only(top: 30),
+                          //   shrinkWrap: true,
+                          //   // physics: const NeverScrollableScrollPhysics(),
+                          //   itemCount: activeJobWidgets.length,
+                          //   separatorBuilder: (context, index) {
+                          //     return const SizedBox(height: 26);
+                          //   },
+                          //   itemBuilder: (context, index) {
+                          //     final widget = activeJobWidgets[index];
+                          //     return widget;
+                          //   },
+                          // ),
+                          // const SizedBox(height: 50),
                         ],
                       ),
                     ),
@@ -253,17 +284,17 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
               ),
             ),
           ),
-          if (selectedTab == 0)
-            Positioned(
-              bottom: 20,
-              left: 15,
-              right: 15,
-              child: ActionButton(
-                title: "Apply Now",
-                color: AppColors.lighterBlack,
-                onPressed: apply,
-              ),
+          // if (selectedTab == 0)
+          Positioned(
+            bottom: 20,
+            left: 15,
+            right: 15,
+            child: ActionButton(
+              title: "Apply Now",
+              color: AppColors.lighterBlack,
+              onPressed: apply,
             ),
+          ),
         ],
       ),
     );
