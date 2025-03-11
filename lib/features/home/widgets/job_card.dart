@@ -102,15 +102,32 @@ class JobCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          if (isFullTime)
-                            JobDetailItem(title: "Full Time", hasBorder: true),
-                          if (isRemote)
-                            JobDetailItem(title: "Remote", hasBorder: true),
-                          if (isSenior)
-                            JobDetailItem(title: "Senior", hasBorder: true),
-                        ],
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            height: 20,
+                            child: Row(
+                              children: [
+                                if (isFullTime)
+                                  JobDetailItem(
+                                    title: "Full Time",
+                                    hasBorder: true,
+                                  ),
+                                if (isRemote)
+                                  JobDetailItem(
+                                    title: "Remote",
+                                    hasBorder: true,
+                                  ),
+                                if (isSenior)
+                                  JobDetailItem(
+                                    title: "Senior",
+                                    hasBorder: true,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       SvgPicture.asset(AppAssets.save),
                     ],

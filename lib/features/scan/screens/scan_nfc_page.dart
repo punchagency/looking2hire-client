@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 
 class ScanNfcPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class _ScanNfcPageState extends State<ScanNfcPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(title: ""),
       body: Padding(
         padding: const EdgeInsets.all(50),
         child: Column(

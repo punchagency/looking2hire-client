@@ -117,6 +117,8 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
               headerSliverBuilder: (context, innerScrolled) {
                 return [
                   SliverAppBar(
+                    leading: Container(),
+                    actions: [],
                     expandedHeight: 300,
                     collapsedHeight: 300,
                     backgroundColor: Colors.transparent,

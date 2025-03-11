@@ -17,6 +17,7 @@ import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
+import 'package:looking2hire/views/app_drawer.dart';
 
 import '../../../resusable/widgets/outlined_container.dart';
 
@@ -155,11 +156,13 @@ class _HomePageState extends State<HomePage> {
         fontSize: 26,
         fontWeight: FontWeight.w500,
         canNotGoBack: true,
-        rightChild: ProfilePhoto(
-          imageUrl: AppAssets.profilePicture,
-          onPressed: gotoProfile,
-        ),
+        needsDrawer: true,
+        // rightChild: ProfilePhoto(
+        //   imageUrl: AppAssets.profilePicture,
+        //   onPressed: gotoProfile,
+        // ),
       ),
+      endDrawer: AppDrawer(),
       body: SizedBox(
         width: double.infinity,
         child: Padding(

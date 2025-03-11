@@ -40,7 +40,6 @@ class JobHistoryItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 0),
-
               color: Colors.black.withOpacity(0.14),
               blurRadius: 7,
             ),
@@ -110,12 +109,14 @@ class JobHistoryItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "$startDate • $endDate",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.lighterBlack,
+                      Expanded(
+                        child: Text(
+                          "$startDate • $endDate",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.lighterBlack,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),

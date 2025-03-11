@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:looking2hire/enums/app_type.dart';
+import 'package:looking2hire/enums/navigation_page.dart';
 import 'package:looking2hire/provider/Auth_Provider.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'features/onboarding/screens/splash_screen.dart';
 
 AppType currentAppType = AppType.hire;
+NavigationPage currentNavigationPage = NavigationPage.dashboard;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return MultiProvider(
       providers: [

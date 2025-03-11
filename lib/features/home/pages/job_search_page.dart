@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/components/app_back_button.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/pages/locate_job_page.dart';
 import 'package:looking2hire/features/home/widgets/search_result_item.dart';
@@ -80,8 +81,11 @@ class _JobSearchPageState extends State<JobSearchPage> {
           child: Column(
             children: [
               const SizedBox(height: 10),
+
               Row(
                 children: [
+                  AppBackButton(),
+                  // const SizedBox(width: 10),
                   Expanded(
                     child: OutlinedContainer(
                       child: Row(
