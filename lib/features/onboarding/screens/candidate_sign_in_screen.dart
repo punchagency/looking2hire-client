@@ -7,7 +7,6 @@ import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
-import 'package:looking2hire/features/onboarding/screens/otp_verification_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -32,7 +31,11 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 32),
-              CustomRobotoText(text: "Welcome Back", textSize: 24, fontWeight: FontWeight.w600),
+              CustomRobotoText(
+                text: "Welcome Back",
+                textSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
               CustomText(
                 text: "Your profile creation takes just seconds with AI",
                 textSize: 16,
@@ -71,7 +74,11 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                     children: [
                       TextSpan(
                         text: 'Don’t have an account? ',
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
                       ),
                       TextSpan(
                         text: 'Signup',
@@ -84,7 +91,10 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                         recognizer:
                             TapGestureRecognizer()
                               ..onTap = () {
-                                nextScreen(context, CreateCandidateAccountScreen());
+                                nextScreen(
+                                  context,
+                                  CreateCandidateAccountScreen(),
+                                );
                               },
                       ),
                     ],

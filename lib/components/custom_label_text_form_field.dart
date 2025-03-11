@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
-import '../constants/app_colors.dart';
 import 'custom_text.dart';
 
 class CustomLabelInputText extends StatelessWidget {
@@ -100,7 +99,10 @@ class CustomLabelInputText extends StatelessWidget {
 
           decoration: InputDecoration(
             fillColor: AppColor.grey[100]?.withOpacity(.2),
-            contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 10.0),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 13.0,
+              horizontal: 10.0,
+            ),
             border: OutlineInputBorder(
               // borderSide: BorderSide.none,
               borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
@@ -121,10 +123,18 @@ class CustomLabelInputText extends StatelessWidget {
             hintText: placeholder,
             prefixIcon: prefixIcon,
             counterText: counterText,
-            hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+            hintStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: Colors.grey[600],
+            ),
             // border: InputBorder.none,
             suffixIcon: suffixIcon,
-            suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 35, minHeight: 20),
+            suffixIconConstraints: const BoxConstraints(
+              maxHeight: 30,
+              maxWidth: 35,
+              minHeight: 20,
+            ),
           ),
           readOnly: readOnly,
           enabled: enabled,
@@ -208,19 +218,33 @@ class CustomInputText extends StatelessWidget {
         decoration: InputDecoration(
           fillColor: Colors.white,
           counter: const SizedBox.shrink(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 10.0,
+          ),
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor ?? AppColor.borderLight, width: .1),
+            borderSide: BorderSide(
+              color: borderColor ?? AppColor.borderLight,
+              width: .1,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           hintText: placeholder,
           prefixIcon: prefixIcon,
           counterText: counterText,
-          hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+          hintStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Colors.grey[600],
+          ),
 
           // border: InputBorder.none,
           suffixIcon: suffixIcon,
-          suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 35, minHeight: 20),
+          suffixIconConstraints: const BoxConstraints(
+            maxHeight: 30,
+            maxWidth: 35,
+            minHeight: 20,
+          ),
         ),
         readOnly: readOnly,
         enabled: enabled,
@@ -324,9 +348,17 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
               hintStyle: const TextStyle(fontSize: 14),
               // border: InputBorder.none,
               // suffixIcon: suffixIcon,
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade300)),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-              suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 24, minHeight: 20),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+              suffixIconConstraints: const BoxConstraints(
+                maxHeight: 30,
+                maxWidth: 24,
+                minHeight: 20,
+              ),
             ),
             readOnly: readOnly,
             enabled: enabled,
@@ -414,7 +446,12 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
                     onPressed: toggleObscure,
                     color: Colors.grey,
                     splashColor: Colors.transparent,
-                    icon: Icon(!isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18),
+                    icon: Icon(
+                      !isObscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      size: 18,
+                    ),
                   ),
                 ),
         hintStyle: bodyMedium?.copyWith(color: Colors.black45),

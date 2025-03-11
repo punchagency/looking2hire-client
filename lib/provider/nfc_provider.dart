@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
-import 'nfc_provider.dart';
-
 class NFCProvider extends ChangeNotifier {
   bool isNfcAvailable = false;
   bool isNfcEnabled = false;
@@ -13,62 +11,61 @@ class NFCProvider extends ChangeNotifier {
   Future<void> checkNfcAvailability() async {
     isNfcAvailable = await NfcManager.instance.isAvailable();
     notifyListeners();
-    if(isNfcAvailable){
+    if (isNfcAvailable) {
       message = 'Nfc is available';
       notifyListeners();
-
-    }else{
+    } else {
       message = 'Please enable NFC from settings';
       isProcessing = false;
       notifyListeners();
     }
   }
 
-  Future<void> startNFCOperation({required NFCOperation operation, String dataType = ''}) async {
-    try{
+  Future<void> startNFCOperation({
+    required NFCOperation operation,
+    String dataType = '',
+  }) async {
+    try {
       isProcessing = true;
       notifyListeners();
       await checkNfcAvailability();
 
-      if(isNfcAvailable){
-        if(operation == NFCOperation.read){
+      if (isNfcAvailable) {
+        if (operation == NFCOperation.read) {
           // await startNFCOperation(operation: NFCOperation.read);
 
           message = 'Scanning...';
-        }else{
+        } else {
           // await startNFCOperation(operation: NFCOperation.write);
           message = 'Writing to NFC...';
-
         }
         notifyListeners();
         NfcManager.instance.startSession(
           onDiscovered: (NfcTag tag) async {
             // Do something with an NfcTag instance.
             print(tag.data.values);
-            if(operation == NFCOperation.read){
+            if (operation == NFCOperation.read) {
               readFromTag(tag: tag);
-            }else{
+            } else {
               writeToTag(tag: tag, dataType: dataType);
             }
             isProcessing = false;
             notifyListeners();
 
-          await  NfcManager.instance.stopSession();
+            await NfcManager.instance.stopSession();
           },
-          onError: (e) async{
+          onError: (e) async {
             message = e.toString();
             isProcessing = false;
             notifyListeners();
-          }
+          },
         );
       }
-
-    } catch(e){
+    } catch (e) {
       message = e.toString();
       isProcessing = false;
       notifyListeners();
     }
-
   }
 
   void readFromTag({required NfcTag tag}) {
@@ -96,31 +93,33 @@ class NFCProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> writeToTag({required NfcTag tag, required String dataType}) async {
+  Future<void> writeToTag({
+    required NfcTag tag,
+    required String dataType,
+  }) async {
     NdefMessage ndefMessage = createsNdefMessage(dataType: dataType);
     await Ndef.from(tag)?.write(ndefMessage);
     message = "DONE";
   }
 
-  NdefMessage createsNdefMessage({required String dataType}){
+  NdefMessage createsNdefMessage({required String dataType}) {
     switch (dataType) {
-      case "URL":{
-        NdefMessage([
-          NdefRecord.createUri(
-            Uri.parse("https://ayomilotunde.github.io")
-          )
-        ]);
-      } case "MAIL":{
-        NdefMessage([
-          NdefRecord.createUri(
-            Uri.parse("mailto:ayomilotunde02@gmail.com")
-          )
-        ]);
-      }
+      case "URL":
+        {
+          NdefMessage([
+            NdefRecord.createUri(Uri.parse("https://ayomilotunde.github.io")),
+          ]);
+        }
+      case "MAIL":
+        {
+          NdefMessage([
+            NdefRecord.createUri(Uri.parse("mailto:ayomilotunde02@gmail.com")),
+          ]);
+        }
       default:
         return const NdefMessage([]);
     }
-return NdefMessage([]);
+    return NdefMessage([]);
   }
 }
 

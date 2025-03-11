@@ -5,7 +5,6 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/onboarding/screens/otp_verification_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
@@ -14,10 +13,12 @@ class CreateCandidateAccountScreen extends StatefulWidget {
   const CreateCandidateAccountScreen({super.key});
 
   @override
-  State<CreateCandidateAccountScreen> createState() => _CreateCandidateAccountScreenState();
+  State<CreateCandidateAccountScreen> createState() =>
+      _CreateCandidateAccountScreenState();
 }
 
-class _CreateCandidateAccountScreenState extends State<CreateCandidateAccountScreen> {
+class _CreateCandidateAccountScreenState
+    extends State<CreateCandidateAccountScreen> {
   bool isChecked = false;
 
   @override
@@ -31,7 +32,11 @@ class _CreateCandidateAccountScreenState extends State<CreateCandidateAccountScr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 32),
-              CustomRobotoText(text: "Create Candidate Account", textSize: 24, fontWeight: FontWeight.w600),
+              CustomRobotoText(
+                text: "Create Candidate Account",
+                textSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
               CustomText(
                 text: "Your profile creation takes just seconds with AI",
                 textSize: 16,
@@ -67,26 +72,39 @@ class _CreateCandidateAccountScreenState extends State<CreateCandidateAccountScr
                 block: true,
                 color: AppColor.buttonColor,
               ),
-          SizedBox(height: 15,),
-          Center(
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyLarge,
-                children: [
-                  TextSpan(text: 'Don’t have an account? ', style:TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16), ),
-                  TextSpan(
-                    text: 'Signup',
-                    style: TextStyle(color: Colors.black, decoration: TextDecoration.underline, fontWeight: FontWeight.w600, fontSize: 16),
-                    recognizer:
-                    TapGestureRecognizer()
-                      ..onTap = () {
-                        setState(() {});
-                      },
+              SizedBox(height: 15),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    children: [
+                      TextSpan(
+                        text: 'Don’t have an account? ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Signup',
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () {
+                                setState(() {});
+                              },
+                      ),
+                    ],
                   ),
-                ])),
-          )
-
+                ),
+              ),
             ],
           ),
         ),

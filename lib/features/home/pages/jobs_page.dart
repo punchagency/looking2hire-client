@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
-import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
 import 'package:looking2hire/features/home/pages/job_display_page.dart';
-import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 class JobsPage extends StatefulWidget {
   final JobType jobType;
