@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 50),
               Button(
                 onPressed: () {},
-                text: "Scan",
+                text: "Login",
                 textSize: 18,
                 block: true,
                 color: AppColor.buttonColor,

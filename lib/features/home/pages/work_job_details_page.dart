@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/bottom_sheet_container.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_popup.dart';
@@ -12,8 +11,6 @@ import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 import 'package:looking2hire/views/app_drawer.dart';
-
-import '../widgets/job_logo.dart';
 
 class WorkJobDetailsPage extends StatefulWidget {
   const WorkJobDetailsPage({super.key});

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/bottom_sheet_container.dart';
-import 'package:looking2hire/components/bottom_sheet_container_copy.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_popup.dart';
 import 'package:looking2hire/constants/app_assets.dart';

@@ -5,26 +5,28 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/features/onboarding/screens/otp_verification_screen.dart';
+import 'package:looking2hire/features/home/pages/home_page.dart';
+import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
-class CreateCandidateAccountScreen extends StatefulWidget {
-  const CreateCandidateAccountScreen({super.key});
+class CandidateSignInScreen extends StatefulWidget {
+  const CandidateSignInScreen({super.key});
 
   @override
-  State<CreateCandidateAccountScreen> createState() =>
-      _CreateCandidateAccountScreenState();
+  State<CandidateSignInScreen> createState() => _CandidateSignInScreenState();
 }
 
-class _CreateCandidateAccountScreenState
-    extends State<CreateCandidateAccountScreen> {
+class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
   bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Get Hired Now!", arrowColor: AppColor.black),
+      appBar: CustomAppBar(
+        title: "Looking To Work!",
+        arrowColor: AppColor.black,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
@@ -33,7 +35,7 @@ class _CreateCandidateAccountScreenState
             children: [
               SizedBox(height: 32),
               CustomRobotoText(
-                text: "Create Candidate Account",
+                text: "Welcome Back",
                 textSize: 24,
                 fontWeight: FontWeight.w600,
               ),
@@ -56,23 +58,52 @@ class _CreateCandidateAccountScreenState
                 icon: AppAssets.lock,
                 isPassword: true,
               ),
-              SizedBox(height: 16),
-              CustomIconTextField(
-                textEditingController: TextEditingController(),
-                textHint: "Confirm Password",
-                icon: AppAssets.lock,
-                isPassword: true,
-              ),
+
               SizedBox(height: 50),
               Button(
                 onPressed: () {
-                  nextScreen(context, OtpVerificationScreen());
+                  nextScreen(context, HomePage());
                 },
-                text: "Create account",
+                text: "Login",
                 block: true,
                 color: AppColor.buttonColor,
               ),
               SizedBox(height: 15),
+              Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    children: [
+                      TextSpan(
+                        text: 'Don’t have an account? ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Signup',
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () {
+                                nextScreen(
+                                  context,
+                                  CreateCandidateAccountScreen(),
+                                );
+                              },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

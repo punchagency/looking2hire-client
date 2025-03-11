@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
-import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/hire_job_details_page.dart';
@@ -15,7 +14,6 @@ import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
-import 'package:looking2hire/main.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 

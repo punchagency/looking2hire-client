@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
 import 'custom_text.dart';
@@ -279,6 +280,7 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
     this.prefixIcon,
     this.onKeyUp,
     this.onEditingComplete,
+    this.isPassword = false,
   });
 
   final String label;
@@ -293,6 +295,7 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
   final bool? enabled;
   final bool obscureText;
   final bool readOnly;
+  final bool isPassword;
   final Color? labelColor;
   final Color? borderColor;
   final List<TextInputFormatter>? inputFormatters;
@@ -344,7 +347,7 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
               prefixStyle: const TextStyle(fontSize: 14, color: AppColor.black),
               hintStyle: const TextStyle(fontSize: 14),
               // border: InputBorder.none,
-              suffixIcon: suffixIcon,
+              // suffixIcon: suffixIcon,
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade300),
               ),
@@ -366,6 +369,98 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CustomIconTextField extends StatefulWidget {
+  const CustomIconTextField({
+    super.key,
+    required this.textEditingController,
+    this.textHint,
+    required this.icon,
+    this.isPassword = false,
+    this.suffixIcon,
+  });
+
+  final TextEditingController textEditingController;
+  final String? textHint;
+  final String icon;
+  final bool isPassword;
+  final Widget? suffixIcon;
+
+  @override
+  State<CustomIconTextField> createState() => _CustomIconTextFieldState();
+}
+
+class _CustomIconTextFieldState extends State<CustomIconTextField> {
+  bool isObscure = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isObscure = widget.isPassword;
+  }
+
+  void toggleObscure() {
+    // if (!widget.textHint!.contains('Confirm')) {
+    setState(() => isObscure = !isObscure);
+    // }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var bodyMedium = Theme.of(context).textTheme.bodyMedium;
+
+    return TextField(
+      controller: widget.textEditingController,
+      style: bodyMedium,
+      // textInputAction: TextInputAction.search,
+      cursorColor: AppColor.black,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColor.grey[100]?.withOpacity(.2),
+        border: OutlineInputBorder(
+          // borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          // borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          // borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        hintText: widget.textHint,
+        suffixIcon:
+            !widget.isPassword
+                ? widget.suffixIcon
+                : Visibility(
+                  visible: !widget.textHint!.contains('jk'),
+                  child: IconButton(
+                    onPressed: toggleObscure,
+                    color: Colors.grey,
+                    splashColor: Colors.transparent,
+                    icon: Icon(
+                      !isObscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      size: 18,
+                    ),
+                  ),
+                ),
+        hintStyle: bodyMedium?.copyWith(color: Colors.black45),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(widget.icon, height: 17, width: 17),
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+      ),
     );
   }
 }
