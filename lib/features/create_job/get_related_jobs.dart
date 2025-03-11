@@ -29,9 +29,9 @@ class _GetRelatedJobsState extends State<GetRelatedJobs> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(

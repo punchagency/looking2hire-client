@@ -56,9 +56,9 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         arrowColor: AppColor.arrowColor,
         centeredTitle: true,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
         child: Column(

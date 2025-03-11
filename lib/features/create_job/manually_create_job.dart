@@ -69,9 +69,9 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: const AppDrawer(),
+      // endDrawer: const AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(

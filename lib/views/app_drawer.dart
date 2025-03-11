@@ -20,66 +20,66 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   void gotoDashboard() {
-    if (currentNavigationPage == NavigationPage.dashboard) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.dashboard;
+    // if (currentNavigationPage == NavigationPage.dashboard) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.dashboard;
     context.pushTo(HomePage());
   }
 
   void gotoProfile() {
-    if (currentNavigationPage == NavigationPage.profile) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.profile;
+    // if (currentNavigationPage == NavigationPage.profile) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.profile;
     context.pushTo(LookingToHireProfile());
   }
 
   void gotoScan() {
-    if (currentNavigationPage == NavigationPage.scan) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.scan;
+    // if (currentNavigationPage == NavigationPage.scan) {
+    //   return;
+    //  }
+    // currentNavigationPage = NavigationPage.scan;
     context.pushTo(ScanNfcPage());
   }
 
   void gotoAppliedJobs() {
-    if (currentNavigationPage == NavigationPage.appliedJobs) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.appliedJobs;
+    // if (currentNavigationPage == NavigationPage.appliedJobs) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.appliedJobs;
     context.pushTo(JobsPage(jobType: JobType.applied));
   }
 
   void gotoSavedJobs() {
-    if (currentNavigationPage == NavigationPage.savedJobs) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.savedJobs;
+    // if (currentNavigationPage == NavigationPage.savedJobs) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.savedJobs;
     context.pushTo(JobsPage(jobType: JobType.saved));
   }
 
   void gotoViewedJobs() {
-    if (currentNavigationPage == NavigationPage.viewedJobs) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.viewedJobs;
+    // if (currentNavigationPage == NavigationPage.viewedJobs) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.viewedJobs;
     context.pushTo(JobsPage(jobType: JobType.viewed));
   }
 
   void gotoSettings() {
-    if (currentNavigationPage == NavigationPage.settings) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.settings;
+    // if (currentNavigationPage == NavigationPage.settings) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.settings;
     //context.pushTo(SettingsPage());
   }
 
   void logout() {
-    if (currentNavigationPage == NavigationPage.logout) {
-      return;
-    }
-    currentNavigationPage = NavigationPage.logout;
+    // if (currentNavigationPage == NavigationPage.logout) {
+    //   return;
+    // }
+    // currentNavigationPage = NavigationPage.logout;
     //context.pushTo(LoginPage());
   }
 

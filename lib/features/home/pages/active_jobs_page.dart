@@ -52,9 +52,9 @@ class _ActiveJobsPageState extends State<ActiveJobsPage> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         centeredTitle: true,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [

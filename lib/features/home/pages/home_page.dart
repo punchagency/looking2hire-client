@@ -14,7 +14,6 @@ import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
-import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 
 import '../../../resusable/widgets/outlined_container.dart';

@@ -27,9 +27,9 @@ class _JobDisplayPageState extends State<JobDisplayPage> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
         centeredTitle: true,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
 

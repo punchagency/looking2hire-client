@@ -33,9 +33,9 @@ class _InitialUserProfilePageState extends State<InitialUserProfilePage> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(

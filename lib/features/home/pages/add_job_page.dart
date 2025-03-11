@@ -25,9 +25,9 @@ class _AddJobPageState extends State<AddJobPage> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
 

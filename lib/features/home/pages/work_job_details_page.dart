@@ -89,9 +89,9 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
         centeredTitle: true,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        needsDrawer: true,
+        // needsDrawer: true,
       ),
-      endDrawer: AppDrawer(),
+      // endDrawer: AppDrawer(),
       body: Stack(
         children: [
           Positioned(
