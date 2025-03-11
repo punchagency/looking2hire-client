@@ -14,7 +14,8 @@ class AppAssets {
   static const hireImage = "assets/images/hire_image.png";
   static const crateAndBarrelImage = "assets/images/crateandbarrel_image.png";
   static const nfcScan = "assets/images/nfc_scan.png";
-
+  static const linkedin = "assets/images/linkedIn.png";
+  static const google = "assets/images/google.png";
 
   //Svgs
   static const search = "assets/svgs/search.svg";

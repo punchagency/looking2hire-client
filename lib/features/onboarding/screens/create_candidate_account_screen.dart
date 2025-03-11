@@ -73,38 +73,6 @@ class _CreateCandidateAccountScreenState
                 color: AppColor.buttonColor,
               ),
               SizedBox(height: 15),
-              Center(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    children: [
-                      TextSpan(
-                        text: 'Don’t have an account? ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Signup',
-                        style: TextStyle(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () {
-                                setState(() {});
-                              },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),

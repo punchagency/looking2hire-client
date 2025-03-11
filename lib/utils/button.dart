@@ -8,13 +8,13 @@ class Button extends StatelessWidget {
   final Color? color;
   final Color? borderColor;
   final bool light;
-  final IconData? icon;
+  final String? icon;
   final Color? textColor;
   final bool block;
   final bool suffix;
   final Widget? suffixIcon;
   final double? textSize;
-
+  final FontWeight? fontWeight;
   const Button({
     super.key,
     required this.onPressed,
@@ -28,6 +28,7 @@ class Button extends StatelessWidget {
     this.suffix = false,
     this.suffixIcon,
     this.textSize,
+    this.fontWeight,
   });
 
   @override
@@ -56,33 +57,28 @@ class Button extends StatelessWidget {
             icon != null
                 ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    // k30HorizontalSpacing,
-                    // k10HorizontalSpacing,
-                    // k10HorizontalSpacing,
-                    Icon(
-                      icon,
-                      color:
-                          light == false
-                              ? Colors.white
-                              : textColor ?? (color ?? Colors.blue),
-                      size: 25,
+                    Image.asset(
+                      icon!,
+                      // color:
+                      //     light == false
+                      //         ? Colors.white
+                      //         : textColor ?? (color ?? Colors.blue),
+                      height: 24,
+                      width: 24,
                     ),
                     const SizedBox(width: 7),
                     // k5HorizontalSpacing,
-                    Expanded(
-                      child: Text(
-                        "$text  ",
-                        style: TextStyle(
-                          letterSpacing: 1,
-                          color:
-                              light == false
-                                  ? Colors.white
-                                  : textColor ?? (color ?? Colors.blue),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 11,
-                        ),
+                    Text(
+                      "$text  ",
+                      style: TextStyle(
+                        letterSpacing: 0,
+                        color:
+                            light == false
+                                ? Colors.white
+                                : textColor ?? (Colors.blue),
+                        fontWeight: fontWeight ?? FontWeight.w500,
+                        fontSize: textSize ?? 11,
                       ),
                     ),
                   ],

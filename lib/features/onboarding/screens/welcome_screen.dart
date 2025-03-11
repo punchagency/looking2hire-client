@@ -6,6 +6,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/features/onboarding/screens/candidate_sign_in_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/create_employer_account_screen.dart';
+import 'package:looking2hire/features/onboarding/screens/linkedin_login_screen.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -56,7 +57,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: GestureDetector(
                   onTap: () {
                     currentAppType = AppType.work;
-                    nextScreen(context, CandidateSignInScreen());
+                    // nextScreen(context, CandidateSignInScreen());
+                    nextScreen(context, LinkedInLoginScreen());
                     //nextScreen(context, UploadCvScreen());
                   },
                   child: Column(
