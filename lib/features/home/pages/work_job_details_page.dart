@@ -127,7 +127,6 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
               },
               body: BottomSheetContainer(
                 showHandle: true,
-
                 child: Column(
                   children: [
                     Row(
