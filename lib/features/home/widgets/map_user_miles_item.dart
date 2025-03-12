@@ -14,39 +14,38 @@ class MapUserMilesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        height: 40.0,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(1.61, 1.61),
-              color: Colors.black.withOpacity(0.35),
-              blurRadius: 4.46,
+    //  onTap: onPressed,
+    //   borderRadius: BorderRadius.circular(20),
+    return Container(
+      height: 40.0,
+      width: 100,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        // boxShadow: [
+        //   BoxShadow(
+        //     offset: Offset(1.61, 1.61),
+        //     color: Colors.black.withOpacity(0.35),
+        //     blurRadius: 4.46,
+        //   ),
+        // ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ProfilePhoto(imageUrl: user.imageUrl, size: 30),
+          const SizedBox(width: 4),
+          Text(
+            "${user.miles} mile${user.miles == 1 ? "" : "s"}",
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ProfilePhoto(imageUrl: user.imageUrl, size: 30),
-            const SizedBox(width: 4),
-            Text(
-              "${user.miles} mile${user.miles == 1 ? "" : "s"}",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(width: 4),
-          ],
-        ),
+          ),
+          const SizedBox(width: 4),
+        ],
       ),
     );
   }

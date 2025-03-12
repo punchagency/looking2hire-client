@@ -15,8 +15,9 @@ class SearchResultItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: SizedBox(
-        height: 20,
+      child: Container(
+        height: 40,
+        alignment: Alignment.centerLeft,
         child: RichText(
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -30,7 +31,6 @@ class SearchResultItem extends StatelessWidget {
             children: [
               TextSpan(
                 text: job.desc,
-
                 style: const TextStyle(
                   color: AppColors.lightBlack,
                   fontWeight: FontWeight.w400,

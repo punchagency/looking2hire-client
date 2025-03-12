@@ -141,6 +141,8 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
 
                         Expanded(
                           child: ListView(
+                            primary: false,
+                            physics: const ClampingScrollPhysics(),
                             padding: EdgeInsets.zero,
                             children: [
                               const SizedBox(height: 30),

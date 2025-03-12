@@ -73,13 +73,25 @@ class ActiveJobItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 6,
-                    backgroundColor:
-                        status == JobStatus.ended
-                            ? AppColors.statusRed
-                            : AppColors.statusGreen,
+                  Text(
+                    status == JobStatus.ended ? "Closed" : "Active",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color:
+                          status == JobStatus.ended
+                              ? AppColors.statusRed
+                              : AppColors.statusGreen,
+                    ),
                   ),
+
+                  // CircleAvatar(
+                  //   radius: 6,
+                  //   backgroundColor:
+                  //       status == JobStatus.ended
+                  //           ? AppColors.statusRed
+                  //           : AppColors.statusGreen,
+                  // ),
                 ],
               ),
             ],
