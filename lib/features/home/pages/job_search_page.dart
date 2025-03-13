@@ -136,6 +136,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
                   itemCount: searchedJobs.length,
                   separatorBuilder: (context, index) {
                     return Divider(
+                      height: 1,
                       thickness: 1,
                       color: AppColors.dividerColor.withOpacity(0.12),
                       indent: 0,

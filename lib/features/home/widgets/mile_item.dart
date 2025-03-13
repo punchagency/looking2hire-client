@@ -18,8 +18,10 @@ class MileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(9.2),
       onTap: () => onChanged(index),
+      //behavior: HitTestBehavior.opaque,
       child: SizedBox(
         height: 42,
         child: Column(

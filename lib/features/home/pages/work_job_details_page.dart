@@ -127,7 +127,6 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
               },
               body: BottomSheetContainer(
                 showHandle: true,
-
                 child: Column(
                   children: [
                     Row(
@@ -205,6 +204,8 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                         children: [
                           ListView(
                             padding: const EdgeInsets.only(top: 30),
+                            primary: false,
+                            physics: const ClampingScrollPhysics(),
                             children: [
                               JobInformationItem(
                                 title: "Job Description",
@@ -227,6 +228,8 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                             ],
                           ),
                           ListView(
+                            primary: false,
+                            physics: const ClampingScrollPhysics(),
                             children: [
                               const SizedBox(height: 16),
 
@@ -240,8 +243,8 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                               ),
                               const SizedBox(height: 11),
                               Text(
-                                """We inspire purpose-filled living that brings joy to the modern home. With a team of more than 8,000 associates spanning 130 store and distribution locations across the U.S and Canada, we achieve together, drive results and innovate to inspire. Drawn together by a shared passion of our customers and a spirit of fun, we deliver high-quality home furnishings that are expertly designed, responsibly sourced and bring beauty and function to people’s homes. From the day we opened our first store in Chicago in 1962 to the digital innovations that engage millions of customers today, our iconic brand is nearly 60 years in the making and our story is unfolding.
-Come make an impact that’s uniquely you.""",
+                                """We inspire purpose-filled living that brings joy to the modern home. With a team of more than 8,000 associates spanning 130 store and distribution locations across the U.S and Canada, we achieve together, drive results and innovate to inspire. Drawn together by a shared passion of our customers and a spirit of fun, we deliver high-quality home furnishings that are expertly designed, responsibly sourced and bring beauty and function to people's homes. From the day we opened our first store in Chicago in 1962 to the digital innovations that engage millions of customers today, our iconic brand is nearly 60 years in the making and our story is unfolding.
+Come make an impact that's uniquely you.""",
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -250,7 +253,7 @@ Come make an impact that’s uniquely you.""",
                               ),
                               const SizedBox(height: 11),
                               Text(
-                                "Come make an impact that’s uniquely you.",
+                                "Come make an impact that's uniquely you.",
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,

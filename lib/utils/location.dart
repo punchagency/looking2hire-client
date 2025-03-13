@@ -18,6 +18,8 @@ Future<Position?> getCurrentLocation() async {
     }
   }
 
-  Position position = await Geolocator.getCurrentPosition();
+  Position position = await Geolocator.getCurrentPosition(
+    locationSettings: const LocationSettings(accuracy: LocationAccuracy.medium),
+  );
   return position;
 }

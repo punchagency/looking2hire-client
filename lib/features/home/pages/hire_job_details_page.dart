@@ -71,6 +71,8 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
                       automaticallyImplyLeading: false,
                       title: Container(),
                       flexibleSpace: Container(height: 180),
+                      floating: true,
+                      snap: true,
                     ),
                   ];
                 },
@@ -141,6 +143,8 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
 
                         Expanded(
                           child: ListView(
+                            primary: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
                             padding: EdgeInsets.zero,
                             children: [
                               const SizedBox(height: 30),
