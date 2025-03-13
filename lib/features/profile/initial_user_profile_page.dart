@@ -7,7 +7,6 @@ import 'package:looking2hire/features/create_job/get_related_jobs.dart';
 import 'package:looking2hire/features/create_job/manually_create_job.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/resusable/widgets/profile_photo.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 class InitialUserProfilePage extends StatefulWidget {
   const InitialUserProfilePage({super.key});

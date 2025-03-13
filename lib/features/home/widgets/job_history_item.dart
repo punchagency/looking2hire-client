@@ -40,7 +40,7 @@ class JobHistoryItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 0),
-              color: Colors.black.withOpacity(0.14),
+              color: Colors.black.withAlpha(36),
               blurRadius: 7,
             ),
           ],

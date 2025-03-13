@@ -6,7 +6,6 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/upload_cv_screen.dart';
 import 'package:looking2hire/utils/button.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 class GetRelatedJobs extends StatefulWidget {
   const GetRelatedJobs({super.key});

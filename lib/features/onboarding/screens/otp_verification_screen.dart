@@ -44,7 +44,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: const TextStyle(fontSize: 22, color: Color.fromRGBO(30, 60, 87, 1)),
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Color.fromRGBO(30, 60, 87, 1),
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColor.grey[300]!),
@@ -52,7 +55,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     );
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Get Hired Now!", arrowColor: AppColor.black),
+      appBar: CustomAppBar(
+        title: "Looking To Work!",
+        arrowColor: AppColor.black,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
@@ -116,7 +122,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       border: Border.all(color: AppColor.grey[300]!),
                     ),
                   ),
-                  errorPinTheme: defaultPinTheme.copyBorderWith(border: Border.all(color: Colors.redAccent)),
+                  errorPinTheme: defaultPinTheme.copyBorderWith(
+                    border: Border.all(color: Colors.redAccent),
+                  ),
                 ),
               ),
               SizedBox(height: 32),
@@ -130,7 +138,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     textColor: AppColor.grey[500],
                   ),
                   SizedBox(height: 8),
-                  CustomText(text: "Resend OTP", textSize: 18, fontWeight: FontWeight.w600, textColor: AppColor.black),
+                  CustomText(
+                    text: "Resend OTP",
+                    textSize: 18,
+                    fontWeight: FontWeight.w600,
+                    textColor: AppColor.black,
+                  ),
                 ],
               ),
               SizedBox(height: 64),

@@ -86,7 +86,10 @@ class GoogleLoginScreen extends StatelessWidget {
                   SvgPicture.asset(
                     AppAssets.forwardArrow,
                     height: 16,
-                    color: AppColor.black,
+                    colorFilter: ColorFilter.mode(
+                      AppColor.black,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ],
               ),

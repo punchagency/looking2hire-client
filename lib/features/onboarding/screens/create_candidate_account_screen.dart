@@ -24,7 +24,10 @@ class _CreateCandidateAccountScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Get Hired Now!", arrowColor: AppColor.black),
+      appBar: CustomAppBar(
+        title: "Looking To Work!",
+        arrowColor: AppColor.black,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(

@@ -57,7 +57,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
                         icon: SvgPicture.asset(
                           AppAssets.backArrow,
-                          color: arrowColor,
+                          colorFilter:
+                              arrowColor != null
+                                  ? ColorFilter.mode(
+                                    arrowColor!,
+                                    BlendMode.srcIn,
+                                  )
+                                  : null,
                         ),
                       ),
                     ),
@@ -120,7 +126,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   }
                 },
                 // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
-                icon: SvgPicture.asset(AppAssets.backArrow, color: arrowColor),
+                icon: SvgPicture.asset(
+                  AppAssets.backArrow,
+                  colorFilter:
+                      arrowColor != null
+                          ? ColorFilter.mode(arrowColor!, BlendMode.srcIn)
+                          : null,
+                ),
               ),
             SizedBox(width: 10),
 
