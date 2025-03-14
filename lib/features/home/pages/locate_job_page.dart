@@ -10,11 +10,9 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/user.dart';
-import 'package:looking2hire/features/home/widgets/map_user_miles_item.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
-import 'package:looking2hire/resusable/widgets/profile_photo.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 

@@ -9,8 +9,6 @@ import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:provider/provider.dart';
 
-import 'features/onboarding/screens/splash_screen.dart';
-
 AppType currentAppType = AppType.hire;
 NavigationPage currentNavigationPage = NavigationPage.dashboard;
 

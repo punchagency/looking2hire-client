@@ -34,7 +34,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: block == true ? MediaQuery.of(context).size.width : 130,
+      width: block == true ? MediaQuery.of(context).size.width : 150,
       height: 50,
       decoration: BoxDecoration(
         color: color ?? AppColor.buttonColor,
@@ -99,6 +99,7 @@ class Button extends StatelessWidget {
                           fontSize: textSize ?? 12,
                         ),
                       ),
+                      if (suffix) SizedBox(width: 10),
                       if (suffix) suffixIcon ?? const SizedBox.shrink(),
                     ],
                   ),

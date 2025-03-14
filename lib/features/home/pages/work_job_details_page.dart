@@ -10,7 +10,6 @@ import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 class WorkJobDetailsPage extends StatefulWidget {
   const WorkJobDetailsPage({super.key});

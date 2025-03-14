@@ -4,7 +4,6 @@ import 'package:looking2hire/components/drawer_item.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
-import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/home/pages/jobs_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';

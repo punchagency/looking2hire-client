@@ -16,7 +16,10 @@ class AppAssets {
   static const nfcScan = "assets/images/nfc_scan.png";
   static const linkedin = "assets/images/linkedIn.png";
   static const google = "assets/images/google.png";
-
+  static const smartPhone = "assets/images/smartphone.png";
+  static const activated = "assets/images/activated.png";
+  static const placement = "assets/images/placement.png";
+  static const done = "assets/images/tick.png";
   //Svgs
   static const search = "assets/svgs/search.svg";
   static const filter = "assets/svgs/filter.svg";
@@ -29,6 +32,7 @@ class AppAssets {
   static const backArrow = "assets/svgs/back_arrow.svg";
   static const location = "assets/svgs/location.svg";
   static const location2 = "assets/svgs/location2.svg";
+  static const location3 = "assets/svgs/job_location.svg";
   static const more = "assets/svgs/more.svg";
   static const clock = "assets/svgs/clock.svg";
   static const miles = "assets/svgs/miles.svg";
@@ -51,4 +55,9 @@ class AppAssets {
   static const edit = "assets/svgs/edit.svg";
   static const mail = "assets/svgs/mail.svg";
   static const lock = "assets/svgs/lock.svg";
+  static const phone = "assets/svgs/phone.svg";
+  static const user = "assets/svgs/user_icon.svg";
+  static const business = "assets/svgs/business.svg";
+  static const briefcase = "assets/svgs/briefcase.svg";
+  static const graduation = "assets/svgs/graduation.svg";
 }

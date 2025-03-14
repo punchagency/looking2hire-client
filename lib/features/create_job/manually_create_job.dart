@@ -4,7 +4,6 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/utils/button.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 class ManuallyCreateJob extends StatefulWidget {
   const ManuallyCreateJob({super.key});
