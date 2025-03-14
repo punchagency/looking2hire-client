@@ -5,6 +5,9 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
+import 'package:looking2hire/features/profile/company_profile_page.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -103,7 +106,10 @@ class _ActivateL2hDecalState extends State<ActivateL2hDecal> {
               SizedBox(height: 50),
               Button(
                 onPressed: () {
-                  nextScreen(context, HomePage());
+                  nextScreen(
+                    context,
+                    isHire ? CompanyProfilePage() : HomePage(),
+                  );
                 },
                 text: "Create account",
                 block: true,

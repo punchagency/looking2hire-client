@@ -6,7 +6,10 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
+import 'package:looking2hire/features/profile/company_profile_page.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -62,7 +65,10 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
               SizedBox(height: 50),
               Button(
                 onPressed: () {
-                  nextScreen(context, HomePage());
+                  nextScreen(
+                    context,
+                    isHire ? CompanyProfilePage() : HomePage(),
+                  );
                 },
                 text: "Login",
                 block: true,

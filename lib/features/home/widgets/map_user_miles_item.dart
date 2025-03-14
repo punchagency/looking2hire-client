@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:looking2hire/features/home/models/user.dart';
-import 'package:looking2hire/resusable/widgets/profile_photo.dart';
+import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 
 class MapUserMilesItem extends StatelessWidget {
   final User user;

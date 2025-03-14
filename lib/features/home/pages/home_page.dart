@@ -17,7 +17,7 @@ import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 
-import '../../../resusable/widgets/outlined_container.dart';
+import '../../../reuseable/widgets/outlined_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

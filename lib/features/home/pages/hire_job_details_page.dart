@@ -36,6 +36,7 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
   void toggleSelectOptions(String option) {}
 
   void apply() {}
+
   @override
   Widget build(BuildContext context) {
     const tabs = ["Description", "Company"];

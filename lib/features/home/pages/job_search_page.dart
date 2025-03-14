@@ -4,7 +4,7 @@ import 'package:looking2hire/components/app_back_button.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/pages/locate_job_page.dart';
 import 'package:looking2hire/features/home/widgets/search_result_item.dart';
-import 'package:looking2hire/resusable/widgets/outlined_container.dart';
+import 'package:looking2hire/reuseable/widgets/outlined_container.dart';
 
 import '../../../app_colors.dart';
 import '../models/job.dart';

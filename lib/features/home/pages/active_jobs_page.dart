@@ -121,7 +121,6 @@ Come make an impact that’s uniquely you.""",
                 ],
               ),
               const SizedBox(height: 20),
-
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

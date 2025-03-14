@@ -13,7 +13,9 @@ import 'package:looking2hire/features/home/models/user.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 import 'package:looking2hire/utils/location.dart';
+import 'package:looking2hire/utils/platform.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../widgets/mile_action_item.dart';
@@ -45,6 +47,10 @@ class _LocateJobPageState extends State<LocateJobPage>
   Set<Marker> userMarkers = {};
   Position? currentPosition;
   CameraPosition? initialCameraPosition;
+  final LatLng _defaultCameraPosition = const LatLng(
+    37.7749,
+    -122.4194,
+  ); // Default to San Francisco
 
   List<String> names = [
     "John Doe",
@@ -152,6 +158,7 @@ class _LocateJobPageState extends State<LocateJobPage>
       target: LatLng(position.latitude, position.longitude),
       zoom: _getZoomLevel(),
     );
+    // _goToPosition(LatLng(position.latitude, position.longitude));
 
     final marker = Marker(
       markerId: const MarkerId("0"),
@@ -169,12 +176,9 @@ class _LocateJobPageState extends State<LocateJobPage>
   void generateRandomUsersLatLngBasedOnMilesFromCurrentLocation() async {
     if (currentPosition == null || currentUserMarker == null) return;
     isLoading = true;
-    setState(() {});
 
     foundUsers.clear();
     userMarkers.clear();
-
-    userMarkers.add(currentUserMarker!);
 
     final random = Random();
 
@@ -231,12 +235,15 @@ class _LocateJobPageState extends State<LocateJobPage>
         userMarkers.add(marker);
       }
     }
+    userMarkers.add(currentUserMarker!);
+
     isLoading = false;
     _updateCameraZoom();
     setState(() {});
   }
 
   Future<void> loadUserMarkers() async {
+    if (!isAndroidAndIos) return;
     userMarkers.clear();
 
     await loadLocationMarker();
@@ -290,10 +297,10 @@ class _LocateJobPageState extends State<LocateJobPage>
 
   void updateLatLng(LatLng latlng) {}
 
-  Future<void> _goToMarker(Marker marker) async {
+  Future<void> _goToPosition(LatLng position) async {
     await _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: marker.position, zoom: _getZoomLevel()),
+        CameraPosition(target: position, zoom: _getZoomLevel()),
       ),
     );
   }
@@ -445,7 +452,7 @@ class _LocateJobPageState extends State<LocateJobPage>
               width: double.infinity,
               color: Colors.black.withOpacity(0.2),
               alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: AppColors.blue),
             ),
         ],
       ),

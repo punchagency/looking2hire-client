@@ -3,6 +3,9 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
+import 'package:looking2hire/features/profile/company_profile_page.dart';
+import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 import 'package:pinput/pinput.dart';
@@ -149,7 +152,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               SizedBox(height: 64),
               Button(
                 onPressed: () {
-                  nextScreen(context, HomePage());
+                  nextScreen(
+                    context,
+                    isHire ? CompanyProfilePage() : HomePage(),
+                  );
                 },
                 text: "Verify",
                 block: true,
