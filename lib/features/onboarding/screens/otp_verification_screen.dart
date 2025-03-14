@@ -5,13 +5,14 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';
-import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  final String? accountType;
+
+  const OtpVerificationScreen({super.key, this.accountType});
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -47,10 +48,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: const TextStyle(
-        fontSize: 22,
-        color: Color.fromRGBO(30, 60, 87, 1),
-      ),
+      textStyle: const TextStyle(fontSize: 22, color: Color.fromRGBO(30, 60, 87, 1)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColor.grey[300]!),
@@ -58,10 +56,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     );
 
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Looking To Work!",
-        arrowColor: AppColor.black,
-      ),
+      appBar: CustomAppBar(title: "Looking To Work!", arrowColor: AppColor.black),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
@@ -69,18 +64,34 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 32),
-              CustomRobotoText(
-                text: "OTP Verification",
-                textSize: 24,
-                fontWeight: FontWeight.w600,
-                alignText: TextAlign.start,
-              ),
-              CustomText(
-                text: "Enter OTP sent to your email",
-                textSize: 16,
-                fontWeight: FontWeight.w400,
-                textColor: AppColor.grey[500],
-              ),
+              if (widget.accountType == "employer") ...[
+                CustomRobotoText(
+                  text: "Email / Phone Verification",
+                  textSize: 24,
+                  fontWeight: FontWeight.w600,
+                  alignText: TextAlign.start,
+                ),
+                CustomText(
+                  text: "Enter OTP sent to your email/phone number",
+                  textSize: 16,
+                  fontWeight: FontWeight.w400,
+                  textColor: AppColor.grey[500],
+                ),
+              ],
+              if (widget.accountType != "employer") ...[
+                CustomRobotoText(
+                  text: "OTP Verification",
+                  textSize: 24,
+                  fontWeight: FontWeight.w600,
+                  alignText: TextAlign.start,
+                ),
+                CustomText(
+                  text: "Enter OTP sent to your email",
+                  textSize: 16,
+                  fontWeight: FontWeight.w400,
+                  textColor: AppColor.grey[500],
+                ),
+              ],
               SizedBox(height: 32),
               Directionality(
                 // Specify direction if desired
@@ -125,9 +136,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       border: Border.all(color: AppColor.grey[300]!),
                     ),
                   ),
-                  errorPinTheme: defaultPinTheme.copyBorderWith(
-                    border: Border.all(color: Colors.redAccent),
-                  ),
+                  errorPinTheme: defaultPinTheme.copyBorderWith(border: Border.all(color: Colors.redAccent)),
                 ),
               ),
               SizedBox(height: 32),
@@ -141,21 +150,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     textColor: AppColor.grey[500],
                   ),
                   SizedBox(height: 8),
-                  CustomText(
-                    text: "Resend OTP",
-                    textSize: 18,
-                    fontWeight: FontWeight.w600,
-                    textColor: AppColor.black,
-                  ),
+                  CustomText(text: "Resend OTP", textSize: 18, fontWeight: FontWeight.w600, textColor: AppColor.black),
                 ],
               ),
               SizedBox(height: 64),
               Button(
                 onPressed: () {
-                  nextScreen(
-                    context,
-                    isHire ? CompanyProfilePage() : HomePage(),
-                  );
+                  nextScreen(context, isHire ? CompanyProfilePage() : HomePage());
                 },
                 text: "Verify",
                 block: true,

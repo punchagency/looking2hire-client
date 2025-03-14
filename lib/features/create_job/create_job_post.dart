@@ -4,9 +4,12 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
+
+import '../home/pages/hire_job_post_details_page.dart';
 
 class CreateJobPost extends StatefulWidget {
   const CreateJobPost({super.key});
@@ -62,7 +65,8 @@ class _CreateJobPostState extends State<CreateJobPost> {
             SizedBox(height: 40),
             Button(
               onPressed: () {
-                nextScreen(context, DecalStep1Screen());
+                // nextScreen(context, DecalStep1Screen());
+                context.pushTo(const HireJobPostDetailsPage());
               },
               text: "Generate Job",
               block: true,

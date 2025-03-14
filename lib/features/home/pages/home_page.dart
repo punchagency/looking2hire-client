@@ -279,6 +279,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 180,
                       child: PageView.builder(
+
                         controller: pageController,
                         scrollDirection: Axis.horizontal,
                         itemCount: jobWidgets.length,

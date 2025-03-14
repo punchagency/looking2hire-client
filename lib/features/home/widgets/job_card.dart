@@ -36,7 +36,7 @@ class JobCard extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
+        padding: const EdgeInsets.only( right: 4, bottom: 10),
         child: SizedBox(
           width: 280,
           child: Card(
