@@ -3,7 +3,9 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/hire_container.dart';
 import 'package:looking2hire/components/stat_card.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/widgets/applicant_card.dart';
+import 'package:looking2hire/features/profile/hire_user_profile_page.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:looking2hire/views/stats_cards.dart';
 
@@ -22,6 +24,10 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
   void showHiredCandidates() {}
   void showRejectedCandidates() {}
 
+  void showApplicantProfile() {
+    context.pushTo(HireUserProfilePage());
+  }
+
   @override
   Widget build(BuildContext context) {
     final applicantCards = [
@@ -31,6 +37,7 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
         experience: "5 years in UI/UX Design Figma, Adobe XD, Wireframing",
         date: "March 10, 2025",
         status: ApplicantStatus.shortlisted,
+        onPressed: showApplicantProfile,
       ),
       ApplicantCard(
         name: "James Lee",
@@ -38,6 +45,7 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
         experience: "3 years in Product Design Sketch, InVision, Prototyping5",
         date: "March 15, 2025",
         status: ApplicantStatus.interviewed,
+        onPressed: showApplicantProfile,
       ),
     ];
     return Scaffold(

@@ -18,6 +18,7 @@ class AppAssets {
   static const nfcScan = "assets/images/nfc_scan.png";
   static const linkedin = "assets/images/linkedIn.png";
   static const google = "assets/images/google.png";
+  static const dividerLine = "assets/images/divider_line.png";
 
   //Svgs
   static const search = "assets/svgs/search.svg";
@@ -73,4 +74,5 @@ class AppAssets {
   static const time = "assets/svgs/time.svg";
   static const trophy = "assets/svgs/trophy.svg";
   static const bag = "assets/svgs/bag.svg";
+  static const circleDot = "assets/svgs/circle_dot.svg";
 }
