@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/drawer_item.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
 import 'package:looking2hire/features/home/pages/hire_applied_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
@@ -36,7 +37,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void gotoCreateDecal() {
-    //context.pushTo(CreateDecalPage());
+    context.pushTo(DecalStep1Screen());
   }
 
   void gotoStatistics() {

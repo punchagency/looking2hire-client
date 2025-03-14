@@ -4,6 +4,7 @@ import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/create_job/create_job_post.dart';
 import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/hire_job_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_search_page.dart';
@@ -233,12 +234,15 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            "Popular jobs",
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.lightBlack,
+                          child: GestureDetector(
+                            onTap: () => context.pushTo(CreateJobPost()),
+                            child: Text(
+                              "Popular jobs",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.lightBlack,
+                              ),
                             ),
                           ),
                         ),

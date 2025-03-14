@@ -6,7 +6,6 @@ import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 
 import '../../profile/components/profile_card.dart';
 

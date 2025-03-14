@@ -420,7 +420,7 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
       cursorColor: AppColor.black,
       decoration: InputDecoration(
         filled: true,
-        fillColor: AppColor.grey[100]?.withOpacity(.2),
+        fillColor: AppColor.grey[100]?.withOpacity(.05),
         border: OutlineInputBorder(
           // borderSide: BorderSide.none,
           borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
