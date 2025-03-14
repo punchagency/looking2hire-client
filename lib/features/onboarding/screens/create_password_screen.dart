@@ -8,6 +8,8 @@ import 'package:looking2hire/features/onboarding/screens/otp_verification_screen
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
+import '../../profile/company_profile_page.dart';
+
 class CreatePasswordScreen extends StatefulWidget {
   const CreatePasswordScreen({super.key});
 
@@ -63,7 +65,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               SizedBox(height: 50),
               Button(
                 onPressed: () {
-                  nextScreen(context, OtpVerificationScreen());
+                  nextScreen(context, CompanyProfilePage());
                 },
                 text: "Confirm & Proceed",
                 block: true,
