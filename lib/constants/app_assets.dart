@@ -3,6 +3,8 @@ class AppAssets {
   static const splashImage = "assets/images/splash_image2.png";
   static const profilePicture = "assets/images/profile_picture.png";
   static const profilePicture2 = "assets/images/profile_picture2.png";
+  static const profilePicture3 = "assets/images/profile_picture3.png";
+  static const profilePicture4 = "assets/images/profile_picture4.png";
   static const jobLogo1 = "assets/images/job_logo_1.png";
   static const jobLogo2 = "assets/images/job_logo_2.png";
   static const bananaRepublic = "assets/images/banana_republic.png";
@@ -51,4 +53,24 @@ class AppAssets {
   static const edit = "assets/svgs/edit.svg";
   static const mail = "assets/svgs/mail.svg";
   static const lock = "assets/svgs/lock.svg";
+
+  static const addRounded = "assets/svgs/add_rounded.svg";
+  static const trash = "assets/svgs/trash.svg";
+  static const editOutline = "assets/svgs/edit_outline.svg";
+  static const statistics = "assets/svgs/statistics.svg";
+
+  static const createDecal = "assets/svgs/create_decal.svg";
+  static const notepad = "assets/svgs/notepad.svg";
+  static const users = "assets/svgs/users.svg";
+  static const calender = "assets/svgs/calender.svg";
+  static const graphLine = "assets/svgs/graph_line.svg";
+
+  static const handshake = "assets/svgs/handshake.svg";
+  static const reverse = "assets/svgs/reverse.svg";
+  static const search2 = "assets/svgs/search2.svg";
+
+  static const star = "assets/svgs/star.svg";
+  static const time = "assets/svgs/time.svg";
+  static const trophy = "assets/svgs/trophy.svg";
+  static const bag = "assets/svgs/bag.svg";
 }

@@ -4,8 +4,11 @@ import 'package:looking2hire/components/drawer_item.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
+import 'package:looking2hire/features/home/pages/hire_applied_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/home/pages/jobs_page.dart';
+import 'package:looking2hire/features/home/pages/statistics_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
 
@@ -22,6 +25,9 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void gotoProfile() {
+    if (isHire) {
+      return;
+    }
     context.pushTo(LookingToHireProfile());
   }
 
@@ -29,8 +35,20 @@ class _AppDrawerState extends State<AppDrawer> {
     context.pushTo(ScanNfcPage());
   }
 
+  void gotoCreateDecal() {
+    //context.pushTo(CreateDecalPage());
+  }
+
+  void gotoStatistics() {
+    context.pushTo(StatisticsPage());
+  }
+
   void gotoAppliedJobs() {
-    context.pushTo(JobsPage(jobType: JobType.applied));
+    if (isHire) {
+      context.pushTo(HireAppliedJobsPage());
+    } else {
+      context.pushTo(JobsPage(jobType: JobType.applied));
+    }
   }
 
   void gotoSavedJobs() {
@@ -72,36 +90,59 @@ class _AppDrawerState extends State<AppDrawer> {
             Expanded(
               child: ListView(
                 children: [
-                  DrawerItem(
-                    icon: AppAssets.dashboard,
-                    title: "Dashboard",
-                    onPressed: gotoDashboard,
-                  ),
-                  DrawerItem(
-                    icon: AppAssets.profile,
-                    title: "Profile",
-                    onPressed: gotoProfile,
-                  ),
-                  DrawerItem(
-                    icon: AppAssets.scan,
-                    title: "Scan",
-                    onPressed: gotoScan,
-                  ),
-                  DrawerItem(
-                    icon: AppAssets.appliedjobs,
-                    title: "Applied Jobs",
-                    onPressed: gotoAppliedJobs,
-                  ),
-                  DrawerItem(
-                    icon: AppAssets.savedjobs,
-                    title: "Saved Jobs",
-                    onPressed: gotoSavedJobs,
-                  ),
-                  DrawerItem(
-                    icon: AppAssets.viewedjobs,
-                    title: "Viewed Jobs",
-                    onPressed: gotoViewedJobs,
-                  ),
+                  if (isWork) ...[
+                    DrawerItem(
+                      icon: AppAssets.dashboard,
+                      title: "Dashboard",
+                      onPressed: gotoDashboard,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.profile,
+                      title: "Profile",
+                      onPressed: gotoProfile,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.scan,
+                      title: "Scan",
+                      onPressed: gotoScan,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.appliedjobs,
+                      title: "Applied Jobs",
+                      onPressed: gotoAppliedJobs,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.savedjobs,
+                      title: "Saved Jobs",
+                      onPressed: gotoSavedJobs,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.viewedjobs,
+                      title: "Viewed Jobs",
+                      onPressed: gotoViewedJobs,
+                    ),
+                  ] else ...[
+                    DrawerItem(
+                      icon: AppAssets.profile,
+                      title: "Profile",
+                      onPressed: gotoProfile,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.createDecal,
+                      title: "Create Decal",
+                      onPressed: gotoCreateDecal,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.appliedjobs,
+                      title: "Applied Jobs",
+                      onPressed: gotoAppliedJobs,
+                    ),
+                    DrawerItem(
+                      icon: AppAssets.statistics,
+                      title: "Statistics",
+                      onPressed: gotoStatistics,
+                    ),
+                  ],
                   DrawerItem(
                     icon: AppAssets.settings,
                     title: "Settings",

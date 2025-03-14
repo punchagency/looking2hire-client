@@ -17,5 +17,7 @@ class AppColors {
   static const blackOnSurface = Color(0xFF1D1B20);
 
   static const statusRed = Color(0xFFF71313);
+
   static const statusGreen = Color(0xFF00C524);
+  static const dialogRed = Color(0xFFE01717);
 }

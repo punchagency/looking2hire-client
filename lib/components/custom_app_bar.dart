@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 
@@ -7,11 +8,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? rightChild;
   final Widget? titleChild;
-
-  final double? fontSize;
-  final FontWeight? fontWeight;
-  final Color? arrowColor;
-  final Color? titleColor;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final Color arrowColor;
+  final Color titleColor;
   final bool centeredTitle;
   final bool needsDrawer;
   final bool canNotGoBack;
@@ -20,13 +20,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.titleChild,
     this.rightChild,
-    this.fontSize,
-    this.fontWeight,
-    this.arrowColor,
-    this.titleColor,
+    this.fontSize = 24,
+    this.fontWeight = FontWeight.w600,
+    this.arrowColor = AppColors.lightBlack,
+    this.titleColor = AppColors.lightBlack,
     this.needsDrawer = false,
     this.canNotGoBack = false,
-    this.centeredTitle = false,
+    this.centeredTitle = true,
   });
 
   @override
@@ -57,13 +57,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
                         icon: SvgPicture.asset(
                           AppAssets.backArrow,
-                          colorFilter:
-                              arrowColor != null
-                                  ? ColorFilter.mode(
-                                    arrowColor!,
-                                    BlendMode.srcIn,
-                                  )
-                                  : null,
+                          colorFilter: ColorFilter.mode(
+                            arrowColor,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ),
@@ -79,8 +76,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     alignment: Alignment.center,
                     child: CustomRobotoText(
                       text: title,
-                      textSize: fontSize ?? 28,
-                      fontWeight: fontWeight ?? FontWeight.w400,
+                      textSize: fontSize,
+                      fontWeight: fontWeight,
                       textColor: titleColor,
                       alignText: centeredTitle ? TextAlign.center : null,
                     ),
@@ -128,10 +125,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
                 icon: SvgPicture.asset(
                   AppAssets.backArrow,
-                  colorFilter:
-                      arrowColor != null
-                          ? ColorFilter.mode(arrowColor!, BlendMode.srcIn)
-                          : null,
+                  colorFilter: ColorFilter.mode(arrowColor, BlendMode.srcIn),
                 ),
               ),
             SizedBox(width: 10),
@@ -139,8 +133,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Expanded(
               child: CustomRobotoText(
                 text: title,
-                textSize: fontSize ?? 28,
-                fontWeight: fontWeight ?? FontWeight.w400,
+                textSize: fontSize,
+                fontWeight: fontWeight,
                 textColor: titleColor,
               ),
             ),
