@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
+import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/components/hire_container.dart';
 import 'package:looking2hire/components/job_detail.dart';
@@ -32,6 +33,29 @@ class _JobCardPageState extends State<JobCardPage> {
           actions: [
             ActionButtonWithIcon(title: "Save Changes", onPressed: saveJobPost),
           ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomIconTextField(
+                textEditingController: TextEditingController(),
+                textHint: "Job Title",
+                icon: AppAssets.briefcase,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: TextEditingController(),
+                textHint: "Location",
+                icon: AppAssets.location3,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: TextEditingController(),
+                textHint: "Qualification need for the job",
+                icon: AppAssets.graduation,
+              ),
+            ],
+          ),
         );
       },
     );

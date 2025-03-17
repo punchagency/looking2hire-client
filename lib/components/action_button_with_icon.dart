@@ -31,7 +31,7 @@ class ActionButtonWithIcon extends StatelessWidget {
           color: isDestructive ? AppColors.dialogRed : AppColors.lightBlack,
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -69,7 +69,7 @@ class DialogContainer extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (child != null) child!,
+                if (child != null) ...[const SizedBox(height: 32), child!],
                 const SizedBox(height: 40),
                 SizedBox(
                   height: 40,

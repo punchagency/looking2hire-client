@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:looking2hire/components/app_dropdown.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/hire_container.dart';
 import 'package:looking2hire/components/stat_card.dart';
@@ -17,6 +18,15 @@ class HireAppliedJobsPage extends StatefulWidget {
 }
 
 class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
+  List<String> options = ["Jobs Role", "Location", "Qualification"];
+  String? selectedOption = "Jobs Role";
+
+  void updateSelectedOption(String? value) {
+    setState(() {
+      selectedOption = value;
+    });
+  }
+
   void showApplications() {}
   void showChosenCandidates() {}
   void showInterviews() {}
@@ -127,6 +137,12 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
             const SizedBox(height: 30),
             HireContainer(
               title: "Saved Candidates",
+              rightChild: AppDropdown(
+                items: options,
+                selectedItem: selectedOption,
+                onChanged: updateSelectedOption,
+              ),
+
               child: ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

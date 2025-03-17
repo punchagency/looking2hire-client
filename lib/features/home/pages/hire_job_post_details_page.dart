@@ -6,6 +6,7 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/components/hire_container.dart';
+import 'package:looking2hire/components/rounded_icon_button.dart';
 import 'package:looking2hire/components/title_information.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
@@ -122,13 +123,15 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
                   rightChild: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
+                      RoundedIconButton(
                         onPressed: showEditJobPostDialog,
-                        icon: SvgPicture.asset(AppAssets.editOutline),
+                        icon: AppAssets.editOutline,
                       ),
-                      IconButton(
+                      const SizedBox(width: 16),
+                      RoundedIconButton(
                         onPressed: showDeleteJobPostDialog,
-                        icon: SvgPicture.asset(AppAssets.trash),
+                        icon: AppAssets.trash,
+                        color: Colors.red,
                       ),
                     ],
                   ),

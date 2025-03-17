@@ -87,4 +87,6 @@ class AppAssets {
   static const business = "assets/svgs/business.svg";
   static const briefcase = "assets/svgs/briefcase.svg";
   static const graduation = "assets/svgs/graduation.svg";
+
+  static const dropdownArrow = "assets/svgs/dropdown_arrow.svg";
 }
