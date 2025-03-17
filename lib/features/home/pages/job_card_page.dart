@@ -55,7 +55,7 @@ class _JobCardPageState extends State<JobCardPage> {
             ),
             ActionButtonWithIcon(
               title: "Cancel",
-              icon: AppAssets.close,
+              icon: AppAssets.close2,
               onPressed: () => context.pop(),
             ),
           ],

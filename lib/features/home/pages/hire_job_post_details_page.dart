@@ -53,7 +53,7 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
             ),
             ActionButtonWithIcon(
               title: "Cancel",
-              icon: AppAssets.close,
+              icon: AppAssets.close2,
               iconColor: Colors.white,
               onPressed: () => context.pop(),
             ),

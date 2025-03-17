@@ -43,6 +43,8 @@ class AppAssets {
   static const add = "assets/svgs/add.svg";
   static const subtract = "assets/svgs/subtract.svg";
   static const close = "assets/svgs/close.svg";
+  static const close2 = "assets/svgs/close2.svg";
+
   static const menu = "assets/svgs/menu.svg";
   static const arrowRight = "assets/svgs/arrow_right.svg";
   static const forwardArrow = "assets/svgs/forward_arrow.svg";

@@ -101,7 +101,7 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
                   StatCard(
                     title: "Candidates Rejected",
                     value: "35",
-                    icon: AppAssets.close,
+                    icon: AppAssets.close2,
                     onPressed: showRejectedCandidates,
                   ),
                 ],
