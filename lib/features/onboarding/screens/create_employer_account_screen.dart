@@ -6,11 +6,10 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/onboarding/screens/candidate_sign_in_screen.dart';
-import 'package:looking2hire/features/onboarding/screens/create_password_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
-import 'activate_l2h_decal.dart';
+import 'otp_verification_screen.dart';
 
 class CreateEmployerAccountScreen extends StatefulWidget {
   const CreateEmployerAccountScreen({super.key});
@@ -30,6 +29,7 @@ class _CreateEmployerAccountScreenState
       appBar: CustomAppBar(
         title: "Looking To Hire",
         arrowColor: AppColor.black,
+        centeredTitle: false,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -39,6 +39,7 @@ class _CreateEmployerAccountScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 64),
+
               CustomRobotoText(
                 text: "Create Employer Account",
                 textSize: 24,
@@ -95,15 +96,14 @@ class _CreateEmployerAccountScreenState
                       style: Theme.of(
                         context,
                       ).textTheme.bodyLarge?.copyWith(letterSpacing: 0),
-
                       children: [
-                        TextSpan(text: 'I accepts the Terms '),
+                        TextSpan(text: 'I accepts the Terms ', style: TextStyle(color: Colors.black, fontSize: 14)),
                         TextSpan(
                           text: 'Terms & Conditions',
-
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
+                            fontSize: 14,
                             decoration: TextDecoration.underline,
                             letterSpacing: 0,
                           ),
@@ -122,7 +122,9 @@ class _CreateEmployerAccountScreenState
               SizedBox(height: 41),
               Button(
                 onPressed: () {
-                  nextScreen(context, CreatePasswordScreen());
+                  nextScreen(context, OtpVerificationScreen(
+                    accountType: "employer",
+                  ));
                 },
                 text: "Create account",
                 block: true,

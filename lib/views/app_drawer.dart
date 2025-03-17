@@ -6,7 +6,6 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
 import 'package:looking2hire/features/home/pages/hire_applied_jobs_page.dart';
-import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/home/pages/jobs_page.dart';
 import 'package:looking2hire/features/home/pages/statistics_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
