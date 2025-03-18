@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/enums/navigation_page.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
+import 'package:looking2hire/network/dio_client.dart';
 import 'package:looking2hire/provider/Auth_Provider.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -11,6 +13,15 @@ import 'package:provider/provider.dart';
 
 AppType currentAppType = AppType.hire;
 NavigationPage currentNavigationPage = NavigationPage.dashboard;
+
+final dioClient = DioClient(
+  baseUrl: AppRoutes.baseUrl,
+  refreshConfig: RefreshConfig(
+    endpoint: AppRoutes.refreshToken,
+    tokenKey: "accessToken",
+    refreshTokenKey: "refreshToken",
+  ),
+);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

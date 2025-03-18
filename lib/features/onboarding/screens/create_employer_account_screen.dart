@@ -7,6 +7,7 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/onboarding/screens/candidate_sign_in_screen.dart';
+import 'package:looking2hire/features/onboarding/service/auth_service.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -25,6 +26,36 @@ class _CreateEmployerAccountScreenState
     extends State<CreateEmployerAccountScreen> {
   bool isChecked = false;
 
+  TextEditingController companyNameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController(
+    text: "123456",
+  );
+
+  void createEmployerAccount() async {
+    final response = await AuthService.employerSignup(
+      companyNameController.text,
+      addressController.text,
+      [0.0, 0.0],
+      fullNameController.text,
+      emailController.text,
+      phoneController.text,
+      passwordController.text,
+    );
+    print("response: ${response.data}");
+
+    // if (response.success) {
+    //   widget.pageController.nextPage(
+    //     duration: const Duration(milliseconds: 300),
+    //     curve: Curves.easeIn,
+    //   );
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +63,7 @@ class _CreateEmployerAccountScreenState
         title: "Looking To Hire",
         arrowColor: AppColor.black,
         canNotGoBack: true,
+
         rightChild: IconButton(
           icon: SvgPicture.asset(
             AppAssets.forwardArrow,
@@ -69,26 +101,26 @@ class _CreateEmployerAccountScreenState
               ),
               SizedBox(height: 30),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: companyNameController,
                 textHint: "Business Name",
                 icon: AppAssets.business,
               ),
 
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: fullNameController,
                 textHint: "Hiring Contact Full Name",
                 icon: AppAssets.user,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: emailController,
                 textHint: "Hiring Contact Email",
                 icon: AppAssets.mail,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: phoneController,
                 textHint: "Hiring Contact Phone",
                 icon: AppAssets.phone,
               ),
@@ -139,6 +171,7 @@ class _CreateEmployerAccountScreenState
               SizedBox(height: 41),
               Button(
                 onPressed: () {
+                  createEmployerAccount();
                   nextScreen(
                     context,
                     OtpVerificationScreen(accountType: "employer"),

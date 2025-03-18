@@ -45,6 +45,7 @@ dependencies:
   google_maps_flutter:
   widget_to_marker:
   geolocator:
+  dio:
 
 dev_dependencies:
   flutter_test:
