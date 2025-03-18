@@ -12,7 +12,8 @@ import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
 class DecalStep2Screen extends StatefulWidget {
-  const DecalStep2Screen({super.key});
+  final PageController pageController;
+  const DecalStep2Screen({super.key, required this.pageController});
 
   @override
   State<DecalStep2Screen> createState() => _DecalStep2ScreenState();
@@ -153,7 +154,11 @@ class _DecalStep2ScreenState extends State<DecalStep2Screen> {
                   SizedBox(height: 40.h),
                   Button(
                     onPressed: () {
-                      nextScreen(context, DecalStep3Screen());
+                      // nextScreen(context, DecalStep3Screen());
+                      widget.pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                      );
                     },
                     text: "Activate",
                     color: AppColor.black,

@@ -11,7 +11,8 @@ import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
 class DecalStep3Screen extends StatefulWidget {
-  const DecalStep3Screen({super.key});
+  final PageController pageController;
+  const DecalStep3Screen({super.key, required this.pageController});
 
   @override
   State<DecalStep3Screen> createState() => _DecalStep3ScreenState();
@@ -34,10 +35,14 @@ class _DecalStep3ScreenState extends State<DecalStep3Screen> {
                     textSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
-                  CustomRobotoText(
-                    text: "Activation Successful",
-                    textSize: 24,
-                    fontWeight: FontWeight.w600,
+                  Flexible(
+                    child: CustomRobotoText(
+                      text: "Activation Successful",
+                      textSize: 24,
+                      fontWeight: FontWeight.w600,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
 
                   Container(width: 40),
@@ -139,7 +144,11 @@ class _DecalStep3ScreenState extends State<DecalStep3Screen> {
                   SizedBox(height: 40.h),
                   Button(
                     onPressed: () {
-                      nextScreen(context, DecalStep4Screen());
+                      // nextScreen(context, DecalStep4Screen());
+                      widget.pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                      );
                     },
                     text: "Continue",
                     color: AppColor.black,

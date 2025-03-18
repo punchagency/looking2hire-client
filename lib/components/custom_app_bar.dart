@@ -15,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool centeredTitle;
   final bool needsDrawer;
   final bool canNotGoBack;
+  final VoidCallback? onBackPressed;
   const CustomAppBar({
     super.key,
     required this.title,
@@ -27,6 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.needsDrawer = false,
     this.canNotGoBack = false,
     this.centeredTitle = true,
+    this.onBackPressed,
   });
 
   @override
@@ -51,9 +53,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: Align(
                       alignment: Alignment.center,
                       child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed:
+                            onBackPressed ??
+                            () {
+                              Navigator.pop(context);
+                            },
                         // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
                         icon: SvgPicture.asset(
                           AppAssets.backArrow,
@@ -117,11 +121,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             if (!canNotGoBack)
               IconButton(
-                onPressed: () {
-                  if (canNotGoBack == false) {
-                    Navigator.pop(context);
-                  }
-                },
+                onPressed:
+                    onBackPressed ??
+                    () {
+                      Navigator.pop(context);
+                    },
                 // child: Icon(Icons.arrow_back, color: AppColor.arrowColor),
                 icon: SvgPicture.asset(
                   AppAssets.backArrow,

@@ -34,8 +34,9 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
             ActionButtonWithIcon(title: "Save Changes", onPressed: saveJobPost),
           ],
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 32),
               CustomIconTextField(
                 textEditingController: TextEditingController(),
                 textHint: "Job Title",
@@ -184,16 +185,16 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
                 ),
               ],
             ),
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: ActionButton(
-                title: "Apply Now",
-                color: AppColors.lighterBlack,
-                onPressed: applyForJob,
-              ),
-            ),
+            // Positioned(
+            //   bottom: 20,
+            //   left: 0,
+            //   right: 0,
+            //   child: ActionButton(
+            //     title: "Apply Now",
+            //     color: AppColors.lighterBlack,
+            //     onPressed: applyForJob,
+            //   ),
+            // ),
           ],
         ),
       ),

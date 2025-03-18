@@ -153,6 +153,7 @@ class _HomePageState extends State<HomePage> {
         title: appTitle,
         fontSize: 26,
         fontWeight: FontWeight.w500,
+        centeredTitle: false,
         canNotGoBack: true,
         needsDrawer: true,
         // rightChild: ProfilePhoto(
@@ -279,7 +280,6 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 180,
                       child: PageView.builder(
-
                         controller: pageController,
                         scrollDirection: Axis.horizontal,
                         itemCount: jobWidgets.length,
