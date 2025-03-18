@@ -66,7 +66,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
             Button(
               onPressed: () {
                 // nextScreen(context, DecalStep1Screen());
-                context.pushTo(const HireJobPostDetailsPage());
+                context.pushReplacement(const HireJobPostDetailsPage());
               },
               text: "Generate Job",
               block: true,

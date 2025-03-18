@@ -9,7 +9,8 @@ import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
 class DecalStep1Screen extends StatelessWidget {
-  const DecalStep1Screen({super.key});
+  final PageController pageController;
+  const DecalStep1Screen({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,11 @@ class DecalStep1Screen extends StatelessWidget {
                   SizedBox(height: 67.h),
                   Button(
                     onPressed: () {
-                      nextScreen(context, DecalStep2Screen());
+                      // nextScreen(context, DecalStep2Screen());
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                      );
                     },
                     text: "Next Step",
                     color: AppColor.black,

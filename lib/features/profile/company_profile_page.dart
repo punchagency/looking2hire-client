@@ -141,7 +141,7 @@ Come make an impact that’s uniquely you.""",
             const SizedBox(height: 30),
 
             Text(
-              "Job Cards",
+              "Job Posts",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,

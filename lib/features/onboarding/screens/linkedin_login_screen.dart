@@ -10,14 +10,21 @@ import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
 class LinkedInLoginScreen extends StatelessWidget {
-  const LinkedInLoginScreen({super.key});
+  final PageController pageController;
+  const LinkedInLoginScreen({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Looking To Work!",
-        arrowColor: AppColor.black,
+        title: "Looking To Work",
+        arrowColor: AppColor.arrowColor,
+        onBackPressed: () {
+          pageController.previousPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        },
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),

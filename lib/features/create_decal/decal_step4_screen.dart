@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';
 
@@ -35,10 +36,14 @@ class _DecalStep4ScreenState extends State<DecalStep4Screen> {
                     textSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
-                  CustomRobotoText(
-                    text: "Best Placement Practices",
-                    textSize: 24,
-                    fontWeight: FontWeight.w600,
+                  Flexible(
+                    child: CustomRobotoText(
+                      text: "Best Placement Practices",
+                      textSize: 24,
+                      fontWeight: FontWeight.w600,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
 
                   Container(width: 40),
@@ -130,7 +135,9 @@ class _DecalStep4ScreenState extends State<DecalStep4Screen> {
 
                   Button(
                     onPressed: () {
-                      nextScreenReplace(context, CompanyProfilePage());
+                      // nextScreen(context, HomePage());
+                      //nextScreen(context, CompanyProfilePage());
+                      context.pop();
                     },
                     text: "Done",
                     color: AppColor.black,

@@ -17,69 +17,86 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  int currentPage = 1;
+  final PageController pageController = PageController(initialPage: 1);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 50,
-                left: 36,
-                child: GestureDetector(
-                  onTap: () {
-                    currentAppType = AppType.hire;
-                    nextScreen(context, CreateEmployerAccountScreen());
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.backArrow,
-                        color: AppColor.arrowColor,
+        child: PageView(
+          controller: pageController,
+          children: [
+            CreateEmployerAccountScreen(pageController: pageController),
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 50,
+                    left: 36,
+                    child: GestureDetector(
+                      onTap: () {
+                        currentAppType = AppType.hire;
+                        // nextScreen(context, CreateEmployerAccountScreen());
+                        pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            AppAssets.backArrow,
+                            color: AppColor.arrowColor,
+                          ),
+                          SizedBox(height: 17),
+                          CustomRobotoText(
+                            text: "Looking\nTo\nHire",
+                            textSize: 50,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 17),
-                      CustomRobotoText(
-                        text: "Looking\nTo\nHire",
-                        textSize: 50,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              Positioned(
-                bottom: 50,
-                right: 36,
-                child: GestureDetector(
-                  onTap: () {
-                    currentAppType = AppType.work;
-                    // nextScreen(context, CandidateSignInScreen());
-                    nextScreen(context, LinkedInLoginScreen());
-                    //nextScreen(context, UploadCvScreen());
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.forwardArrow,
-                        color: AppColor.arrowColor,
+                  Positioned(
+                    bottom: 50,
+                    right: 36,
+                    child: GestureDetector(
+                      onTap: () {
+                        currentAppType = AppType.work;
+                        // nextScreen(context, CandidateSignInScreen());
+                        // nextScreen(context, LinkedInLoginScreen());
+                        //nextScreen(context, UploadCvScreen())
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset(
+                            AppAssets.forwardArrow,
+                            color: AppColor.arrowColor,
+                          ),
+                          SizedBox(height: 17),
+                          CustomRobotoText(
+                            text: "Looking\nTo\nWork",
+                            textSize: 50,
+                            fontWeight: FontWeight.w700,
+                            alignText: TextAlign.end,
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 17),
-                      CustomRobotoText(
-                        text: "Looking\nTo\nWork",
-                        textSize: 50,
-                        fontWeight: FontWeight.w700,
-                        alignText: TextAlign.end,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+            LinkedInLoginScreen(pageController: pageController),
+          ],
         ),
       ),
     );

@@ -37,7 +37,7 @@ class ActionButtonWithIcon extends StatelessWidget {
           children: [
             if (icon != null) ...[
               SvgPicture.asset(icon!, color: iconColor),
-              const SizedBox(width: 4),
+              const SizedBox(width: 8),
             ],
 
             Text(
