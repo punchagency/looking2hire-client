@@ -13,7 +13,6 @@ import 'package:looking2hire/features/home/models/user.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
-import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:looking2hire/utils/platform.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -47,7 +46,7 @@ class _LocateJobPageState extends State<LocateJobPage>
   Set<Marker> userMarkers = {};
   Position? currentPosition;
   CameraPosition? initialCameraPosition;
-  final LatLng _defaultCameraPosition = const LatLng(
+  final LatLng defaultCameraPosition = const LatLng(
     37.7749,
     -122.4194,
   ); // Default to San Francisco
@@ -297,7 +296,7 @@ class _LocateJobPageState extends State<LocateJobPage>
 
   void updateLatLng(LatLng latlng) {}
 
-  Future<void> _goToPosition(LatLng position) async {
+  Future<void> goToPosition(LatLng position) async {
     await _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: position, zoom: _getZoomLevel()),
@@ -450,7 +449,7 @@ class _LocateJobPageState extends State<LocateJobPage>
             Container(
               height: double.infinity,
               width: double.infinity,
-              color: Colors.black.withOpacity(0.2),
+              color: const Color.fromRGBO(0, 0, 0, 0.2),
               alignment: Alignment.center,
               child: CircularProgressIndicator(color: AppColors.blue),
             ),

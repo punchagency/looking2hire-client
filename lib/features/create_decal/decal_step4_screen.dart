@@ -130,8 +130,7 @@ class _DecalStep4ScreenState extends State<DecalStep4Screen> {
 
                   Button(
                     onPressed: () {
-                      // nextScreen(context, HomePage());
-                      nextScreen(context, CompanyProfilePage());
+                      nextScreenReplace(context, CompanyProfilePage());
                     },
                     text: "Done",
                     color: AppColor.black,

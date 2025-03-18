@@ -40,7 +40,7 @@ class StatCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
