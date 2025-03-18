@@ -380,7 +380,7 @@ class CustomIconTextField extends StatefulWidget {
     this.textHint,
     required this.icon,
     this.isPassword = false,
-    this.suffixIcon,
+    this.suffixIcon, this.validate,
   });
 
   final TextEditingController textEditingController;
@@ -388,6 +388,7 @@ class CustomIconTextField extends StatefulWidget {
   final String icon;
   final bool isPassword;
   final Widget? suffixIcon;
+  final FormFieldValidator<String>? validate;
 
   @override
   State<CustomIconTextField> createState() => _CustomIconTextFieldState();
@@ -413,14 +414,17 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
   Widget build(BuildContext context) {
     var bodyMedium = Theme.of(context).textTheme.bodyMedium;
 
-    return TextField(
+    return TextFormField(
       controller: widget.textEditingController,
       style: bodyMedium,
+      validator: widget.validate,
       // textInputAction: TextInputAction.search,
       cursorColor: AppColor.black,
+
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColor.grey[100]?.withOpacity(.05),
+
         border: OutlineInputBorder(
           // borderSide: BorderSide.none,
           borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
