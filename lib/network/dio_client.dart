@@ -865,7 +865,9 @@
 
 import 'dart:io';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
@@ -873,12 +875,14 @@ import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 class DioClient {
   // dio instance
   final Dio _dio;
+  final cookieJar = CookieJar();
 
   DioClient(this._dio) {
     _dio
       ..options.baseUrl = ApiRoutes.baseUrl
       ..options.connectTimeout = ApiRoutes.connectionTimeout
       ..options.receiveTimeout = ApiRoutes.receiveTimeout
+      ..interceptors.add(CookieManager(cookieJar))
       ..options.responseType = ResponseType.json;
   }
 
@@ -903,6 +907,7 @@ class DioClient {
             'Authorization': 'Bearer $token',
             // 'user-x-token': token,
           },
+          extra: {'withCredentials': true},
         ),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -937,6 +942,7 @@ class DioClient {
             // 'user-x-token': token,
             'Authorization': 'Bearer $token',
           },
+          extra: {'withCredentials': true},
         ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
@@ -964,7 +970,10 @@ class DioClient {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+          extra: {'withCredentials': true},
+        ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -1000,6 +1009,7 @@ class DioClient {
             "Content-Type": "multipart/form-data",
             'Authorization': 'Bearer $token',
           },
+          extra: {'withCredentials': true},
         ),
       );
 
@@ -1034,6 +1044,7 @@ class DioClient {
             'Authorization': 'Bearer $token',
             // 'user-x-token': token,
           },
+          extra: {'withCredentials': true},
         ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
@@ -1069,6 +1080,7 @@ class DioClient {
             'Authorization': 'Bearer $token',
             // 'user-x-token': token,
           },
+          extra: {'withCredentials': true},
         ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
@@ -1104,6 +1116,7 @@ class DioClient {
             'Authorization': 'Bearer $token',
             // 'user-x-token': token,
           },
+          extra: {'withCredentials': true},
         ),
         // cancelToken: cancelToken,
       );
