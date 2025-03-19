@@ -1,21 +1,32 @@
+import 'package:dio/dio.dart';
 import 'package:looking2hire/constants/app_routes.dart';
-import 'package:looking2hire/features/onboarding/models/applicant.dart';
 import 'package:looking2hire/features/onboarding/models/employer.dart';
-import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_client.dart';
 
 class AuthService {
-  static Future<ApiResponse> employerSignup({
-    required String companyName,
-    required String address,
-    required List<double> location,
-    required String fullName,
-    required String email,
-    required String password,
-    required String phone,
+  final DioClient dioClient = DioClient(Dio());
+
+  Future<Response> employerSignup({
+    String? companyName,
+    String? address,
+    List<double>? location,
+    String? fullName,
+    String? email,
+    String? password,
+    String? phone,
   }) async {
-    return await dioClient.register(
-      AppRoutes.employerSignup,
+    // print(":::::::API::::::: ${ApiRoutes.employerSignup}");
+    print({
+      "company_name": companyName,
+      "address": address,
+      "location": location,
+      "full_name": fullName,
+      "email": email,
+      "password": password,
+      "phone": phone,
+    });
+    final Response response = await dioClient.post(
+      ApiRoutes.employerSignup,
       data: {
         "company_name": companyName,
         "address": address,
@@ -26,41 +37,35 @@ class AuthService {
         "phone": phone,
       },
     );
+    return response;
   }
 
-  static Future<ApiResponse<Employer>> employerSignin({
-    required String email,
-    required String password,
-  }) async {
-    return await dioClient.login(
-      AppRoutes.employerSignin,
-      email: email,
-      password: password,
-      tokenKey: "accessToken",
-      dataKey: "employer",
-      parser: (data) => Employer.fromMap(data),
+  Future<Response> employerSignIn({String? email, String? password}) async {
+    return await dioClient.post(
+      ApiRoutes.employerSignIn,
+      data: {"email": email, "password": password},
     );
   }
 
-  static Future<ApiResponse> employerSendOtp({
-    required String email,
-    required String context,
-    required String userType,
+  Future<Response> employerSendOtp({
+    String? email,
+    String? context,
+    String? userType,
   }) async {
     return await dioClient.post(
-      AppRoutes.employerSendOtp,
+      ApiRoutes.employerSendOtp,
       data: {"email": email, "context": context, "userType": userType},
     );
   }
 
-  static Future<ApiResponse> employerVerifyOtp({
-    required String email,
-    required String otpCode,
-    required String context,
-    required String userType,
+  Future<Response> employerVerifyOtp({
+    String? email,
+    String? otpCode,
+    String? context,
+    String? userType,
   }) async {
     return await dioClient.post(
-      AppRoutes.employerVerifyOtp,
+      ApiRoutes.employerVerifyOtp,
       data: {
         "email": email,
         "otpCode": otpCode,
@@ -70,68 +75,64 @@ class AuthService {
     );
   }
 
-  static Future<ApiResponse> applicantSignup({
-    required String email,
-    required String password,
-  }) async {
-    return await dioClient.register(
-      AppRoutes.applicantSignup,
+  Future<Response> applicantSignup({String? email, String? password}) async {
+    return await dioClient.post(
+      ApiRoutes.applicantSignUp,
       data: {"email": email, "password": password},
     );
   }
 
-  static Future<ApiResponse> applicantSignin({
-    required String email,
-    required String password,
-  }) async {
-    return await dioClient.login(
-      AppRoutes.applicantSignin,
-      email: email,
-      password: password,
-      tokenKey: "accessToken",
-      dataKey: "applicant",
-      parser: (data) => Applicant.fromMap(data),
+  Future<Response> applicantSignIn({String? email, String? password}) async {
+    return await dioClient.post(
+      ApiRoutes.applicantSignIn,
+      data: {"email": email, "password": password},
     );
   }
 
-  static Future<ApiResponse> applicantLinkPassword({
-    required String email,
-    required String password,
+  Future<Response> resendOtp({
+    String? email,
+    String? context,
+    String? userType,
   }) async {
     return await dioClient.post(
-      AppRoutes.applicantLinkPassword,
+      ApiRoutes.resendOtp,
+      data: {"email": email, "context": context, "userType": userType},
+    );
+  }
+
+  Future<Response> applicantLinkPassword(String email, String password) async {
+    return await dioClient.post(
+      ApiRoutes.applicantLinkPassword,
       data: {"email": email, "password": password},
     );
   }
 
-  static Future<ApiResponse> refreshToken() async {
-    return await dioClient.post(AppRoutes.refreshToken);
+  Future<Response> refreshToken() async {
+    return await dioClient.post(ApiRoutes.refreshToken);
   }
 
-  static Future<ApiResponse> signout() async {
-    return await dioClient.post(AppRoutes.signout);
+  Future<Response> signOut() async {
+    return await dioClient.post(ApiRoutes.signOut);
   }
 
-  static Future<ApiResponse> googleSignIn() async {
-    return await dioClient.get(AppRoutes.googleSignIn);
+  Future<Response> googleSignIn() async {
+    return await dioClient.get(ApiRoutes.googleSignIn);
   }
 
-  static Future<ApiResponse> linkedinSignIn() async {
-    return await dioClient.get(AppRoutes.linkedinSignIn);
+  Future<Response> linkedinSignIn() async {
+    return await dioClient.get(ApiRoutes.linkedinSignIn);
   }
 
-  static Future<ApiResponse> linkedinSignInCallback({
-    required String code,
-  }) async {
+  Future<Response> linkedinSignInCallback(String code) async {
     return await dioClient.get(
-      AppRoutes.linkedinSignInCallback,
+      ApiRoutes.linkedinSignInCallback,
       queryParameters: {"code": code},
     );
   }
 
-  static Future<ApiResponse> authToken({required String code}) async {
+  Future<Response> authToken(String code) async {
     return await dioClient.get(
-      AppRoutes.authToken,
+      ApiRoutes.authToken,
       queryParameters: {"code": code},
     );
   }
