@@ -30,20 +30,20 @@ class _ActiveJobsPageState extends State<ActiveJobsPage> {
   @override
   Widget build(BuildContext context) {
     final activeJobWidgets = [
-      ActiveJobItem(
-        title: "Sales Associate",
-        desc: "Description duis aute irure dolor in reprehenderit.....",
-        date: "Today",
-        time: "23 min",
-        onPressed: viewJob,
-      ),
-      ActiveJobItem(
-        title: "Designer Consultant",
-        desc: "Description duis aute irure dolor in reprehenderit.....",
-        date: "Today",
-        time: "23 min",
-        onPressed: viewJob,
-      ),
+      // ActiveJobItem(
+      //   title: "Sales Associate",
+      //   desc: "Description duis aute irure dolor in reprehenderit.....",
+      //   date: "Today",
+      //   time: "23 min",
+      //   onPressed: viewJob,
+      // ),
+      // ActiveJobItem(
+      //   title: "Designer Consultant",
+      //   desc: "Description duis aute irure dolor in reprehenderit.....",
+      //   date: "Today",
+      //   time: "23 min",
+      //   onPressed: viewJob,
+      // ),
     ];
     return Scaffold(
       appBar: CustomAppBar(

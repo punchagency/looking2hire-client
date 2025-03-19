@@ -42,44 +42,44 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
     const tabs = ["Job Details", "Company"];
 
     final activeJobWidgets = [
-      ActiveJobItem(
-        title: "Sales Associate",
-        desc: "Description duis aute irure dolor in reprehenderit.....",
-        date: "Today",
-        time: "23 min",
-        onPressed: viewJob,
-      ),
-      ActiveJobItem(
-        title: "Designer Consultant",
-        desc: "Description duis aute irure dolor in reprehenderit.....",
-        date: "Today",
-        time: "23 min",
-        onPressed: viewJob,
-      ),
-      ActiveJobItem(
-        title: "Product Manager",
-        desc:
-            "Leading cross-functional teams to deliver product strategies and roadmaps.",
-        date: "Today",
-        time: "30 min",
-        onPressed: viewJob,
-      ),
-      ActiveJobItem(
-        title: "Marketing Specialist",
-        desc:
-            "Focusing on market research and campaign management to drive brand awareness.",
-        date: "Today",
-        time: "45 min",
-        onPressed: viewJob,
-      ),
-      ActiveJobItem(
-        title: "Data Analyst",
-        desc:
-            "Analyzing complex datasets to provide insights and improve business performance.",
-        date: "Today",
-        time: "1 hour",
-        onPressed: viewJob,
-      ),
+      // ActiveJobItem(
+      //   title: "Sales Associate",
+      //   desc: "Description duis aute irure dolor in reprehenderit.....",
+      //   date: "Today",
+      //   time: "23 min",
+      //   onPressed: viewJob,
+      // ),
+      // ActiveJobItem(
+      //   title: "Designer Consultant",
+      //   desc: "Description duis aute irure dolor in reprehenderit.....",
+      //   date: "Today",
+      //   time: "23 min",
+      //   onPressed: viewJob,
+      // ),
+      // ActiveJobItem(
+      //   title: "Product Manager",
+      //   desc:
+      //       "Leading cross-functional teams to deliver product strategies and roadmaps.",
+      //   date: "Today",
+      //   time: "30 min",
+      //   onPressed: viewJob,
+      // ),
+      // ActiveJobItem(
+      //   title: "Marketing Specialist",
+      //   desc:
+      //       "Focusing on market research and campaign management to drive brand awareness.",
+      //   date: "Today",
+      //   time: "45 min",
+      //   onPressed: viewJob,
+      // ),
+      // ActiveJobItem(
+      //   title: "Data Analyst",
+      //   desc:
+      //       "Analyzing complex datasets to provide insights and improve business performance.",
+      //   date: "Today",
+      //   time: "1 hour",
+      //   onPressed: viewJob,
+      // ),
     ];
 
     return Scaffold(

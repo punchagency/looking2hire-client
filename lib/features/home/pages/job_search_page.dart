@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/components/app_back_button.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/pages/locate_job_page.dart';
 import 'package:looking2hire/features/home/widgets/search_result_item.dart';
 import 'package:looking2hire/reuseable/widgets/outlined_container.dart';
 
 import '../../../app_colors.dart';
-import '../models/job.dart';
+import '../models/job_2.dart';
 
 class JobSearchPage extends StatefulWidget {
   const JobSearchPage({super.key});
@@ -19,26 +20,26 @@ class JobSearchPage extends StatefulWidget {
 class _JobSearchPageState extends State<JobSearchPage> {
   final textController = TextEditingController();
   List<Job> jobs = [
-    Job(
-      company: "Full Stack Developer",
-      desc: "Refers to a full stack developer with exceptional",
-    ),
-    Job(
-      company: "Full Stack Developer",
-      desc: "Refers to a full stack developer with exceptional",
-    ),
-    Job(
-      company: "Full Stack Developer",
-      desc: "Refers to a full stack developer with exceptional",
-    ),
-    Job(
-      company: "Full Stack Developer",
-      desc: "Refers to a full stack developer with exceptional",
-    ),
-    Job(
-      company: "Full Stack Developer",
-      desc: "Refers to a full stack developer with exceptional",
-    ),
+    // Job(
+    //   company: "Full Stack Developer",
+    //   desc: "Refers to a full stack developer with exceptional",
+    // ),
+    // Job(
+    //   company: "Full Stack Developer",
+    //   desc: "Refers to a full stack developer with exceptional",
+    // ),
+    // Job(
+    //   company: "Full Stack Developer",
+    //   desc: "Refers to a full stack developer with exceptional",
+    // ),
+    // Job(
+    //   company: "Full Stack Developer",
+    //   desc: "Refers to a full stack developer with exceptional",
+    // ),
+    // Job(
+    //   company: "Full Stack Developer",
+    //   desc: "Refers to a full stack developer with exceptional",
+    // ),
   ];
 
   @override
@@ -67,10 +68,12 @@ class _JobSearchPageState extends State<JobSearchPage> {
         jobs
             .where(
               (job) =>
-                  job.company.toLowerCase().contains(
+                  job.job_title.toLowerCase().contains(
                     searchString.toLowerCase(),
                   ) ||
-                  job.desc.toLowerCase().contains(searchString.toLowerCase()),
+                  job.summary.toLowerCase().contains(
+                    searchString.toLowerCase(),
+                  ),
             )
             .toList();
 

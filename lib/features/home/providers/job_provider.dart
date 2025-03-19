@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
-import 'package:looking2hire/features/home/models/job_response.dart';
+import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
 import 'package:looking2hire/main.dart';
@@ -19,7 +19,7 @@ class JobProvider extends ChangeNotifier {
   final TextEditingController jobLocationController = TextEditingController();
   final TextEditingController jobSalaryController = TextEditingController();
   // Create a job
-  Future<JobResponse?> createJob() async {
+  Future<Job?> createJob() async {
     errorMessage = "";
     successMessage = "";
     try {
@@ -102,13 +102,13 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Get all job posts
-  Future<List<dynamic>?> getJobPosts() async {
+  Future<List<Job>?> getJobPosts() async {
     errorMessage = "";
     try {
       setProgressDialog();
 
       final response = await apiService.getJobPosts();
-      return response.data['jobs'];
+      return response.data?['jobs']?.map((e) => Job.fromJson(e)).toList();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;

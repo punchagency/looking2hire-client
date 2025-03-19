@@ -102,4 +102,15 @@ class EmploymentHistoryProvider extends ChangeNotifier {
   //   }
 
   // }
+  @override
+  void dispose() {
+    jobTitleController.dispose();
+    companyNameController.dispose();
+    companyLogoController.dispose();
+    employmentTypeController.dispose();
+    startDateController.dispose();
+    endDateController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 }

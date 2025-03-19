@@ -20,7 +20,9 @@ class AuthProvider extends ChangeNotifier {
   ApplicantLoginResponse applicantLoginResponse = ApplicantLoginResponse();
 
   TextEditingController companyNameController = TextEditingController();
-  TextEditingController addressController = TextEditingController(text: "University Rd. Akoka");
+  TextEditingController addressController = TextEditingController(
+    text: "University Rd. Akoka",
+  );
   TextEditingController locationController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -71,7 +73,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> verifyAccount({required BuildContext context, String? accountType}) async {
+  Future<bool> verifyAccount({
+    required BuildContext context,
+    String? accountType,
+  }) async {
     errorMessage = "";
     successMessage = "";
     try {
@@ -99,12 +104,20 @@ class AuthProvider extends ChangeNotifier {
     try {
       setProgressDialog();
 
-      final response = await apiService.employerSignIn(email: emailController.text, password: passwordController.text);
+      final response = await apiService.employerSignIn(
+        email: emailController.text,
+        password: passwordController.text,
+      );
 
       loginResponse = LoginResponse.fromJson(response.data);
 
       // Saving User ID and AccessToken to Secure Storage
-      handleLoginResponse(loginResponse.accessToken, loginResponse.employer?.id, "employer");
+      handleLoginResponse(
+        loginResponse.accessToken,
+        loginResponse.employer?.id,
+        loginResponse.employer?.toJson(),
+        "employer",
+      );
 
       successMessage = "Login Successful";
 
@@ -123,12 +136,20 @@ class AuthProvider extends ChangeNotifier {
     try {
       setProgressDialog();
 
-      final response = await apiService.applicantSignIn(email: emailController.text, password: passwordController.text);
+      final response = await apiService.applicantSignIn(
+        email: emailController.text,
+        password: passwordController.text,
+      );
 
       applicantLoginResponse = ApplicantLoginResponse.fromJson(response.data);
 
       // Saving User ID and AccessToken to Secure Storage
-      handleLoginResponse(applicantLoginResponse.accessToken, applicantLoginResponse.applicant?.id, "applicant");
+      handleLoginResponse(
+        applicantLoginResponse.accessToken,
+        applicantLoginResponse.applicant?.id,
+        applicantLoginResponse.applicant?.toJson(),
+        "applicant",
+      );
 
       successMessage = "Login Successful";
 
@@ -141,7 +162,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> resendOtp({required BuildContext context, String? accountType}) async {
+  Future<bool> resendOtp({
+    required BuildContext context,
+    String? accountType,
+  }) async {
     errorMessage = "";
     successMessage = "";
     try {
@@ -183,10 +207,18 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> handleLoginResponse(String? token, String? userId, String? userType) async {
+  Future<void> handleLoginResponse(
+    String? token,
+    String? userId,
+    Map<String, dynamic>? applicantOrEmployerDetails,
+    String? userType,
+  ) async {
     await SecureStorage().loggedIn(isLogged: true);
     await SecureStorage().saveToken(token: token ?? '');
     await SecureStorage().saveUserId(userId: userId ?? '');
+    await SecureStorage().saveApplicantOrEmployerDetails(
+      applicantOrEmployerDetails: applicantOrEmployerDetails ?? {},
+    );
     await SecureStorage().saveUserType(userType: userType ?? "");
   }
 }

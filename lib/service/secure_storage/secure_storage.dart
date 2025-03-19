@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:looking2hire/features/onboarding/models/applicant.dart';
+import 'package:looking2hire/features/onboarding/models/employer.dart';
 
 class SecureStorage {
   static final SecureStorage _instance = SecureStorage._internal();
@@ -32,6 +36,42 @@ class SecureStorage {
 
   Future<void> deleteToken() async {
     await storage.delete(key: 'token');
+  }
+
+  Future<void> saveApplicantOrEmployerDetails({
+    required Map<String, dynamic> applicantOrEmployerDetails,
+  }) async {
+    await storage.write(
+      key: 'applicantOrEmployerDetails',
+      value: jsonEncode(applicantOrEmployerDetails),
+    );
+  }
+
+  Future<Map<String, dynamic>?> retrieveApplicantOrEmployerDetails() async {
+    final applicantOrEmployerDetails = await storage.read(
+      key: 'applicantOrEmployerDetails',
+    );
+    return applicantOrEmployerDetails != null
+        ? jsonDecode(applicantOrEmployerDetails)
+        : null;
+  }
+
+  Future<Employer?> getEmployer() async {
+    final applicantOrEmployerDetails =
+        await retrieveApplicantOrEmployerDetails();
+    if (applicantOrEmployerDetails != null) {
+      return Employer.fromMap(applicantOrEmployerDetails);
+    }
+    return null;
+  }
+
+  Future<Applicant?> getApplicant() async {
+    final applicantOrEmployerDetails =
+        await retrieveApplicantOrEmployerDetails();
+    if (applicantOrEmployerDetails != null) {
+      return Applicant.fromMap(applicantOrEmployerDetails);
+    }
+    return null;
   }
 
   Future<void> saveUserId({required String userId}) async {

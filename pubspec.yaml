@@ -51,6 +51,11 @@ dependencies:
   widget_to_marker:
   geolocator:
   dio:
+  intl: ^0.19.0
+  get_time_ago: ^2.3.0
+  cached_network_image: ^3.4.1
+  geocoding: ^2.0.0
+  google_places_autocomplete_text_field: ^1.1.0
 
 dev_dependencies:
   flutter_test:

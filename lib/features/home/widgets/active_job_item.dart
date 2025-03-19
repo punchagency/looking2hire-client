@@ -4,20 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
+import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/utils/date_utils.dart';
 
 class ActiveJobItem extends StatelessWidget {
-  final String title;
-  final String desc;
-  final String date;
-  final String time;
+  // final String title;
+  // final String desc;
+  // final String date;
+  // final String time;
+  final Job job;
   final JobStatus? status;
   final VoidCallback? onPressed;
   const ActiveJobItem({
     super.key,
-    required this.title,
-    required this.desc,
-    required this.date,
-    required this.time,
+    required this.job,
+    // required this.title,
+    // required this.desc,
+    // required this.date,
+    // required this.time,
     this.status,
     this.onPressed,
   });
@@ -39,7 +43,7 @@ class ActiveJobItem extends StatelessWidget {
 
           children: [
             Text(
-              title,
+              job.job_title,
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -48,7 +52,7 @@ class ActiveJobItem extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              title,
+              job.job_address,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -100,7 +104,7 @@ class ActiveJobItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "$date • $time",
+                    "${job.createdAt.formatDateToReadable()} • ${job.createdAt.toTimeAgo}",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

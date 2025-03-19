@@ -7,14 +7,20 @@ import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
+import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/pages/hire_job_post_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_card_page.dart';
+import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
+import 'package:looking2hire/features/onboarding/models/employer.dart';
+import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
 import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
+import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/views/app_drawer.dart';
+import 'package:provider/provider.dart';
 
 import '../home/widgets/job_information_item.dart';
 
@@ -26,22 +32,25 @@ class CompanyProfilePage extends StatefulWidget {
 }
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
-  late final activeJobWidgets = [
-    ActiveJobItem(
-      title: "Sales Associate",
-      desc: "Description duis aute irure dolor in reprehenderit.....",
-      date: "Today",
-      time: "23 min",
-      onPressed: viewJob,
-    ),
-    ActiveJobItem(
-      title: "Designer Consultant",
-      desc: "Description duis aute irure dolor in reprehenderit.....",
-      date: "Today",
-      time: "23 min",
-      onPressed: viewJob,
-    ),
-  ];
+  List<Job> activeJobs = [];
+  Employer? employer;
+
+  // late final activeJobWidgets = [
+  //   ActiveJobItem(
+  //     title: "Sales Associate",
+  //     desc: "Description duis aute irure dolor in reprehenderit.....",
+  //     date: "Today",
+  //     time: "23 min",
+  //     onPressed: viewJob,
+  //   ),
+  //   ActiveJobItem(
+  //     title: "Designer Consultant",
+  //     desc: "Description duis aute irure dolor in reprehenderit.....",
+  //     date: "Today",
+  //     time: "23 min",
+  //     onPressed: viewJob,
+  //   ),
+  // ];
   final jobHistoryWidgets = [
     ProfileJobHistoryCard(
       companyLogo: AppAssets.apple,
@@ -75,8 +84,39 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   void gotoCreateJob() {}
 
-  void viewJob() {
-    context.pushTo(JobCardPage());
+  void viewJob(Job job) {
+    context.pushTo(JobCardPage(job: job));
+  }
+
+  void getJobs() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    // final authProvider = context.read<AuthProvider>();
+    // final employer = await authProvider.getEmployer();
+    // setState(() {
+    //   this.employer = employer;
+    // });
+    final jobProvider = context.read<JobProvider>();
+    final jobPosts = await jobProvider.getJobPosts();
+    setState(() {
+      activeJobs = jobPosts ?? [];
+    });
+  }
+
+  void getEmployer() async {
+    employer = await SecureStorage().getEmployer();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -114,7 +154,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             const SizedBox(height: 11),
             Text(
               """We inspire purpose-filled living that brings joy to the modern home. With a team of more than 8,000 associates spanning 130 store and distribution locations across the U.S and Canada, we achieve together, drive results and innovate to inspire. Drawn together by a shared passion of our customers and a spirit of fun, we deliver high-quality home furnishings that are expertly designed, responsibly sourced and bring beauty and function to people’s homes. From the day we opened our first store in Chicago in 1962 to the digital innovations that engage millions of customers today, our iconic brand is nearly 60 years in the making and our story is unfolding.
-Come make an impact that’s uniquely you.""",
+      Come make an impact that’s uniquely you.""",
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -132,13 +172,15 @@ Come make an impact that’s uniquely you.""",
             ),
 
             SizedBox(height: 35),
-            ActionButtonWithIcon(
-              title: "Add First Job Post",
-              icon: AppAssets.addRounded,
-              onPressed: gotoAddJobPost,
-            ),
+            if (activeJobs.isEmpty) ...[
+              ActionButtonWithIcon(
+                title: "Add First Job Post",
+                icon: AppAssets.addRounded,
+                onPressed: gotoAddJobPost,
+              ),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 30),
+            ],
 
             Text(
               "Job Posts",
@@ -153,13 +195,13 @@ Come make an impact that’s uniquely you.""",
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: activeJobWidgets.length,
+              itemCount: activeJobs.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 26);
               },
               itemBuilder: (context, index) {
-                final widget = activeJobWidgets[index];
-                return widget;
+                final job = activeJobs[index];
+                return ActiveJobItem(job: job, onPressed: () => viewJob(job));
               },
             ),
 

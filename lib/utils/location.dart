@@ -1,5 +1,6 @@
 // Get current location
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 Future<Position?> getCurrentLocation() async {
   bool serviceEnabled;
@@ -22,4 +23,23 @@ Future<Position?> getCurrentLocation() async {
     locationSettings: const LocationSettings(accuracy: LocationAccuracy.medium),
   );
   return position;
+}
+
+Future<String?> getAddressFromCoordinates(
+  double latitude,
+  double longitude,
+) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      latitude,
+      longitude,
+    );
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks[0];
+      return '${place.street}, ${place.locality}, ${place.administrativeArea} ${place.postalCode}';
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
 }

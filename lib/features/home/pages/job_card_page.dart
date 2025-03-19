@@ -10,11 +10,16 @@ import 'package:looking2hire/components/job_detail.dart';
 import 'package:looking2hire/components/title_information.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
+import 'package:provider/provider.dart';
+
+import '../models/job.dart';
 
 class JobCardPage extends StatefulWidget {
-  const JobCardPage({super.key});
+  final Job job;
+  const JobCardPage({super.key, required this.job});
 
   @override
   State<JobCardPage> createState() => _JobCardPageState();
@@ -24,6 +29,12 @@ class _JobCardPageState extends State<JobCardPage> {
   void applyForJob() {}
 
   void showEditJobPostDialog() {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.jobTitleController.text = widget.job.job_title;
+    jobProvider.jobDescriptionController.text = widget.job.summary;
+    // jobProvider.jobLocationController.text = widget.job.location;
+    // jobProvider.jobQualificationController.text = widget.job.qualification;
+
     showDialog(
       context: context,
       builder: (context) {
@@ -38,19 +49,20 @@ class _JobCardPageState extends State<JobCardPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: jobProvider.jobTitleController,
                 textHint: "Job Title",
                 icon: AppAssets.briefcase,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: jobProvider.jobLocationController,
                 textHint: "Location",
                 icon: AppAssets.location3,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: TextEditingController(),
+                // textEditingController: jobProvider.jobQualificationController,
                 textHint: "Qualification need for the job",
                 icon: AppAssets.graduation,
               ),
@@ -93,7 +105,10 @@ class _JobCardPageState extends State<JobCardPage> {
   }
 
   void deleteJobPost() {
-    context.pop();
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.deleteJobPost(jobId: widget.job.id).then((value) {
+      if (jobProvider.successMessage.isNotEmpty) {}
+    });
   }
 
   @override

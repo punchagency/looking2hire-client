@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/models/job_2.dart';
 
 class SearchResultItem extends StatelessWidget {
   final Job job;
@@ -22,7 +23,7 @@ class SearchResultItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           text: TextSpan(
-            text: "${job.company} ",
+            text: "${job.job_title} ",
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -30,7 +31,7 @@ class SearchResultItem extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: job.desc,
+                text: job.summary,
                 style: const TextStyle(
                   color: AppColors.lightBlack,
                   fontWeight: FontWeight.w400,
