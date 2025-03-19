@@ -10,11 +10,13 @@ import 'package:looking2hire/components/rounded_icon_button.dart';
 import 'package:looking2hire/components/title_information.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/models/job_response.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 
 class HireJobPostDetailsPage extends StatefulWidget {
-  const HireJobPostDetailsPage({super.key});
+  final JobResponse job;
+  const HireJobPostDetailsPage({super.key, required this.job});
 
   @override
   State<HireJobPostDetailsPage> createState() => _HireJobPostDetailsPageState();
