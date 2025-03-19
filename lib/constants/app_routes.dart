@@ -20,8 +20,8 @@ class ApiRoutes {
 
   static const signOut = "api/auth/signout";
 
-  static const googleSignIn = "google";
-  static const linkedinSignIn = "linkedin";
+  static const googleSignIn = "api/auth/google";
+  static const linkedinSignIn = "api/auth/linkedin";
   static const linkedinSignInCallback = "linkedin/callback";
   static const authToken = "token";
 

@@ -56,6 +56,18 @@ dependencies:
   cached_network_image: ^3.4.1
   geocoding: ^2.0.0
   google_places_autocomplete_text_field: ^1.1.0
+  google_places_flutter: ^2.0.1
+
+  # Firbase
+  firebase_core: ^3.8.1
+  firebase_messaging: ^15.1.6
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.5.1
+  firebase_storage: ^12.3.7
+  firebase_database: ^11.2.0
+  firebase_core_platform_interface: ^5.3.1
+  firebase_analytics: ^11.0.1
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:

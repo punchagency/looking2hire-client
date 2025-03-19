@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1024033550165",
+    "project_id": "looking2hire-9b8be",
+    "storage_bucket": "looking2hire-9b8be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024033550165:android:2ce657b3538c61d08609dc",
+        "android_client_info": {
+          "package_name": "com.punch.looking2hire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs8jks2ExKt1DUJeut4pNZFccNEWqZlLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
