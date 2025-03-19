@@ -4,20 +4,22 @@ class ApiRoutes {
 
   // employer auth
   static const employerSignup = "api/auth/employer/signup";
-  static const employerSignin = "employer/signin";
+  static const employerSignIn = "api/auth/employer/signin";
   static const employerSendOtp = "employer/send-otp";
-  static const employerVerifyOtp = "employer/verify-otp";
+  static const employerVerifyOtp = "api/auth/verify-otp";
   static const employerRefreshToken = "employer/refresh-token";
 
   // applicant auth
-  static const applicantSignup = "applicant/signup";
-  static const applicantSignin = "applicant/signin";
-  static const applicantSendOtp = "applicant/send-otp";
-  static const applicantVerifyOtp = "applicant/verify-otp";
+  static const applicantSignUp = "api/auth/applicant/signup";
+  static const applicantSignIn = "api/auth/applicant/signin";
+
+
+  static const resendOtp = "api/auth/send-otp";
+  // static const applicantVerifyOtp = "api/auth/send-otp";
   static const refreshToken = "applicant/refresh-token";
   static const applicantLinkPassword = "applicant/link-password";
 
-  static const signout = "signout";
+  static const signOut = "api/auth/signout";
 
   static const googleSignIn = "google";
   static const linkedinSignIn = "linkedin";

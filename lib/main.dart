@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/enums/navigation_page.dart';
+import 'package:looking2hire/features/onboarding/screens/splash_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
                 scaffoldBackgroundColor: Colors.white,
                 textTheme: TextTheme(bodyMedium: TextStyle(fontSize: 14.0.sp)),
               ),
-              home: const WelcomeScreen(),
+              home:  SplashScreen(),
             ),
       ),
       // home: const SplashScreen(),

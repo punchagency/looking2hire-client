@@ -36,21 +36,21 @@ class DioExceptions implements Exception {
   String _handleError(int? statusCode, dynamic error) {
     switch (statusCode) {
       case 400:
-        return error["error"]["message"];
+        return error["error"];
       case 401:
-        return error["error"]["message"];
+        return error["error"];
       case 403:
-        return error["error"]['message'];
+        return error["error"];
       case 404:
-        return error["error"]['message'];
+        return error["error"];
       case 409:
-        return error["error"]['message'];
+        return error["error"];
       case 429:
         return 'Error, Please try again later';
       case 422:
-        return error["error"]['message'];
+        return error["error"];
       case 500:
-        return error["error"]['message'] ?? 'Internal server error';
+        return error["error"] ?? 'Internal server error';
       case 502:
         return 'Bad gateway';
       default:

@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +8,9 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
+import 'package:looking2hire/features/onboarding/screens/candidate_sign_in_screen.dart';
 import 'package:looking2hire/utils/button.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 import 'package:looking2hire/utils/validators.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +23,10 @@ class CreateEmployerAccountScreen extends StatefulWidget {
   const CreateEmployerAccountScreen({super.key, required this.pageController});
 
   @override
-  State<CreateEmployerAccountScreen> createState() =>
-      _CreateEmployerAccountScreenState();
+  State<CreateEmployerAccountScreen> createState() => _CreateEmployerAccountScreenState();
 }
 
-class _CreateEmployerAccountScreenState
-    extends State<CreateEmployerAccountScreen> {
+class _CreateEmployerAccountScreenState extends State<CreateEmployerAccountScreen> {
   bool isChecked = false;
   final formKey = GlobalKey<FormState>();
 
@@ -40,15 +41,9 @@ class _CreateEmployerAccountScreenState
             canNotGoBack: true,
 
             rightChild: IconButton(
-              icon: SvgPicture.asset(
-                AppAssets.forwardArrow,
-                color: AppColor.arrowColor,
-              ),
+              icon: SvgPicture.asset(AppAssets.forwardArrow, color: AppColor.arrowColor),
               onPressed: () {
-                widget.pageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeIn,
-                );
+                widget.pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
               },
             ),
           ),
@@ -63,11 +58,7 @@ class _CreateEmployerAccountScreenState
                   children: [
                     SizedBox(height: 64),
 
-                    CustomRobotoText(
-                      text: "Create Employer Account",
-                      textSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    CustomRobotoText(text: "Create Employer Account", textSize: 24, fontWeight: FontWeight.w600),
 
                     // SizedBox(height: 15),
                     CustomText(
@@ -129,8 +120,7 @@ class _CreateEmployerAccountScreenState
                         Checkbox(
                           value: isChecked,
                           activeColor: AppColor.black,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           onChanged: (changed) {
                             isChecked = !isChecked;
                             setState(() {});
@@ -138,16 +128,11 @@ class _CreateEmployerAccountScreenState
                         ),
                         RichText(
                           text: TextSpan(
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyLarge?.copyWith(letterSpacing: 0),
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(letterSpacing: 0),
                             children: [
                               TextSpan(
                                 text: 'I accepts the Terms ',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
+                                style: TextStyle(color: Colors.black, fontSize: 14),
                               ),
                               TextSpan(
                                 text: 'Terms & Conditions',
@@ -161,8 +146,10 @@ class _CreateEmployerAccountScreenState
                                 recognizer:
                                     TapGestureRecognizer()
                                       ..onTap = () {
-                                        setState(() {});
+
                                       },
+
+                                // setState(() {});
                               ),
                             ],
                           ),
@@ -173,29 +160,15 @@ class _CreateEmployerAccountScreenState
                     SizedBox(height: 41),
                     Button(
                       onPressed: () async {
-                        // createEmployerAccount();
                         if (formKey.currentState?.validate() == true) {
-                          await provider
-                              .createEmployersAccount(context: context)
-                              .then((success) {
-                                if (success) {
-                                  // setSnackBar(
-                                  //   "Success",
-                                  //   authController.successMessage,
-                                  // );
-                                  nextScreen(
-                                    context,
-                                    OtpVerificationScreen(
-                                      accountType: "employer",
-                                    ),
-                                  );
-                                } else {
-                                  // setSnackBar(
-                                  //   "SignUp Error",
-                                  //   authController.errorMessage,
-                                  // );
-                                }
-                              });
+                          await provider.createEmployersAccount(context: context).then((success) {
+                            if (success) {
+                              setSnackBar(context: context, title: "Success", message: provider.successMessage);
+                              nextScreen(context, OtpVerificationScreen(accountType: "employer"));
+                            } else {
+                              setSnackBar(context: context, title: "Error", message: provider.errorMessage);
+                            }
+                          });
                         }
                       },
                       text: "Create account",
@@ -211,11 +184,7 @@ class _CreateEmployerAccountScreenState
                           children: [
                             TextSpan(
                               text: 'Already have an account?  ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
                             ),
                             TextSpan(
                               text: 'Login',
@@ -228,7 +197,7 @@ class _CreateEmployerAccountScreenState
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      // nextScreen(context, CandidateSignInScreen());
+                                      nextScreen(context, CandidateSignInScreen());
                                     },
                             ),
                           ],

@@ -42,6 +42,8 @@ dependencies:
   nfc_manager: ^3.5.0
   pinput: ^5.0.1
   loading_animation_widget: ^1.2.0+4
+  awesome_snackbar_content: ^0.1.5
+  timer_count_down: ^2.2.1
   flutter_svg:
   google_maps_flutter:
   widget_to_marker:
