@@ -7,7 +7,7 @@ class Employer {
   String id;
   String company_name;
   String address;
-  List<int> location;
+  List<double> location;
   String full_name;
   String email;
   String phone;
@@ -31,7 +31,7 @@ class Employer {
     String? id,
     String? company_name,
     String? address,
-    List<int>? location,
+    List<double>? location,
     String? full_name,
     String? email,
     String? phone,
@@ -73,7 +73,7 @@ class Employer {
       id: map['_id'] as String,
       company_name: map['company_name'] as String,
       address: map['address'] as String,
-      location: List<int>.from((map['location'] as List<dynamic>)),
+      location: List<double>.from((map['location'] as List<dynamic>)),
       full_name: map['full_name'] as String,
       email: map['email'] as String,
       phone: map['phone'] as String,

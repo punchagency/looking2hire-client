@@ -51,32 +51,32 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   //     onPressed: viewJob,
   //   ),
   // ];
-  final jobHistoryWidgets = [
-    ProfileJobHistoryCard(
-      companyLogo: AppAssets.apple,
-      jobTitle: "West Elm - Retail Sales",
-      jobDescription: "Description duis aute irure dolor.....",
-      startDate: "Feb 2023",
-      endDate: "Jan 2023",
-    ),
+  // final jobHistoryWidgets = [
+  //   ProfileJobHistoryCard(
+  //     companyLogo: AppAssets.apple,
+  //     jobTitle: "West Elm - Retail Sales",
+  //     jobDescription: "Description duis aute irure dolor.....",
+  //     startDate: "Feb 2023",
+  //     endDate: "Jan 2023",
+  //   ),
 
-    ProfileJobHistoryCard(
-      companyLogo: AppAssets.gap,
-      jobTitle: "West Elm - Retail Sales",
-      jobDescription: "Description duis aute irure dolor.....",
-      startDate: "Feb 2023",
-      endDate: "Jan 2023",
-      isSaved: true,
-    ),
+  //   ProfileJobHistoryCard(
+  //     companyLogo: AppAssets.gap,
+  //     jobTitle: "West Elm - Retail Sales",
+  //     jobDescription: "Description duis aute irure dolor.....",
+  //     startDate: "Feb 2023",
+  //     endDate: "Jan 2023",
+  //     isSaved: true,
+  //   ),
 
-    ProfileJobHistoryCard(
-      companyLogo: AppAssets.bananaRepublic,
-      jobTitle: "West Elm - Retail Sales",
-      jobDescription: "Description duis aute irure dolor.....",
-      startDate: "Feb 2023",
-      endDate: "Jan 2023",
-    ),
-  ];
+  //   ProfileJobHistoryCard(
+  //     companyLogo: AppAssets.bananaRepublic,
+  //     jobTitle: "West Elm - Retail Sales",
+  //     jobDescription: "Description duis aute irure dolor.....",
+  //     startDate: "Feb 2023",
+  //     endDate: "Jan 2023",
+  //   ),
+  // ];
   void gotoAddJobPost() {
     context.pushTo(CreateJobPost());
     // context.pushTo(const HireJobPostDetailsPage());
@@ -109,8 +109,9 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getJobs();
+    getEmployer();
   }
 
   @override
@@ -136,15 +137,15 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProfileCard(
-              name: "Michael Smith",
-              address: "Hallandale Beach, FL 33009",
+              name: employer?.company_name ?? "",
+              address: employer?.address ?? "",
               milesAway: 0.5,
             ),
 
             const SizedBox(height: 16),
 
             Text(
-              "We have everything we need to inspire our customers. Except you.",
+              "Heading",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,

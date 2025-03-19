@@ -23,9 +23,6 @@ NavigationPage currentNavigationPage = NavigationPage.dashboard;
 //   ),
 // );
 
-final navigatorKey = GlobalKey<NavigatorState>();
-final currentContext = navigatorKey.currentContext;
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -62,7 +59,7 @@ class MyApp extends StatelessWidget {
                 scaffoldBackgroundColor: Colors.white,
                 textTheme: TextTheme(bodyMedium: TextStyle(fontSize: 14.0.sp)),
               ),
-              home: const SplashScreen(),
+              home: SplashScreen(),
             ),
       ),
       // home: const SplashScreen(),
