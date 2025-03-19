@@ -5,15 +5,15 @@ import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_client.dart';
 
 class AuthService {
-  static Future<ApiResponse> employerSignup(
-    String companyName,
-    String address,
-    List<double> location,
-    String fullName,
-    String email,
-    String password,
-    String phone,
-  ) async {
+  static Future<ApiResponse> employerSignup({
+    required String companyName,
+    required String address,
+    required List<double> location,
+    required String fullName,
+    required String email,
+    required String password,
+    required String phone,
+  }) async {
     return await dioClient.register(
       AppRoutes.employerSignup,
       data: {
@@ -28,10 +28,10 @@ class AuthService {
     );
   }
 
-  static Future<ApiResponse<Employer>> employerSignin(
-    String email,
-    String password,
-  ) async {
+  static Future<ApiResponse<Employer>> employerSignin({
+    required String email,
+    required String password,
+  }) async {
     return await dioClient.login(
       AppRoutes.employerSignin,
       email: email,
@@ -42,23 +42,23 @@ class AuthService {
     );
   }
 
-  static Future<ApiResponse> employerSendOtp(
-    String email,
-    String context,
-    String userType,
-  ) async {
+  static Future<ApiResponse> employerSendOtp({
+    required String email,
+    required String context,
+    required String userType,
+  }) async {
     return await dioClient.post(
       AppRoutes.employerSendOtp,
       data: {"email": email, "context": context, "userType": userType},
     );
   }
 
-  static Future<ApiResponse> employerVerifyOtp(
-    String email,
-    String otpCode,
-    String context,
-    String userType,
-  ) async {
+  static Future<ApiResponse> employerVerifyOtp({
+    required String email,
+    required String otpCode,
+    required String context,
+    required String userType,
+  }) async {
     return await dioClient.post(
       AppRoutes.employerVerifyOtp,
       data: {
@@ -70,20 +70,20 @@ class AuthService {
     );
   }
 
-  static Future<ApiResponse> applicantSignup(
-    String email,
-    String password,
-  ) async {
+  static Future<ApiResponse> applicantSignup({
+    required String email,
+    required String password,
+  }) async {
     return await dioClient.register(
       AppRoutes.applicantSignup,
       data: {"email": email, "password": password},
     );
   }
 
-  static Future<ApiResponse> applicantSignin(
-    String email,
-    String password,
-  ) async {
+  static Future<ApiResponse> applicantSignin({
+    required String email,
+    required String password,
+  }) async {
     return await dioClient.login(
       AppRoutes.applicantSignin,
       email: email,
@@ -94,10 +94,10 @@ class AuthService {
     );
   }
 
-  static Future<ApiResponse> applicantLinkPassword(
-    String email,
-    String password,
-  ) async {
+  static Future<ApiResponse> applicantLinkPassword({
+    required String email,
+    required String password,
+  }) async {
     return await dioClient.post(
       AppRoutes.applicantLinkPassword,
       data: {"email": email, "password": password},
@@ -120,14 +120,16 @@ class AuthService {
     return await dioClient.get(AppRoutes.linkedinSignIn);
   }
 
-  static Future<ApiResponse> linkedinSignInCallback(String code) async {
+  static Future<ApiResponse> linkedinSignInCallback({
+    required String code,
+  }) async {
     return await dioClient.get(
       AppRoutes.linkedinSignInCallback,
       queryParameters: {"code": code},
     );
   }
 
-  static Future<ApiResponse> authToken(String code) async {
+  static Future<ApiResponse> authToken({required String code}) async {
     return await dioClient.get(
       AppRoutes.authToken,
       queryParameters: {"code": code},

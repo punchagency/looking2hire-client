@@ -298,55 +298,73 @@ class DioClient {
       responseData = responseData[dataKey];
     }
 
+    // Helper function to safely get message from response
+    String getMessage(dynamic data) {
+      if (data is Map<String, dynamic>) {
+        return data['message']?.toString() ?? 'Unknown error';
+      } else if (data is String) {
+        return data;
+      }
+      return 'Unknown error';
+    }
+
+    // Helper function to safely get success flag
+    bool getSuccess(dynamic data) {
+      if (data is Map<String, dynamic>) {
+        return data['success'] ?? true;
+      }
+      return true;
+    }
+
     switch (response.statusCode) {
       case 200:
       case 201:
         return ApiResponse(
           data: parser != null ? parser(responseData) : responseData as T?,
-          message: response.data?['message'] ?? 'Success',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
-          success: response.data?['success'] ?? true,
-          error: response.data?['error'],
+          success: getSuccess(response.data),
+          error: response.data is Map ? response.data['error'] : null,
         );
       case 400:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Bad request',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,
         );
       case 401:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Authentication failed',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,
         );
       case 403:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Forbidden',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,
         );
       case 404:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Not found',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,
         );
       case 500:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Internal server error',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,
         );
       default:
         return ApiResponse.error(
-          message: response.data?['message'] ?? 'Unknown error occurred',
+          message: getMessage(response.data),
           response: response,
           statusCode: response.statusCode,
           error: response.data,

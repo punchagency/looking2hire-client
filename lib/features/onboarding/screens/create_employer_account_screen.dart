@@ -38,13 +38,13 @@ class _CreateEmployerAccountScreenState
 
   void createEmployerAccount() async {
     final response = await AuthService.employerSignup(
-      companyNameController.text,
-      addressController.text,
-      [0.0, 0.0],
-      fullNameController.text,
-      emailController.text,
-      phoneController.text,
-      passwordController.text,
+      companyName: companyNameController.text,
+      address: addressController.text,
+      location: [0.0, 0.0],
+      fullName: fullNameController.text,
+      email: emailController.text,
+      phone: phoneController.text,
+      password: passwordController.text,
     );
     print("response: ${response.data}");
 
