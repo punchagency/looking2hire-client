@@ -32,7 +32,7 @@ class CompanyProfilePage extends StatefulWidget {
 }
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
-  List<Job> activeJobs = [];
+  List<Job> jobPosts = [];
   Employer? employer;
 
   // late final activeJobWidgets = [
@@ -82,24 +82,16 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     // context.pushTo(const HireJobPostDetailsPage());
   }
 
-  void gotoCreateJob() {}
-
   void viewJob(Job job) {
     context.pushTo(JobCardPage(job: job));
   }
 
   void getJobs() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    // final authProvider = context.read<AuthProvider>();
-    // final employer = await authProvider.getEmployer();
-    // setState(() {
-    //   this.employer = employer;
-    // });
+
     final jobProvider = context.read<JobProvider>();
-    final jobPosts = await jobProvider.getJobPosts();
-    setState(() {
-      activeJobs = jobPosts ?? [];
-    });
+    jobPosts = await jobProvider.getJobPosts() ?? [];
+    setState(() {});
   }
 
   void getEmployer() async {
@@ -173,7 +165,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             ),
 
             SizedBox(height: 35),
-            if (activeJobs.isEmpty) ...[
+            if (jobPosts.isEmpty) ...[
               ActionButtonWithIcon(
                 title: "Add First Job Post",
                 icon: AppAssets.addRounded,
@@ -181,49 +173,36 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               ),
 
               const SizedBox(height: 30),
-            ],
-
-            Text(
-              "Job Posts",
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlack,
+            ] else ...[
+              Text(
+                "Job Posts",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.lightBlack,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
+              const SizedBox(height: 14),
 
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: activeJobs.length,
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 26);
-              },
-              itemBuilder: (context, index) {
-                final job = activeJobs[index];
-                return ActiveJobItem(job: job, onPressed: () => viewJob(job));
-              },
-            ),
-
-            // ListView.separated(
-            //   shrinkWrap: true,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   itemCount: jobHistoryWidgets.length,
-            //   separatorBuilder: (context, index) {
-            //     return const SizedBox(height: 15);
-            //   },
-            //   itemBuilder: (context, index) {
-            //     final widget = jobHistoryWidgets[index];
-            //     return widget;
-            //   },
-            // ),
-            SizedBox(height: 35),
-            ActionButtonWithIcon(
-              title: "Create job",
-              icon: AppAssets.bag,
-              onPressed: gotoCreateJob,
-            ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: jobPosts.length,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 26);
+                },
+                itemBuilder: (context, index) {
+                  final job = jobPosts[index];
+                  return ActiveJobItem(job: job, onPressed: () => viewJob(job));
+                },
+              ),
+              SizedBox(height: 35),
+              ActionButtonWithIcon(
+                title: "Create job",
+                icon: AppAssets.bag,
+                onPressed: gotoAddJobPost,
+              ),
+            ],
           ],
         ),
       ),

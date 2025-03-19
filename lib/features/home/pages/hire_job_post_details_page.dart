@@ -11,8 +11,11 @@ import 'package:looking2hire/components/title_information.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
+import 'package:provider/provider.dart';
 
 class HireJobPostDetailsPage extends StatefulWidget {
   final Job job;
@@ -26,6 +29,14 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
   void applyForJob() {}
 
   void showEditJobPostDialog() {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.jobTitleController.text = widget.job.job_title;
+    jobProvider.jobAddressController.text = widget.job.job_address;
+    jobProvider.jobLocationController.text =
+        "${widget.job.location[0]},${widget.job.location[1]}";
+    jobProvider.jobQualificationsController.text =
+        widget.job.qualifications?.firstOrNull ?? "";
+
     showDialog(
       context: context,
       builder: (context) {
@@ -40,19 +51,20 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: jobProvider.jobTitleController,
                 textHint: "Job Title",
                 icon: AppAssets.briefcase,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
+                textEditingController: jobProvider.jobLocationController,
                 textHint: "Location",
                 icon: AppAssets.location3,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: TextEditingController(),
+                // textEditingController: jobProvider.jobQualificationController,
                 textHint: "Qualification need for the job",
                 icon: AppAssets.graduation,
               ),
@@ -69,6 +81,7 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
       builder: (context) {
         return DialogContainer(
           title: "Delete Job Post",
+          hint: "",
           message:
               "Are you sure you want to delete this job post? This action cannot be undone.",
           actions: [
@@ -76,13 +89,11 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
               title: "Delete",
               isDestructive: true,
               icon: AppAssets.trash,
-              iconColor: Colors.white,
               onPressed: deleteJobPost,
             ),
             ActionButtonWithIcon(
               title: "Cancel",
               icon: AppAssets.close2,
-              iconColor: Colors.white,
               onPressed: () => context.pop(),
             ),
           ],
@@ -92,11 +103,43 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
   }
 
   void saveJobPost() {
-    context.pop();
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.updateJobPost(jobId: widget.job.id).then((success) {
+      if (success) {
+        setSnackBar(
+          context: context,
+          title: "Success",
+          message: jobProvider.successMessage,
+        );
+        context.pop();
+      } else {
+        setSnackBar(
+          context: context,
+          title: "Error",
+          message: jobProvider.errorMessage,
+        );
+      }
+    });
   }
 
   void deleteJobPost() {
-    context.pop();
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.deleteJobPost(jobId: widget.job.id).then((success) {
+      if (success) {
+        setSnackBar(
+          context: context,
+          title: "Success",
+          message: jobProvider.successMessage,
+        );
+        context.pop();
+      } else {
+        setSnackBar(
+          context: context,
+          title: "Error",
+          message: jobProvider.errorMessage,
+        );
+      }
+    });
   }
 
   @override

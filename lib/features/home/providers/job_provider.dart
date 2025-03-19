@@ -6,6 +6,7 @@ import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_exception.dart';
+import 'package:looking2hire/service/navigation_service.dart';
 
 class JobProvider extends ChangeNotifier {
   final JobService apiService = JobService();
@@ -14,10 +15,10 @@ class JobProvider extends ChangeNotifier {
   String successMessage = "";
 
   final TextEditingController jobTitleController = TextEditingController();
-  final TextEditingController jobDescriptionController =
-      TextEditingController();
+  final TextEditingController jobAddressController = TextEditingController();
   final TextEditingController jobLocationController = TextEditingController();
-  final TextEditingController jobSalaryController = TextEditingController();
+  final TextEditingController jobQualificationsController =
+      TextEditingController();
   // Create a job
   Future<Job?> createJob() async {
     errorMessage = "";
@@ -26,14 +27,20 @@ class JobProvider extends ChangeNotifier {
       setProgressDialog();
 
       final response = await apiService.createJob(
-        jobTitle: jobTitleController.text,
-        jobDescription: jobDescriptionController.text,
-        jobLocation: jobLocationController.text,
-        jobSalary: jobSalaryController.text,
+        job_title: jobTitleController.text,
+        job_address: jobLocationController.text,
+        location:
+            jobLocationController.text.contains(",")
+                ? [
+                  double.parse(jobLocationController.text.split(",")[0]),
+                  double.parse(jobLocationController.text.split(",")[1]),
+                ]
+                : [0.0, 0.0],
+        qualifications: [jobQualificationsController.text],
       );
 
-      successMessage = response.data['message'] ?? "";
-      errorMessage = response.data['error'] ?? "";
+      successMessage = "Job created successfully";
+      errorMessage = "";
 
       return response.data['job'];
     } on DioException catch (e) {
@@ -108,7 +115,12 @@ class JobProvider extends ChangeNotifier {
       setProgressDialog();
 
       final response = await apiService.getJobPosts();
-      return response.data?['jobs']?.map((e) => Job.fromJson(e)).toList();
+      // print("response.data: ${response.data}");
+      final jobsList = response.data?['jobs'] as List<dynamic>?;
+      if (jobsList == null) return null;
+      return jobsList
+          .map((e) => Job.fromMap(e as Map<String, dynamic>))
+          .toList();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
@@ -291,9 +303,9 @@ class JobProvider extends ChangeNotifier {
   @override
   void dispose() {
     jobTitleController.dispose();
-    jobDescriptionController.dispose();
+    jobAddressController.dispose();
     jobLocationController.dispose();
-    jobSalaryController.dispose();
+    jobQualificationsController.dispose();
     super.dispose();
   }
 }

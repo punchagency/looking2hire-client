@@ -13,6 +13,7 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import '../models/job.dart';
@@ -31,10 +32,11 @@ class _JobCardPageState extends State<JobCardPage> {
   void showEditJobPostDialog() {
     final jobProvider = context.read<JobProvider>();
     jobProvider.jobTitleController.text = widget.job.job_title;
-    jobProvider.jobDescriptionController.text = widget.job.summary;
-    // jobProvider.jobLocationController.text = widget.job.location;
-    // jobProvider.jobQualificationController.text = widget.job.qualification;
-
+    jobProvider.jobAddressController.text = widget.job.job_address;
+    jobProvider.jobLocationController.text =
+        "${widget.job.location[0]},${widget.job.location[1]}";
+    jobProvider.jobQualificationsController.text =
+        widget.job.qualifications.firstOrNull ?? "";
     showDialog(
       context: context,
       builder: (context) {
@@ -101,13 +103,42 @@ class _JobCardPageState extends State<JobCardPage> {
   }
 
   void saveJobPost() {
-    context.pop();
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.updateJobPost(jobId: widget.job.id).then((success) {
+      if (success) {
+        setSnackBar(
+          context: context,
+          title: "Success",
+          message: jobProvider.successMessage,
+        );
+        context.pop();
+      } else {
+        setSnackBar(
+          context: context,
+          title: "Error",
+          message: jobProvider.errorMessage,
+        );
+      }
+    });
   }
 
   void deleteJobPost() {
     final jobProvider = context.read<JobProvider>();
-    jobProvider.deleteJobPost(jobId: widget.job.id).then((value) {
-      if (jobProvider.successMessage.isNotEmpty) {}
+    jobProvider.deleteJobPost(jobId: widget.job.id).then((success) {
+      if (success) {
+        setSnackBar(
+          context: context,
+          title: "Success",
+          message: jobProvider.successMessage,
+        );
+        context.pop();
+      } else {
+        setSnackBar(
+          context: context,
+          title: "Error",
+          message: jobProvider.errorMessage,
+        );
+      }
     });
   }
 

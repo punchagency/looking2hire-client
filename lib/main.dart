@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/enums/navigation_page.dart';
+import 'package:looking2hire/features/home/providers/employment_history_provider.dart';
+import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/splash_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
@@ -23,8 +26,9 @@ NavigationPage currentNavigationPage = NavigationPage.dashboard;
 //   ),
 // );
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -43,6 +47,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => NFCProvider()),
+        ChangeNotifierProvider(
+          create: (context) => EmploymentHistoryProvider(),
+        ),
+        ChangeNotifierProvider(create: (context) => JobProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414.0, 896.0),

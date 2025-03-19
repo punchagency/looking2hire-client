@@ -6,18 +6,18 @@ class JobService {
   final DioClient dioClient = DioClient(Dio());
 
   Future<Response> createJob({
-    required String jobTitle,
-    required String jobDescription,
-    required String jobLocation,
-    required String jobSalary,
+    String? job_title,
+    String? job_address,
+    List<double>? location,
+    List<String>? qualifications,
   }) async {
     final Response response = await dioClient.post(
       ApiRoutes.createJobPost,
       data: {
-        "title": jobTitle,
-        "description": jobDescription,
-        "location": jobLocation,
-        "salary": jobSalary,
+        "title": job_title,
+        "job_address": job_address,
+        "location": location,
+        "qualifications": qualifications,
       },
     );
     return response;

@@ -6,6 +6,7 @@ import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_exception.dart';
+import 'package:looking2hire/service/navigation_service.dart';
 
 class EmploymentHistoryProvider extends ChangeNotifier {
   final JobService apiService = JobService();
