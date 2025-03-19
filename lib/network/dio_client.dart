@@ -863,46 +863,52 @@
 //   }
 // }
 
-
 import 'dart:io';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 
 class DioClient {
-// dio instance
+  // dio instance
   final Dio _dio;
+  final cookieJar = CookieJar();
 
   DioClient(this._dio) {
     _dio
       ..options.baseUrl = ApiRoutes.baseUrl
       ..options.connectTimeout = ApiRoutes.connectionTimeout
       ..options.receiveTimeout = ApiRoutes.receiveTimeout
+      ..interceptors.add(CookieManager(cookieJar))
       ..options.responseType = ResponseType.json;
   }
 
   // Get:-----------------------------------------------------------------------
   Future<Response> get(
-      String url, {
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     debugPrint("GET TOKEN:::::::: $token");
     try {
       final Response response = await _dio.get(
         url,
         queryParameters: queryParameters,
-        options: Options(headers: {
-          // 'Content-Type': 'application/json',
-          // 'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-          // 'user-x-token': token,
-        }),
+        options: Options(
+          headers: {
+            // 'Content-Type': 'application/json',
+            // 'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+            // 'user-x-token': token,
+          },
+          extra: {'withCredentials': true},
+        ),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
@@ -914,14 +920,14 @@ class DioClient {
 
   // Post:----------------------------------------------------------------------
   Future<Response> post(
-      String url, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     debugPrint("Post TOKEN:::::::: $token");
     try {
@@ -929,12 +935,15 @@ class DioClient {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {
-          // 'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          // 'user-x-token': token,
-          'Authorization': 'Bearer $token'
-        }),
+        options: Options(
+          headers: {
+            // 'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'user-x-token': token,
+            'Authorization': 'Bearer $token',
+          },
+          extra: {'withCredentials': true},
+        ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -945,23 +954,23 @@ class DioClient {
     }
   }
 
-// Post:----------------------------------------------------------------------
+  // Post:----------------------------------------------------------------------
   Future<Response> postMedia(
-      String url, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     try {
       final Response response = await _dio.post(
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(headers: {'Authorization': 'Bearer $token'}, extra: {'withCredentials': true},),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -972,10 +981,7 @@ class DioClient {
     }
   }
 
-  Future<Response> uploadImage({
-    required String filePath,
-    required String uploadUrl,
-  }) async {
+  Future<Response> uploadImage({required String filePath, required String uploadUrl}) async {
     var token = await SecureStorage().retrieveToken();
 
     try {
@@ -984,20 +990,13 @@ class DioClient {
       String fileName = file.path.split('/').last;
 
       // Prepare form-data
-      FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(file.path, filename: fileName),
-      });
+      FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path, filename: fileName)});
 
       // Send POST request
       Response response = await _dio.post(
         uploadUrl,
         data: formData,
-        options: Options(
-          headers: {
-            "Content-Type": "multipart/form-data",
-            'Authorization': 'Bearer $token'
-          },
-        ),
+        options: Options(headers: {"Content-Type": "multipart/form-data", 'Authorization': 'Bearer $token'}, extra: {'withCredentials': true},),
       );
 
       return response;
@@ -1009,14 +1008,14 @@ class DioClient {
 
   // Put:-----------------------------------------------------------------------
   Future<Response> put(
-      String url, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     debugPrint("PUT TOKEN:::::::: $token");
     try {
@@ -1024,12 +1023,15 @@ class DioClient {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-          // 'user-x-token': token,
-        }),
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+            // 'user-x-token': token,
+          },
+          extra: {'withCredentials': true},
+        ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -1042,14 +1044,14 @@ class DioClient {
 
   // Put:-----------------------------------------------------------------------
   Future<Response> patch(
-      String url, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     debugPrint("PATCH TOKEN:::::::: $token");
     try {
@@ -1057,12 +1059,15 @@ class DioClient {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-          // 'user-x-token': token,
-        }),
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+            // 'user-x-token': token,
+          },
+          extra: {'withCredentials': true},
+        ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -1075,14 +1080,14 @@ class DioClient {
 
   // Delete:--------------------------------------------------------------------
   Future<dynamic> delete(
-      String url, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     var token = await SecureStorage().retrieveToken();
     debugPrint("Delete TOKEN:::::::: $token");
     try {
@@ -1090,12 +1095,15 @@ class DioClient {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(headers: {
-          // 'Content-Type': 'application/json',
-          // 'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-          // 'user-x-token': token,
-        }),
+        options: Options(
+          headers: {
+            // 'Content-Type': 'application/json',
+            // 'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+            // 'user-x-token': token,
+          },
+          extra: {'withCredentials': true},
+        ),
         // cancelToken: cancelToken,
       );
       return response.data;
