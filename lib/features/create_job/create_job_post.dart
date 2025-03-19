@@ -138,6 +138,69 @@ class _CreateJobPostState extends State<CreateJobPost> {
                 //   textHint: "Location",
                 //   icon: AppAssets.location3,
                 // ),
+                CustomGoogleLabelInputText(
+                  label: "Location",
+                  keyboardType: TextInputType.text,
+                  inputAction: TextInputAction.done,
+                  controller: provider.jobAddressController,
+                  apiKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
+                  getPlaceDetailWithLatLng: (prediction) {
+                    provider.jobLocationController.text =
+                        "${prediction.lat},${prediction.lng}";
+                    print("Coordinates: (${prediction.lat},${prediction.lng})");
+                  },
+                  itemClick: (prediction) {
+                    provider.jobLocationController.text =
+                        "${prediction.lat},${prediction.lng}";
+                    print("Coordinates: (${prediction.lat},${prediction.lng})");
+                  },
+
+                  // style: Theme.of(context).textTheme.bodyMedium,
+                  // decoration: InputDecoration(
+                  //   hintText: "Location",
+                  //   hintStyle: Theme.of(
+                  //     context,
+                  //   ).textTheme.bodyMedium?.copyWith(color: Colors.black45),
+                  //   fillColor: AppColor.grey[100]?.withOpacity(.05),
+
+                  //   border: OutlineInputBorder(
+                  //     // borderSide: BorderSide.none,
+                  //     borderSide: BorderSide(
+                  //       color: Colors.grey.shade300,
+                  //       width: .9,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   enabledBorder: OutlineInputBorder(
+                  //     // borderSide: BorderSide.none,
+                  //     borderSide: BorderSide(
+                  //       color: Colors.grey.shade300,
+                  //       width: .9,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   focusedBorder: OutlineInputBorder(
+                  //     // borderSide: BorderSide.none,
+                  //     borderSide: BorderSide(
+                  //       color: Colors.grey.shade300,
+                  //       width: .9,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   contentPadding: EdgeInsets.symmetric(
+                  //     vertical: 2.h,
+                  //     horizontal: 5.w,
+                  //   ),
+                  //   prefixIcon: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: SvgPicture.asset(
+                  //       AppAssets.location3,
+                  //       height: 17,
+                  //       width: 17,
+                  //     ),
+                  //   ),
+                  // ),
+                ),
                 SizedBox(height: 16),
                 CustomIconTextField(
                   textEditingController: provider.jobQualificationsController,
