@@ -162,6 +162,25 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> signInWithGoogle({required BuildContext context}) async {
+    errorMessage = "";
+    successMessage = "";
+    try {
+      setProgressDialog();
+
+      final response = await apiService.googleSignIn();
+      print(response.data);
+      // successMessage = "Login Successful";
+
+      return true;
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+      return false;
+    } finally {
+      Navigator.pop(context);
+    }
+  }
+
   Future<bool> resendOtp({
     required BuildContext context,
     String? accountType,

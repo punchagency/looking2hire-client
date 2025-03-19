@@ -32,6 +32,7 @@ class _CreateEmployerAccountScreenState
   bool isChecked = false;
   final formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
@@ -65,13 +66,7 @@ class _CreateEmployerAccountScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 64),
-
-                    CustomRobotoText(
-                      text: "Create Employer Account",
-                      textSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-
+                    CustomRobotoText(text: "Create Employer Account", textSize: 24, fontWeight: FontWeight.w600,),
                     // SizedBox(height: 15),
                     CustomText(
                       text: "Your profile creation takes just seconds with AI",

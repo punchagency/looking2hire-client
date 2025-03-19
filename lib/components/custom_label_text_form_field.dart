@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
 import 'custom_text.dart';
@@ -433,3 +436,182 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
     );
   }
 }
+
+
+class CustomGoogleLabelInputText extends StatelessWidget {
+  const CustomGoogleLabelInputText({
+    super.key,
+    required this.label,
+    this.controller,
+    this.placeholder,
+    this.counterText,
+    this.maxLength,
+    this.maxLines,
+    this.minLines,
+    required this.keyboardType,
+    required this.inputAction,
+    this.validate,
+    this.enabled,
+    this.obscureText = false,
+    this.readOnly = false,
+    this.required = false,
+    this.labelColor,
+    this.borderColor,
+    this.inputFormatters,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.onKeyUp,
+    this.fontStyle,
+    this.fontWeight,
+    this.apiKey,
+    this.getPlaceDetailWithLatLng,
+    this.itemClick,
+    this.itemBuilder,
+    this.focusNode,
+  });
+
+  final String label;
+  final TextEditingController? controller;
+  final String? placeholder;
+  final String? counterText;
+  final String? apiKey;
+  final int? maxLength;
+  final int? maxLines;
+  final int? minLines;
+  final TextInputType keyboardType;
+  final TextInputAction inputAction;
+  final FormFieldValidator<String>? validate;
+  final bool? enabled;
+  final bool obscureText;
+  final bool readOnly;
+  final bool required;
+  final Color? labelColor;
+  final Color? borderColor;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization textCapitalization;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final FontStyle? fontStyle;
+  final FontWeight? fontWeight;
+  final Function(String)? onKeyUp;
+  final Function(Prediction)? getPlaceDetailWithLatLng;
+  final Function(Prediction)? itemClick;
+  final FocusNode? focusNode;
+
+  // final Function(BuildContext, int, Prediction)? itemBuilder;
+  final ListItemBuilder? itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomOpenSansText(
+              text: label,
+              textColor: labelColor ?? Colors.black,
+              textSize: 12.sp,
+              fontStyle: fontStyle,
+              fontWeight: fontWeight,
+            ),
+            if (required)
+              CustomOpenSansText(
+                text: "*",
+                textColor: AppColor.primaryColor,
+                textSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
+          ],
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        GooglePlaceAutoCompleteTextField(
+          textEditingController: controller ?? TextEditingController(),
+          googleAPIKey: apiKey ?? "",
+          focusNode: focusNode,
+          inputDecoration: InputDecoration(
+              hintText: placeholder,
+              fillColor: AppColor.grey[100]?.withOpacity(.3),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 13.0,
+                horizontal: 10.0,
+              ),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10)),
+              // border: InputBorder.none,
+              filled: true,
+              prefixIcon: prefixIcon,
+              counterText: counterText,
+              hintStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[600]),
+              // border: InputBorder.none,
+              suffixIcon: suffixIcon,
+              suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 30, maxWidth: 35, minHeight: 20)),
+          debounceTime: 800,
+
+          showError: true,
+          // Optional: debounce time for typing
+          countries: const ["ng"],
+          // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
+          isLatLngRequired: true,
+          // getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
+          // itemClick: itemClick,
+          itemBuilder: itemBuilder,
+        ),
+      ],
+    );
+  }
+}
+
+class CustomDropdownItem extends StatelessWidget {
+  final String suggestion;
+
+  // final VoidCallback onTap;
+
+  const CustomDropdownItem({
+    super.key,
+    required this.suggestion,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColor.white,
+          border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+        ),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                // SvgPicture.asset(AppAssets.suggestionPin),
+                // YMargin(8.h),
+                // const CustomOpenSansText(text: "13KM")
+              ],
+            ),
+            SizedBox(width: 22.w),
+            Expanded(
+              child: Text(
+                suggestion,
+                style: const TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+            ),
+            SizedBox(width: 22.w),
+            // SvgPicture.asset(AppAssets.suggestionArrow),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

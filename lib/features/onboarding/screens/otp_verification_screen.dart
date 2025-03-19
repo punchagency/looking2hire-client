@@ -25,7 +25,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   late final TextEditingController pinController;
   late final FocusNode focusNode;
   late final GlobalKey<FormState> formKey;
-  int timeLeft = 300;
+  int timeLeft = 60;
   bool isCompleted = false;
   String otp = '';
   late CountdownController countdownController;
