@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
+import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
@@ -34,6 +35,7 @@ class CompanyProfilePage extends StatefulWidget {
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
   List<Job> jobPosts = [];
   Employer? employer;
+  bool isLoading = false;
 
   // late final activeJobWidgets = [
   //   ActiveJobItem(
@@ -87,10 +89,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   void getJobs() async {
+    isLoading = true;
+    setState(() {});
     await Future.delayed(const Duration(milliseconds: 300));
 
     final jobProvider = context.read<JobProvider>();
     jobPosts = await jobProvider.getJobPosts() ?? [];
+    isLoading = false;
     setState(() {});
   }
 
@@ -118,9 +123,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       appBar: CustomAppBar(
         title: appTitle,
         // arrowColor: AppColor.arrowColor,
-        centeredTitle: true,
+        centeredTitle: false,
         fontWeight: FontWeight.w600,
         needsDrawer: true,
+        canNotGoBack: true,
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(
@@ -137,7 +143,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             const SizedBox(height: 16),
 
             Text(
-              "Heading",
+              "We have everything we need to inspire our customers. Except you.",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -184,18 +190,26 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               ),
               const SizedBox(height: 14),
 
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: jobPosts.length,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 26);
-                },
-                itemBuilder: (context, index) {
-                  final job = jobPosts[index];
-                  return ActiveJobItem(job: job, onPressed: () => viewJob(job));
-                },
-              ),
+              if (isLoading) ...[
+                const SizedBox(height: 20),
+                Center(child: const AppProgressBar()),
+              ] else ...[
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: jobPosts.length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 26);
+                  },
+                  itemBuilder: (context, index) {
+                    final job = jobPosts[index];
+                    return ActiveJobItem(
+                      job: job,
+                      onPressed: () => viewJob(job),
+                    );
+                  },
+                ),
+              ],
               SizedBox(height: 35),
               ActionButtonWithIcon(
                 title: "Create job",

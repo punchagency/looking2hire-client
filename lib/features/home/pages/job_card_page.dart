@@ -14,6 +14,7 @@ import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
+import 'package:looking2hire/utils/date_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../models/job.dart';
@@ -63,8 +64,7 @@ class _JobCardPageState extends State<JobCardPage> {
               ),
               SizedBox(height: 16),
               CustomIconTextField(
-                textEditingController: TextEditingController(),
-                // textEditingController: jobProvider.jobQualificationController,
+                textEditingController: jobProvider.jobQualificationsController,
                 textHint: "Qualification need for the job",
                 icon: AppAssets.graduation,
               ),
@@ -175,13 +175,14 @@ class _JobCardPageState extends State<JobCardPage> {
                     ),
                   ],
                 ),
-                JobDetail(title: "Job Title", value: "Sales Associate"),
+                JobDetail(title: "Job Title", value: widget.job.job_title),
                 JobDetail(title: "Company Name", value: "Crate & Barrel"),
+                JobDetail(title: "Description", value: widget.job.summary),
                 JobDetail(
-                  title: "Description",
-                  value: "Description duis aute irure dolor in re.....",
+                  title: "Posted Time",
+                  value:
+                      "${widget.job.createdAt.formatDateToReadable()} • ${widget.job.createdAt.toTimeAgo}",
                 ),
-                JobDetail(title: "Posted Time", value: "Today • 23 min"),
                 const SizedBox(height: 32),
 
                 Column(
@@ -198,27 +199,30 @@ class _JobCardPageState extends State<JobCardPage> {
                     // ),
                     JobInformationItem(
                       title: "Key Responsibilities:",
-                      options: [
-                        "Assist customers with product inquires, selections and purchases.",
-                        "Maintain product knowledge of furniture, home decor and seasonal collections.",
-                        "Collaborate with team members to meet store sales goals.",
-                        "Ensure display and merchandise are well-organized and visually appealing.",
-                        "Process transactions, returns and exchanges efficiently.",
-                      ],
+                      options: widget.job.key_responsibilities,
+                      // options: [
+                      //   "Assist customers with product inquires, selections and purchases.",
+                      //   "Maintain product knowledge of furniture, home decor and seasonal collections.",
+                      //   "Collaborate with team members to meet store sales goals.",
+                      //   "Ensure display and merchandise are well-organized and visually appealing.",
+                      //   "Process transactions, returns and exchanges efficiently.",
+                      // ],
                     ),
                     const SizedBox(height: 11),
                     JobInformationItem(
                       title: "Qualifications:",
-                      options: [
-                        "Strong communication and customer service skills.",
-                        "Ability to work in a fast-paces, team-oriented environment.",
-                        "Prior retail or sales experience (preferred).",
-                        "Passion for interior design and home furnishings.",
-                      ],
+                      options: widget.job.qualifications,
+                      // options: [
+                      //   "Strong communication and customer service skills.",
+                      //   "Ability to work in a fast-paces, team-oriented environment.",
+                      //   "Prior retail or sales experience (preferred).",
+                      //   "Passion for interior design and home furnishings.",
+                      // ],
                     ),
                     const SizedBox(height: 11),
                     Text(
-                      """Join us at Crate & Barrel and inspire customers to deign beautiful, functional spaces!""",
+                      widget.job.closing_statement,
+                      // """Join us at Crate & Barrel and inspire customers to deign beautiful, functional spaces!""",
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

@@ -19,6 +19,7 @@ class JobProvider extends ChangeNotifier {
   final TextEditingController jobLocationController = TextEditingController();
   final TextEditingController jobQualificationsController =
       TextEditingController();
+
   // Create a job
   Future<Job?> createJob() async {
     errorMessage = "";
@@ -28,12 +29,14 @@ class JobProvider extends ChangeNotifier {
 
       final response = await apiService.createJob(
         job_title: jobTitleController.text,
-        job_address: jobLocationController.text,
+        job_address: jobAddressController.text,
         location:
             jobLocationController.text.contains(",")
                 ? [
-                  double.parse(jobLocationController.text.split(",")[0]),
-                  double.parse(jobLocationController.text.split(",")[1]),
+                  double.tryParse(jobLocationController.text.split(",")[0]) ??
+                      0.0,
+                  double.tryParse(jobLocationController.text.split(",")[1]) ??
+                      0.0,
                 ]
                 : [0.0, 0.0],
         qualifications: [jobQualificationsController.text],
@@ -42,7 +45,10 @@ class JobProvider extends ChangeNotifier {
       successMessage = "Job created successfully";
       errorMessage = "";
 
-      return response.data['job'];
+      final job = response.data['job'];
+      print("job = $job");
+
+      return Job.fromMap(job);
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
@@ -52,7 +58,13 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Update job post
-  Future<bool> updateJobPost({required String jobId, String? jobTitle}) async {
+  Future<bool> updateJobPost({
+    required String jobId,
+    String? jobTitle,
+    String? jobAddress,
+    List<double>? location,
+    List<String>? qualifications,
+  }) async {
     errorMessage = "";
     successMessage = "";
     try {
@@ -61,6 +73,9 @@ class JobProvider extends ChangeNotifier {
       final response = await apiService.updateJobPost(
         job_id: jobId,
         job_title: jobTitle,
+        job_address: jobAddress,
+        location: location,
+        qualifications: qualifications,
       );
 
       successMessage = response.data['message'] ?? "";
@@ -112,7 +127,7 @@ class JobProvider extends ChangeNotifier {
   Future<List<Job>?> getJobPosts() async {
     errorMessage = "";
     try {
-      setProgressDialog();
+      //setProgressDialog();
 
       final response = await apiService.getJobPosts();
       // print("response.data: ${response.data}");
@@ -125,7 +140,8 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-      currentContext?.pop();
+      ;
+      //currentContext?.pop();
     }
   }
 

@@ -14,7 +14,7 @@ class JobService {
     final Response response = await dioClient.post(
       ApiRoutes.createJobPost,
       data: {
-        "title": job_title,
+        "job_title": job_title,
         "job_address": job_address,
         "location": location,
         "qualifications": qualifications,
@@ -23,10 +23,21 @@ class JobService {
     return response;
   }
 
-  Future<Response> updateJobPost({required String job_id, String? job_title}) {
+  Future<Response> updateJobPost({
+    required String job_id,
+    String? job_title,
+    String? job_address,
+    List<double>? location,
+    List<String>? qualifications,
+  }) {
     return dioClient.put(
       "${ApiRoutes.updateJobPost}/$job_id",
-      data: {"job_title": job_title},
+      data: {
+        if (job_title != null) "job_title": job_title,
+        if (job_address != null) "job_address": job_address,
+        if (location != null) "location": location,
+        if (qualifications != null) "qualifications": qualifications,
+      },
     );
   }
 

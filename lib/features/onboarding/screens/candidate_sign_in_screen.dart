@@ -33,7 +33,7 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
     return Consumer<AuthProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          appBar: CustomAppBar(title: "Looking To Work!", arrowColor: AppColor.black),
+          appBar: CustomAppBar(title: appTitle, arrowColor: AppColor.black),
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: SafeArea(
@@ -43,7 +43,11 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 32),
-                    CustomRobotoText(text: "Welcome Back", textSize: 24, fontWeight: FontWeight.w600),
+                    CustomRobotoText(
+                      text: "Welcome Back",
+                      textSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                     CustomText(
                       text: "Your profile creation takes just seconds with AI",
                       textSize: 16,
@@ -75,22 +79,45 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                       onPressed: () async {
                         if (formKey.currentState?.validate() == true) {
                           isHire
-                              ? await provider.loginEmployer(context: context).then((success) {
-                                if (success) {
-                                  setSnackBar(context: context, title: "Success", message: provider.successMessage);
-                                  nextScreenReplace(context, CompanyProfilePage());
-                                } else {
-                                  setSnackBar(context: context, title: "Error", message: provider.errorMessage);
-                                }
-                              })
-                              : await provider.loginApplicant(context: context).then((success) {
-                                if (success) {
-                                  setSnackBar(context: context, title: "Success", message: provider.successMessage);
-                                  nextScreenReplace(context, HomePage());
-                                } else {
-                                  setSnackBar(context: context, title: "Error", message: provider.errorMessage);
-                                }
-                              });
+                              ? await provider
+                                  .loginEmployer(context: context)
+                                  .then((success) {
+                                    if (success) {
+                                      setSnackBar(
+                                        context: context,
+                                        title: "Success",
+                                        message: provider.successMessage,
+                                      );
+                                      nextScreenReplace(
+                                        context,
+                                        CompanyProfilePage(),
+                                      );
+                                    } else {
+                                      setSnackBar(
+                                        context: context,
+                                        title: "Error",
+                                        message: provider.errorMessage,
+                                      );
+                                    }
+                                  })
+                              : await provider
+                                  .loginApplicant(context: context)
+                                  .then((success) {
+                                    if (success) {
+                                      setSnackBar(
+                                        context: context,
+                                        title: "Success",
+                                        message: provider.successMessage,
+                                      );
+                                      nextScreenReplace(context, HomePage());
+                                    } else {
+                                      setSnackBar(
+                                        context: context,
+                                        title: "Error",
+                                        message: provider.errorMessage,
+                                      );
+                                    }
+                                  });
                         }
                       },
                       text: "Login",
@@ -106,7 +133,11 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                           children: [
                             TextSpan(
                               text: "Don't have an account? ",
-                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
                             ),
                             TextSpan(
                               text: 'Signup',
@@ -119,7 +150,10 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      nextScreen(context, CreateCandidateAccountScreen());
+                                      nextScreen(
+                                        context,
+                                        CreateCandidateAccountScreen(),
+                                      );
                                     },
                             ),
                           ],

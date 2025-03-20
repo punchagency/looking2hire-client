@@ -102,7 +102,10 @@ class CustomLabelInputText extends StatelessWidget {
 
           decoration: InputDecoration(
             fillColor: AppColor.grey[100]?.withOpacity(.2),
-            contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 10.0),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 13.0,
+              horizontal: 10.0,
+            ),
             border: OutlineInputBorder(
               // borderSide: BorderSide.none,
               borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
@@ -123,10 +126,18 @@ class CustomLabelInputText extends StatelessWidget {
             hintText: placeholder,
             prefixIcon: prefixIcon,
             counterText: counterText,
-            hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+            hintStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: Colors.grey[600],
+            ),
             // border: InputBorder.none,
             suffixIcon: suffixIcon,
-            suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 35, minHeight: 20),
+            suffixIconConstraints: const BoxConstraints(
+              maxHeight: 30,
+              maxWidth: 35,
+              minHeight: 20,
+            ),
           ),
           readOnly: readOnly,
           enabled: enabled,
@@ -210,19 +221,33 @@ class CustomInputText extends StatelessWidget {
         decoration: InputDecoration(
           fillColor: Colors.white,
           counter: const SizedBox.shrink(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 10.0,
+          ),
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor ?? AppColor.borderLight, width: .1),
+            borderSide: BorderSide(
+              color: borderColor ?? AppColor.borderLight,
+              width: .1,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           hintText: placeholder,
           prefixIcon: prefixIcon,
           counterText: counterText,
-          hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey[600]),
+          hintStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Colors.grey[600],
+          ),
 
           // border: InputBorder.none,
           suffixIcon: suffixIcon,
-          suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 35, minHeight: 20),
+          suffixIconConstraints: const BoxConstraints(
+            maxHeight: 30,
+            maxWidth: 35,
+            minHeight: 20,
+          ),
         ),
         readOnly: readOnly,
         enabled: enabled,
@@ -326,9 +351,17 @@ class CustomLabelUnderlineInputText extends StatelessWidget {
               hintStyle: const TextStyle(fontSize: 14),
               // border: InputBorder.none,
               // suffixIcon: suffixIcon,
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade300)),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-              suffixIconConstraints: const BoxConstraints(maxHeight: 30, maxWidth: 24, minHeight: 20),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+              suffixIconConstraints: const BoxConstraints(
+                maxHeight: 30,
+                maxWidth: 24,
+                minHeight: 20,
+              ),
             ),
             readOnly: readOnly,
             enabled: enabled,
@@ -351,7 +384,8 @@ class CustomIconTextField extends StatefulWidget {
     required this.icon,
     this.isPassword = false,
     this.suffixIcon,
-    this.validate, this.onChanged,
+    this.validate,
+    this.onChanged,
   });
 
   final TextEditingController textEditingController;
@@ -423,7 +457,12 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
                     onPressed: toggleObscure,
                     color: Colors.grey,
                     splashColor: Colors.transparent,
-                    icon: Icon(!isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18),
+                    icon: Icon(
+                      !isObscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      size: 18,
+                    ),
                   ),
                 ),
         hintStyle: bodyMedium?.copyWith(color: Colors.black45),
@@ -436,7 +475,6 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
     );
   }
 }
-
 
 class CustomGoogleLabelInputText extends StatelessWidget {
   const CustomGoogleLabelInputText({
@@ -469,8 +507,9 @@ class CustomGoogleLabelInputText extends StatelessWidget {
     this.itemClick,
     this.itemBuilder,
     this.focusNode,
+    this.icon,
   });
-
+  final String? icon;
   final String label;
   final TextEditingController? controller;
   final String? placeholder;
@@ -495,8 +534,8 @@ class CustomGoogleLabelInputText extends StatelessWidget {
   final FontStyle? fontStyle;
   final FontWeight? fontWeight;
   final Function(String)? onKeyUp;
-  final Function(Prediction)? getPlaceDetailWithLatLng;
-  final Function(Prediction)? itemClick;
+  final ItemClick? itemClick;
+  final GetPlaceDetailswWithLatLng? getPlaceDetailWithLatLng;
   final FocusNode? focusNode;
 
   // final Function(BuildContext, int, Prediction)? itemBuilder;
@@ -507,62 +546,83 @@ class CustomGoogleLabelInputText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            CustomOpenSansText(
-              text: label,
-              textColor: labelColor ?? Colors.black,
-              textSize: 12.sp,
-              fontStyle: fontStyle,
-              fontWeight: fontWeight,
-            ),
-            if (required)
-              CustomOpenSansText(
-                text: "*",
-                textColor: AppColor.primaryColor,
-                textSize: 12.sp,
-                fontWeight: FontWeight.w500,
-              ),
-          ],
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
+        // Row(
+        //   children: [
+        //     CustomOpenSansText(
+        //       text: label,
+        //       textColor: labelColor ?? Colors.black,
+        //       textSize: 12.sp,
+        //       fontStyle: fontStyle,
+        //       fontWeight: fontWeight,
+        //     ),
+        //     if (required)
+        //       CustomOpenSansText(
+        //         text: "*",
+        //         textColor: AppColor.primaryColor,
+        //         textSize: 12.sp,
+        //         fontWeight: FontWeight.w500,
+        //       ),
+        //   ],
+        // ),
+        // SizedBox(height: 10.h),
         GooglePlaceAutoCompleteTextField(
           textEditingController: controller ?? TextEditingController(),
           googleAPIKey: apiKey ?? "",
           focusNode: focusNode,
           inputDecoration: InputDecoration(
-              hintText: placeholder,
-              fillColor: AppColor.grey[100]?.withOpacity(.3),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 13.0,
-                horizontal: 10.0,
-              ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10)),
-              // border: InputBorder.none,
-              filled: true,
-              prefixIcon: prefixIcon,
-              counterText: counterText,
-              hintStyle: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey[600]),
-              // border: InputBorder.none,
-              suffixIcon: suffixIcon,
-              suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 35, minHeight: 20)),
+            filled: true,
+            fillColor: AppColor.grey[100]?.withOpacity(.05),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: placeholder,
+            prefixIcon:
+                prefixIcon ??
+                (icon != null
+                    ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(
+                        icon ?? "",
+                        height: 17,
+                        width: 17,
+                      ),
+                    )
+                    : null),
+            counterText: counterText,
+            hintStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: Colors.black45,
+            ),
+            suffixIcon: suffixIcon,
+            suffixIconConstraints: const BoxConstraints(
+              maxHeight: 30,
+              maxWidth: 35,
+              minHeight: 20,
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 2.h,
+              horizontal: 5.w,
+            ),
+          ),
           debounceTime: 800,
 
           showError: true,
           // Optional: debounce time for typing
-          countries: const ["ng"],
+          // countries: const ["ng"],
           // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
           isLatLngRequired: true,
-          // getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
-          // itemClick: itemClick,
+          getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
+          itemClick: itemClick,
           itemBuilder: itemBuilder,
         ),
       ],
@@ -575,10 +635,7 @@ class CustomDropdownItem extends StatelessWidget {
 
   // final VoidCallback onTap;
 
-  const CustomDropdownItem({
-    super.key,
-    required this.suggestion,
-  });
+  const CustomDropdownItem({super.key, required this.suggestion});
 
   @override
   Widget build(BuildContext context) {
@@ -614,4 +671,3 @@ class CustomDropdownItem extends StatelessWidget {
     );
   }
 }
-

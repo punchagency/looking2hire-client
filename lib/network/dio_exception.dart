@@ -34,23 +34,24 @@ class DioExceptions implements Exception {
   }
 
   String _handleError(int? statusCode, dynamic error) {
+    print("ERROR:::::::: $error");
     switch (statusCode) {
       case 400:
-        return error["error"];
+        return error?["message"] ?? 'Bad request';
       case 401:
-        return error["error"];
+        return error?["message"] ?? 'Unauthorized';
       case 403:
-        return error["error"];
+        return error?["message"] ?? 'Forbidden';
       case 404:
-        return error["error"];
+        return error?["message"] ?? 'Not found';
       case 409:
-        return error["error"];
+        return error?["message"] ?? 'Conflict';
       case 429:
         return 'Error, Please try again later';
       case 422:
-        return error["error"];
+        return error?["message"] ?? 'Unprocessable entity';
       case 500:
-        return error["error"] ?? 'Internal server error';
+        return error?["message"] ?? 'Internal server error';
       case 502:
         return 'Bad gateway';
       default:

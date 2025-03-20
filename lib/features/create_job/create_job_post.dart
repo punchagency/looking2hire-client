@@ -61,78 +61,78 @@ class _CreateJobPostState extends State<CreateJobPost> {
                   icon: AppAssets.briefcase,
                 ),
                 SizedBox(height: 16),
-                GooglePlacesAutoCompleteTextFormField(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(
-                    hintText: "Location",
-                    hintStyle: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.black45),
-                    fillColor: AppColor.grey[100]?.withOpacity(.05),
+                // GooglePlacesAutoCompleteTextFormField(
+                //   style: Theme.of(context).textTheme.bodyMedium,
+                //   decoration: InputDecoration(
+                //     hintText: "Location",
+                //     hintStyle: Theme.of(
+                //       context,
+                //     ).textTheme.bodyMedium?.copyWith(color: Colors.black45),
+                //     fillColor: AppColor.grey[100]?.withOpacity(.05),
 
-                    border: OutlineInputBorder(
-                      // borderSide: BorderSide.none,
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade300,
-                        width: .9,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      // borderSide: BorderSide.none,
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade300,
-                        width: .9,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      // borderSide: BorderSide.none,
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade300,
-                        width: .9,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 2.h,
-                      horizontal: 5.w,
-                    ),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(
-                        AppAssets.location3,
-                        height: 17,
-                        width: 17,
-                      ),
-                    ),
-                  ),
+                //     border: OutlineInputBorder(
+                //       // borderSide: BorderSide.none,
+                //       borderSide: BorderSide(
+                //         color: Colors.grey.shade300,
+                //         width: .9,
+                //       ),
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     enabledBorder: OutlineInputBorder(
+                //       // borderSide: BorderSide.none,
+                //       borderSide: BorderSide(
+                //         color: Colors.grey.shade300,
+                //         width: .9,
+                //       ),
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       // borderSide: BorderSide.none,
+                //       borderSide: BorderSide(
+                //         color: Colors.grey.shade300,
+                //         width: .9,
+                //       ),
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     contentPadding: EdgeInsets.symmetric(
+                //       vertical: 2.h,
+                //       horizontal: 5.w,
+                //     ),
+                //     prefixIcon: Padding(
+                //       padding: const EdgeInsets.all(12.0),
+                //       child: SvgPicture.asset(
+                //         AppAssets.location3,
+                //         height: 17,
+                //         width: 17,
+                //       ),
+                //     ),
+                //   ),
 
-                  textEditingController: provider.jobAddressController,
-                  googleAPIKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
+                //   textEditingController: provider.jobAddressController,
+                //   googleAPIKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
 
-                  debounceTime: 400, // defaults to 600 ms
-                  // countries: [
-                  //   "de",
-                  // ], // optional, by default the list is empty (no restrictions)
-                  fetchCoordinates:
-                      true, // if you require the coordinates from the place details
-                  onPlaceDetailsWithCoordinatesReceived: (prediction) {
-                    // this method will return latlng with place detail
-                    provider.jobLocationController.text =
-                        "${prediction.lat},${prediction.lng}";
-                    print("Coordinates: (${prediction.lat},${prediction.lng})");
-                  }, // this callback is called when fetchCoordinates is true
-                  onSuggestionClicked: (prediction) {
-                    provider.jobAddressController.text =
-                        prediction.description ?? "";
-                    provider
-                        .jobAddressController
-                        .selection = TextSelection.fromPosition(
-                      TextPosition(offset: prediction.description?.length ?? 0),
-                    );
-                  },
-                ),
+                //   debounceTime: 400, // defaults to 600 ms
+                //   // countries: [
+                //   //   "de",
+                //   // ], // optional, by default the list is empty (no restrictions)
+                //   fetchCoordinates:
+                //       true, // if you require the coordinates from the place details
+                //   onPlaceDetailsWithCoordinatesReceived: (prediction) {
+                //     // this method will return latlng with place detail
+                //     provider.jobLocationController.text =
+                //         "${prediction.lat},${prediction.lng}";
+                //     print("Coordinates: (${prediction.lat},${prediction.lng})");
+                //   }, // this callback is called when fetchCoordinates is true
+                //   onSuggestionClicked: (prediction) {
+                //     provider.jobAddressController.text =
+                //         prediction.description ?? "";
+                //     provider
+                //         .jobAddressController
+                //         .selection = TextSelection.fromPosition(
+                //       TextPosition(offset: prediction.description?.length ?? 0),
+                //     );
+                //   },
+                // ),
                 // CustomIconTextField(
                 //   textEditingController: provider.jobLocationController,
                 //   textHint: "Location",
@@ -143,63 +143,30 @@ class _CreateJobPostState extends State<CreateJobPost> {
                   keyboardType: TextInputType.text,
                   inputAction: TextInputAction.done,
                   controller: provider.jobAddressController,
+                  icon: AppAssets.location3,
                   apiKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
                   getPlaceDetailWithLatLng: (prediction) {
                     provider.jobLocationController.text =
                         "${prediction.lat},${prediction.lng}";
-                    print("Coordinates: (${prediction.lat},${prediction.lng})");
+                    provider.jobAddressController.text =
+                        prediction.description ?? "";
+                    provider
+                        .jobAddressController
+                        .selection = TextSelection.fromPosition(
+                      TextPosition(offset: prediction.description?.length ?? 0),
+                    );
                   },
                   itemClick: (prediction) {
                     provider.jobLocationController.text =
                         "${prediction.lat},${prediction.lng}";
-                    print("Coordinates: (${prediction.lat},${prediction.lng})");
+                    provider.jobAddressController.text =
+                        prediction.description ?? "";
+                    provider
+                        .jobAddressController
+                        .selection = TextSelection.fromPosition(
+                      TextPosition(offset: prediction.description?.length ?? 0),
+                    );
                   },
-
-                  // style: Theme.of(context).textTheme.bodyMedium,
-                  // decoration: InputDecoration(
-                  //   hintText: "Location",
-                  //   hintStyle: Theme.of(
-                  //     context,
-                  //   ).textTheme.bodyMedium?.copyWith(color: Colors.black45),
-                  //   fillColor: AppColor.grey[100]?.withOpacity(.05),
-
-                  //   border: OutlineInputBorder(
-                  //     // borderSide: BorderSide.none,
-                  //     borderSide: BorderSide(
-                  //       color: Colors.grey.shade300,
-                  //       width: .9,
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   enabledBorder: OutlineInputBorder(
-                  //     // borderSide: BorderSide.none,
-                  //     borderSide: BorderSide(
-                  //       color: Colors.grey.shade300,
-                  //       width: .9,
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   focusedBorder: OutlineInputBorder(
-                  //     // borderSide: BorderSide.none,
-                  //     borderSide: BorderSide(
-                  //       color: Colors.grey.shade300,
-                  //       width: .9,
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   contentPadding: EdgeInsets.symmetric(
-                  //     vertical: 2.h,
-                  //     horizontal: 5.w,
-                  //   ),
-                  //   prefixIcon: Padding(
-                  //     padding: const EdgeInsets.all(12.0),
-                  //     child: SvgPicture.asset(
-                  //       AppAssets.location3,
-                  //       height: 17,
-                  //       width: 17,
-                  //     ),
-                  //   ),
-                  // ),
                 ),
                 SizedBox(height: 16),
                 CustomIconTextField(
