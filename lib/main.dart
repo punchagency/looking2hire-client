@@ -8,6 +8,7 @@ import 'package:looking2hire/features/home/providers/employment_history_provider
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/splash_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => NFCProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(
           create: (context) => EmploymentHistoryProvider(),
         ),

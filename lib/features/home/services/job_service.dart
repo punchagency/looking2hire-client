@@ -117,6 +117,11 @@ class JobService {
     return dioClient.get(ApiRoutes.getRecentJobs);
   }
 
+  // Get recommended jobs
+  Future<Response> getRecommendedJobPosts() {
+    return dioClient.get(ApiRoutes.getRecommendedJobPosts);
+  }
+
   // Search for a job
   Future<Response> searchJob({required String title}) {
     return dioClient.get(

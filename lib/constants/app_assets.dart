@@ -44,6 +44,8 @@ class AppAssets {
   static const subtract = "assets/svgs/subtract.svg";
   static const close = "assets/svgs/close.svg";
   static const close2 = "assets/svgs/close2.svg";
+  static const upload = "assets/svgs/upload.svg";
+  static const description = "assets/svgs/description.svg";
 
   static const menu = "assets/svgs/menu.svg";
   static const arrowRight = "assets/svgs/arrow_right.svg";

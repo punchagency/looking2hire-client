@@ -16,6 +16,12 @@ class ApiRoutes {
   static const applicantSignUp = "api/auth/applicant/signup";
   static const applicantSignIn = "api/auth/applicant/signin";
 
+  static const updateApplicantDetails = "api/auth/applicant/update-profile";
+  // static const applicantSignIn = "api/auth/applicant/signin";
+
+  // static const resendOtp = "api/auth/send-otp";
+  // static const applicantVerifyOtp = "api/auth/send-otp";
+  // static const refreshToken = "applicant/refresh-token";
   static const applicantLinkPassword = "applicant/link-password";
 
   static const signOut = "api/auth/signout";
@@ -36,6 +42,7 @@ class ApiRoutes {
   static const deleteJobPost = "api/job/employer/delete";
   static const getJobPost = "api/job/employer/get";
   static const getJobPosts = "api/job/employer/get/all";
+  static const getRecommendedJobPosts = "api/job/applicant/recommended";
 
   // employment history
   static const addEmploymentHistory = "api/job/applicant/employment-history";

@@ -13,6 +13,7 @@ class JobHistoryItem extends StatelessWidget {
   final String startDate;
   final String endDate;
   final VoidCallback? onPressed;
+
   const JobHistoryItem({
     super.key,
     required this.imageUrl,
@@ -37,13 +38,7 @@ class JobHistoryItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, 0),
-              color: Colors.black.withAlpha(36),
-              blurRadius: 7,
-            ),
-          ],
+          boxShadow: [BoxShadow(offset: Offset(0, 0), color: Colors.black.withAlpha(36), blurRadius: 7)],
         ),
         child: Row(
           children: [
@@ -99,10 +94,7 @@ class JobHistoryItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Icon(
-                        CupertinoIcons.right_chevron,
-                        color: AppColors.lightBlack,
-                      ),
+                      Icon(CupertinoIcons.right_chevron, color: AppColors.lightBlack),
                     ],
                   ),
                   const SizedBox(height: 14),
@@ -120,20 +112,26 @@ class JobHistoryItem extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(AppAssets.location),
-                          const SizedBox(width: 6),
-                          Text(
-                            location,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.lighterBlack,
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(AppAssets.location),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                location,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.lighterBlack,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

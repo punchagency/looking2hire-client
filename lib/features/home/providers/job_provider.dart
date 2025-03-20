@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/models/recent_jobs.dart';
+import 'package:looking2hire/features/home/models/recomended_jobs.dart';
 import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
 import 'package:looking2hire/features/home/widgets/bullet_formatter.dart';
@@ -25,6 +27,8 @@ class JobProvider extends ChangeNotifier {
   final TextEditingController jobQualificationsController =
       TextEditingController(text: BulletFormatter.bulletWithSpace);
 
+  RecentJobs recentJobs = RecentJobs();
+  RecommendedJobs recommendedJobs = RecommendedJobs();
   // Create a job
   Future<Job?> createJob() async {
     errorMessage = "";
@@ -201,8 +205,10 @@ class JobProvider extends ChangeNotifier {
       notifyListeners();
       return jobPosts;
     } on DioException catch (e) {
+      print(e.response);
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
+      notifyListeners();
+      // return null;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -258,18 +264,40 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Get recent jobs
-  Future<List<dynamic>?> getRecentJobs() async {
+  Future<void> getRecentJobs() async {
     errorMessage = "";
     try {
-      setProgressDialog();
+      // setProgressDialog();
 
       final response = await apiService.getRecentJobs();
-      return response.data['jobs'];
+      recentJobs = RecentJobs.fromJson(response.data);
+      print(response.data);
+      notifyListeners();
+      // return response.data['jobs'];
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-      currentContext?.pop();
+      // currentContext?.pop();
+    }
+  }
+ // Get recent jobs
+  Future<void> getRecommendedJobPosts() async {
+    errorMessage = "";
+    try {
+      // setProgressDialog();
+
+      final response = await apiService.getRecommendedJobPosts();
+      recommendedJobs = RecommendedJobs.fromJson(response.data);
+      print(response.data);
+      notifyListeners();
+    } on DioException catch (e) {
+      print(e.response);
+      errorMessage = DioExceptions.fromDioError(e).toString();
+      notifyListeners();
+      // return null;
+    } finally {
+      // currentContext?.pop();
     }
   }
 

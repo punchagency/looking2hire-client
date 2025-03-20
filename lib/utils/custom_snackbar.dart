@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
   behavior: SnackBarBehavior.floating,
   backgroundColor: Colors.transparent,
 
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 5),
   content: AwesomeSnackbarContent(
     title: title,
     message:
