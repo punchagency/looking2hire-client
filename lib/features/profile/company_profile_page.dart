@@ -33,9 +33,9 @@ class CompanyProfilePage extends StatefulWidget {
 }
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
-  List<Job> jobPosts = [];
+  // List<Job> jobPosts = [];
   Employer? employer;
-  bool isLoading = false;
+  // bool isLoading = false;
 
   // late final activeJobWidgets = [
   //   ActiveJobItem(
@@ -85,18 +85,20 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   void viewJob(Job job) {
-    context.pushTo(JobCardPage(job: job));
+    context.pushTo(JobCardPage(jobId: job.id));
   }
 
   void getJobs() async {
-    isLoading = true;
-    setState(() {});
+    // isLoading = true;
+    // setState(() {});
     await Future.delayed(const Duration(milliseconds: 300));
 
     final jobProvider = context.read<JobProvider>();
-    jobPosts = await jobProvider.getJobPosts() ?? [];
-    isLoading = false;
-    setState(() {});
+    //jobPosts =
+    await jobProvider.getJobPosts() ?? [];
+    // print("jobPosts: $jobPosts");
+    // isLoading = false;
+    // setState(() {});
   }
 
   void getEmployer() async {
@@ -119,6 +121,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final jobProvider = context.watch<JobProvider>();
+
     return Scaffold(
       appBar: CustomAppBar(
         title: appTitle,
@@ -170,52 +174,54 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               ),
             ),
 
-            SizedBox(height: 35),
-            if (jobPosts.isEmpty) ...[
-              ActionButtonWithIcon(
-                title: "Add First Job Post",
-                icon: AppAssets.addRounded,
-                onPressed: gotoAddJobPost,
-              ),
-
-              const SizedBox(height: 30),
+            if (jobProvider.isLoading) ...[
+              const SizedBox(height: 20),
+              Center(child: const AppProgressBar()),
+              const SizedBox(height: 20),
             ] else ...[
-              Text(
-                "Job Posts",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.lightBlack,
+              SizedBox(height: 35),
+              if (jobProvider.jobPosts.isEmpty) ...[
+                ActionButtonWithIcon(
+                  title: "Add First Job Post",
+                  icon: AppAssets.addRounded,
+                  onPressed: gotoAddJobPost,
                 ),
-              ),
-              const SizedBox(height: 14),
 
-              if (isLoading) ...[
-                const SizedBox(height: 20),
-                Center(child: const AppProgressBar()),
+                const SizedBox(height: 30),
               ] else ...[
+                Text(
+                  "Job Posts",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.lightBlack,
+                  ),
+                ),
+                const SizedBox(height: 14),
+
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: jobPosts.length,
+                  itemCount: jobProvider.jobPosts.length,
                   separatorBuilder: (context, index) {
                     return const SizedBox(height: 26);
                   },
                   itemBuilder: (context, index) {
-                    final job = jobPosts[index];
+                    final job = jobProvider.jobPosts[index];
                     return ActiveJobItem(
                       job: job,
                       onPressed: () => viewJob(job),
                     );
                   },
                 ),
+
+                SizedBox(height: 35),
+                ActionButtonWithIcon(
+                  title: "Create job",
+                  icon: AppAssets.bag,
+                  onPressed: gotoAddJobPost,
+                ),
               ],
-              SizedBox(height: 35),
-              ActionButtonWithIcon(
-                title: "Create job",
-                icon: AppAssets.bag,
-                onPressed: gotoAddJobPost,
-              ),
             ],
           ],
         ),

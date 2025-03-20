@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/features/home/models/job.dart';
-import 'package:looking2hire/features/home/models/job_2.dart';
 
 class SearchResultItem extends StatelessWidget {
   final Job job;

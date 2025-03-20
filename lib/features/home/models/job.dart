@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 
 class Job {
   String employerId;
+  String? company_name;
   String job_title;
   String job_address;
   List<double> location;
@@ -17,6 +18,7 @@ class Job {
   String updatedAt;
   Job({
     required this.employerId,
+    this.company_name,
     required this.job_title,
     required this.job_address,
     required this.location,
@@ -31,6 +33,7 @@ class Job {
 
   Job copyWith({
     String? employerId,
+    String? company_name,
     String? job_title,
     String? job_address,
     List<double>? location,
@@ -44,6 +47,7 @@ class Job {
   }) {
     return Job(
       employerId: employerId ?? this.employerId,
+      company_name: company_name ?? this.company_name,
       job_title: job_title ?? this.job_title,
       job_address: job_address ?? this.job_address,
       location: location ?? this.location,
@@ -60,6 +64,7 @@ class Job {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'employerId': employerId,
+      'company_name': company_name,
       'job_title': job_title,
       'job_address': job_address,
       'location': location,
@@ -76,9 +81,13 @@ class Job {
   factory Job.fromMap(Map<String, dynamic> map) {
     return Job(
       employerId: map['employerId'] as String,
+      company_name: map['company_name'] as String,
       job_title: map['job_title'] as String,
       job_address: map['job_address'] as String,
-      location: List<double>.from((map['location'] as List<dynamic>)),
+      location:
+          List<num>.from(
+            (map['location'] as List<dynamic>),
+          ).map((value) => value.toDouble()).toList(),
       summary: map['summary'] as String,
       key_responsibilities: List<String>.from(
         (map['key_responsibilities'] as List<dynamic>),
@@ -100,7 +109,7 @@ class Job {
 
   @override
   String toString() {
-    return 'Job(employerId: $employerId, job_title: $job_title, job_address: $job_address, location: $location, summary: $summary, key_responsibilities: $key_responsibilities, qualifications: $qualifications, closing_statement: $closing_statement, id: $id, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Job(employerId: $employerId, company_name: $company_name, job_title: $job_title, job_address: $job_address, location: $location, summary: $summary, key_responsibilities: $key_responsibilities, qualifications: $qualifications, closing_statement: $closing_statement, id: $id, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -108,6 +117,7 @@ class Job {
     if (identical(this, other)) return true;
 
     return other.employerId == employerId &&
+        other.company_name == company_name &&
         other.job_title == job_title &&
         other.job_address == job_address &&
         listEquals(other.location, location) &&
@@ -123,6 +133,7 @@ class Job {
   @override
   int get hashCode {
     return employerId.hashCode ^
+        company_name.hashCode ^
         job_title.hashCode ^
         job_address.hashCode ^
         location.hashCode ^

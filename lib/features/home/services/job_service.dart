@@ -3,7 +3,7 @@ import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/network/dio_client.dart';
 
 class JobService {
-  final DioClient dioClient = DioClient(Dio());
+  final DioClient dioClient = DioClient();
 
   Future<Response> createJob({
     String? job_title,
@@ -30,7 +30,7 @@ class JobService {
     List<double>? location,
     List<String>? qualifications,
   }) {
-    return dioClient.put(
+    return dioClient.patch(
       "${ApiRoutes.updateJobPost}/$job_id",
       data: {
         if (job_title != null) "job_title": job_title,

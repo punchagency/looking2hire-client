@@ -8,7 +8,6 @@ import 'package:looking2hire/features/home/widgets/search_result_item.dart';
 import 'package:looking2hire/reuseable/widgets/outlined_container.dart';
 
 import '../../../app_colors.dart';
-import '../models/job_2.dart';
 
 class JobSearchPage extends StatefulWidget {
   const JobSearchPage({super.key});

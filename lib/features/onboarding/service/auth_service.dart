@@ -4,7 +4,7 @@ import 'package:looking2hire/features/onboarding/models/employer.dart';
 import 'package:looking2hire/network/dio_client.dart';
 
 class AuthService {
-  final DioClient dioClient = DioClient(Dio());
+  final DioClient dioClient = DioClient();
 
   Future<Response> employerSignup({
     String? companyName,

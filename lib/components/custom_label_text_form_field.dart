@@ -386,6 +386,10 @@ class CustomIconTextField extends StatefulWidget {
     this.suffixIcon,
     this.validate,
     this.onChanged,
+    this.focusNode,
+    this.inputFormatters,
+    this.minLines,
+    this.maxLines,
   });
 
   final TextEditingController textEditingController;
@@ -395,6 +399,10 @@ class CustomIconTextField extends StatefulWidget {
   final bool isPassword;
   final Widget? suffixIcon;
   final FormFieldValidator<String>? validate;
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? minLines;
+  final int? maxLines;
 
   @override
   State<CustomIconTextField> createState() => _CustomIconTextFieldState();
@@ -406,14 +414,11 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
   @override
   void initState() {
     super.initState();
-
     isObscure = widget.isPassword;
   }
 
   void toggleObscure() {
-    // if (!widget.textHint!.contains('Confirm')) {
     setState(() => isObscure = !isObscure);
-    // }
   }
 
   @override
@@ -422,12 +427,15 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
 
     return TextFormField(
       controller: widget.textEditingController,
+      focusNode: widget.focusNode,
       style: bodyMedium,
       validator: widget.validate,
-      // textInputAction: TextInputAction.search,
       cursorColor: AppColor.black,
       onChanged: widget.onChanged,
-
+      inputFormatters: widget.inputFormatters,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      // textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColor.grey[100]?.withOpacity(.05),
@@ -447,6 +455,7 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
           borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
           borderRadius: BorderRadius.circular(10),
         ),
+
         hintText: widget.textHint,
         suffixIcon:
             !widget.isPassword
@@ -479,9 +488,9 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
 class CustomGoogleLabelInputText extends StatelessWidget {
   const CustomGoogleLabelInputText({
     super.key,
-    required this.label,
+    this.label,
     this.controller,
-    this.placeholder,
+    this.hintText,
     this.counterText,
     this.maxLength,
     this.maxLines,
@@ -510,9 +519,9 @@ class CustomGoogleLabelInputText extends StatelessWidget {
     this.icon,
   });
   final String? icon;
-  final String label;
+  final String? label;
   final TextEditingController? controller;
-  final String? placeholder;
+  final String? hintText;
   final String? counterText;
   final String? apiKey;
   final int? maxLength;
@@ -546,24 +555,25 @@ class CustomGoogleLabelInputText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Row(
-        //   children: [
-        //     CustomOpenSansText(
-        //       text: label,
-        //       textColor: labelColor ?? Colors.black,
-        //       textSize: 12.sp,
-        //       fontStyle: fontStyle,
-        //       fontWeight: fontWeight,
-        //     ),
-        //     if (required)
-        //       CustomOpenSansText(
-        //         text: "*",
-        //         textColor: AppColor.primaryColor,
-        //         textSize: 12.sp,
-        //         fontWeight: FontWeight.w500,
-        //       ),
-        //   ],
-        // ),
+        if (label != null)
+          Row(
+            children: [
+              CustomOpenSansText(
+                text: label!,
+                textColor: labelColor ?? Colors.black,
+                textSize: 12.sp,
+                fontStyle: fontStyle,
+                fontWeight: fontWeight,
+              ),
+              if (required)
+                CustomOpenSansText(
+                  text: "*",
+                  textColor: AppColor.primaryColor,
+                  textSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+            ],
+          ),
         // SizedBox(height: 10.h),
         GooglePlaceAutoCompleteTextField(
           textEditingController: controller ?? TextEditingController(),
@@ -584,7 +594,7 @@ class CustomGoogleLabelInputText extends StatelessWidget {
               borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
               borderRadius: BorderRadius.circular(10),
             ),
-            hintText: placeholder,
+            hintText: hintText,
             prefixIcon:
                 prefixIcon ??
                 (icon != null

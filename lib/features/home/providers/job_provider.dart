@@ -4,6 +4,7 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
+import 'package:looking2hire/features/home/widgets/bullet_formatter.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_exception.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -13,17 +14,23 @@ class JobProvider extends ChangeNotifier {
 
   String errorMessage = "";
   String successMessage = "";
+  bool isLoading = true;
+
+  List<Job> jobPosts = [];
+  Job? job;
 
   final TextEditingController jobTitleController = TextEditingController();
   final TextEditingController jobAddressController = TextEditingController();
   final TextEditingController jobLocationController = TextEditingController();
   final TextEditingController jobQualificationsController =
-      TextEditingController();
+      TextEditingController(text: BulletFormatter.bulletWithSpace);
 
   // Create a job
   Future<Job?> createJob() async {
     errorMessage = "";
     successMessage = "";
+    isLoading = true;
+    notifyListeners();
     try {
       setProgressDialog();
 
@@ -45,46 +52,71 @@ class JobProvider extends ChangeNotifier {
       successMessage = "Job created successfully";
       errorMessage = "";
 
-      final job = response.data['job'];
+      final job = Job.fromMap(response.data['job']);
       print("job = $job");
 
-      return Job.fromMap(job);
+      jobPosts.insert(0, job);
+      notifyListeners();
+
+      return job;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
+      isLoading = false;
+      resetControllers();
+      notifyListeners();
       currentContext?.pop();
     }
   }
 
   // Update job post
-  Future<bool> updateJobPost({
-    required String jobId,
-    String? jobTitle,
-    String? jobAddress,
-    List<double>? location,
-    List<String>? qualifications,
-  }) async {
+  Future<bool> updateJobPost({required String jobId}) async {
     errorMessage = "";
     successMessage = "";
+    isLoading = true;
+    notifyListeners();
     try {
       setProgressDialog();
 
       final response = await apiService.updateJobPost(
         job_id: jobId,
-        job_title: jobTitle,
-        job_address: jobAddress,
-        location: location,
-        qualifications: qualifications,
+        job_title: jobTitleController.text,
+        job_address: jobAddressController.text,
+        location:
+            jobLocationController.text.contains(",")
+                ? [
+                  double.tryParse(jobLocationController.text.split(",")[0]) ??
+                      0.0,
+                  double.tryParse(jobLocationController.text.split(",")[1]) ??
+                      0.0,
+                ]
+                : [0.0, 0.0],
+        qualifications: [jobQualificationsController.text],
       );
 
       successMessage = response.data['message'] ?? "";
       errorMessage = response.data['error'] ?? "";
+
+      final job = Job.fromMap(response.data['job']);
+      final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
+      if (jobIndex != -1) {
+        jobPosts[jobIndex] = job;
+      }
+      if (job.id == jobId) {
+        this.job = job;
+      }
+
+      notifyListeners();
+
       return true;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      isLoading = false;
+      resetControllers();
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -93,32 +125,57 @@ class JobProvider extends ChangeNotifier {
   Future<bool> deleteJobPost({required String jobId}) async {
     errorMessage = "";
     successMessage = "";
+
+    isLoading = true;
+    notifyListeners();
     try {
       setProgressDialog();
 
       await apiService.deleteJobPost(job_id: jobId);
       successMessage = "Job deleted successfully";
+
+      final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
+      if (jobIndex != -1) {
+        jobPosts.removeAt(jobIndex);
+      }
+      if (job?.id == jobId) {
+        job = null;
+      }
+      notifyListeners();
       return true;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      isLoading = false;
+      notifyListeners();
       currentContext?.pop();
     }
   }
 
   // Get job details
-  Future<Map<String, dynamic>?> getJobPost({required String jobId}) async {
+  Future<Job?> getJobPost({required String jobId}) async {
     errorMessage = "";
+    job = null;
+    isLoading = true;
+    notifyListeners();
     try {
       setProgressDialog();
 
       final response = await apiService.getJobPost(job_id: jobId);
-      return response.data['job'];
+      final job = Job.fromMap(response.data['job']);
+      final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
+      if (jobIndex != -1) {
+        jobPosts[jobIndex] = job;
+      }
+      this.job = job;
+      return job;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
+      isLoading = false;
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -126,21 +183,30 @@ class JobProvider extends ChangeNotifier {
   // Get all job posts
   Future<List<Job>?> getJobPosts() async {
     errorMessage = "";
+
+    isLoading = true;
+    notifyListeners();
     try {
       //setProgressDialog();
 
       final response = await apiService.getJobPosts();
       // print("response.data: ${response.data}");
       final jobsList = response.data?['jobs'] as List<dynamic>?;
-      if (jobsList == null) return null;
-      return jobsList
-          .map((e) => Job.fromMap(e as Map<String, dynamic>))
-          .toList();
+      if (jobsList == null) {
+        jobPosts = [];
+        return null;
+      }
+      jobPosts =
+          jobsList.map((e) => Job.fromMap(e as Map<String, dynamic>)).toList();
+      notifyListeners();
+      return jobPosts;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-      ;
+      isLoading = false;
+      notifyListeners();
+
       //currentContext?.pop();
     }
   }
@@ -149,6 +215,10 @@ class JobProvider extends ChangeNotifier {
   Future<bool> applyForJob({required String jobId}) async {
     errorMessage = "";
     successMessage = "";
+
+    isLoading = true;
+    notifyListeners();
+
     try {
       setProgressDialog();
 
@@ -160,6 +230,8 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      isLoading = false;
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -167,6 +239,9 @@ class JobProvider extends ChangeNotifier {
   // Get popular jobs
   Future<List<dynamic>?> getPopularJobs() async {
     errorMessage = "";
+    isLoading = true;
+    notifyListeners();
+
     try {
       setProgressDialog();
 
@@ -176,6 +251,8 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
+      isLoading = false;
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -314,6 +391,15 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     }
+  }
+
+  void resetControllers() {
+    jobTitleController.clear();
+    jobAddressController.clear();
+    jobLocationController.clear();
+    jobQualificationsController.text = BulletFormatter.bulletWithSpace;
+
+    // jobQualificationsController.clear();
   }
 
   @override

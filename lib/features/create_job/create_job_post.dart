@@ -11,6 +11,7 @@ import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
+import 'package:looking2hire/features/create_job/views/create_job_fields.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
@@ -27,6 +28,15 @@ class CreateJobPost extends StatefulWidget {
 }
 
 class _CreateJobPostState extends State<CreateJobPost> {
+  // void updateJobLocation(Prediction prediction) {
+  //   final provider = context.read<JobProvider>();
+  //   provider.jobLocationController.text = "${prediction.lat},${prediction.lng}";
+  //   provider.jobAddressController.text = prediction.description ?? "";
+  //   provider.jobAddressController.selection = TextSelection.fromPosition(
+  //     TextPosition(offset: prediction.description?.length ?? 0),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,125 +65,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
                   textColor: AppColor.grey[500],
                 ),
                 SizedBox(height: 32),
-                CustomIconTextField(
-                  textEditingController: provider.jobTitleController,
-                  textHint: "Job Title",
-                  icon: AppAssets.briefcase,
-                ),
-                SizedBox(height: 16),
-                // GooglePlacesAutoCompleteTextFormField(
-                //   style: Theme.of(context).textTheme.bodyMedium,
-                //   decoration: InputDecoration(
-                //     hintText: "Location",
-                //     hintStyle: Theme.of(
-                //       context,
-                //     ).textTheme.bodyMedium?.copyWith(color: Colors.black45),
-                //     fillColor: AppColor.grey[100]?.withOpacity(.05),
-
-                //     border: OutlineInputBorder(
-                //       // borderSide: BorderSide.none,
-                //       borderSide: BorderSide(
-                //         color: Colors.grey.shade300,
-                //         width: .9,
-                //       ),
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     enabledBorder: OutlineInputBorder(
-                //       // borderSide: BorderSide.none,
-                //       borderSide: BorderSide(
-                //         color: Colors.grey.shade300,
-                //         width: .9,
-                //       ),
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     focusedBorder: OutlineInputBorder(
-                //       // borderSide: BorderSide.none,
-                //       borderSide: BorderSide(
-                //         color: Colors.grey.shade300,
-                //         width: .9,
-                //       ),
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     contentPadding: EdgeInsets.symmetric(
-                //       vertical: 2.h,
-                //       horizontal: 5.w,
-                //     ),
-                //     prefixIcon: Padding(
-                //       padding: const EdgeInsets.all(12.0),
-                //       child: SvgPicture.asset(
-                //         AppAssets.location3,
-                //         height: 17,
-                //         width: 17,
-                //       ),
-                //     ),
-                //   ),
-
-                //   textEditingController: provider.jobAddressController,
-                //   googleAPIKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
-
-                //   debounceTime: 400, // defaults to 600 ms
-                //   // countries: [
-                //   //   "de",
-                //   // ], // optional, by default the list is empty (no restrictions)
-                //   fetchCoordinates:
-                //       true, // if you require the coordinates from the place details
-                //   onPlaceDetailsWithCoordinatesReceived: (prediction) {
-                //     // this method will return latlng with place detail
-                //     provider.jobLocationController.text =
-                //         "${prediction.lat},${prediction.lng}";
-                //     print("Coordinates: (${prediction.lat},${prediction.lng})");
-                //   }, // this callback is called when fetchCoordinates is true
-                //   onSuggestionClicked: (prediction) {
-                //     provider.jobAddressController.text =
-                //         prediction.description ?? "";
-                //     provider
-                //         .jobAddressController
-                //         .selection = TextSelection.fromPosition(
-                //       TextPosition(offset: prediction.description?.length ?? 0),
-                //     );
-                //   },
-                // ),
-                // CustomIconTextField(
-                //   textEditingController: provider.jobLocationController,
-                //   textHint: "Location",
-                //   icon: AppAssets.location3,
-                // ),
-                CustomGoogleLabelInputText(
-                  label: "Location",
-                  keyboardType: TextInputType.text,
-                  inputAction: TextInputAction.done,
-                  controller: provider.jobAddressController,
-                  icon: AppAssets.location3,
-                  apiKey: dotenv.env['GOOGLE_API_KEY'] ?? "",
-                  getPlaceDetailWithLatLng: (prediction) {
-                    provider.jobLocationController.text =
-                        "${prediction.lat},${prediction.lng}";
-                    provider.jobAddressController.text =
-                        prediction.description ?? "";
-                    provider
-                        .jobAddressController
-                        .selection = TextSelection.fromPosition(
-                      TextPosition(offset: prediction.description?.length ?? 0),
-                    );
-                  },
-                  itemClick: (prediction) {
-                    provider.jobLocationController.text =
-                        "${prediction.lat},${prediction.lng}";
-                    provider.jobAddressController.text =
-                        prediction.description ?? "";
-                    provider
-                        .jobAddressController
-                        .selection = TextSelection.fromPosition(
-                      TextPosition(offset: prediction.description?.length ?? 0),
-                    );
-                  },
-                ),
-                SizedBox(height: 16),
-                CustomIconTextField(
-                  textEditingController: provider.jobQualificationsController,
-                  textHint: "Qualification need for the job",
-                  icon: AppAssets.graduation,
-                ),
+                CreateJobFields(),
                 SizedBox(height: 40),
                 Button(
                   onPressed: () {
@@ -184,9 +76,10 @@ class _CreateJobPostState extends State<CreateJobPost> {
                           title: "Success",
                           message: provider.successMessage,
                         );
-                        context.pushReplacement(
-                          HireJobPostDetailsPage(job: job),
-                        );
+                        context.pop();
+                        // context.pushReplacement(
+                        //   HireJobPostDetailsPage(job: job),
+                        // );
                       } else {
                         setSnackBar(
                           context: context,
