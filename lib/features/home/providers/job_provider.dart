@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/extensions/response_extension.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/recent_jobs.dart';
 import 'package:looking2hire/features/home/models/recomended_jobs.dart';
@@ -25,10 +26,40 @@ class JobProvider extends ChangeNotifier {
   final TextEditingController jobAddressController = TextEditingController();
   final TextEditingController jobLocationController = TextEditingController();
   final TextEditingController jobQualificationsController =
-      TextEditingController(text: BulletFormatter.bulletWithSpace);
+      TextEditingController();
+  final TextEditingController jobSalaryMinController = TextEditingController();
+  final TextEditingController jobSalaryMaxController = TextEditingController();
+  final TextEditingController jobSalaryCurrencyController =
+      TextEditingController(text: "USD");
+  final TextEditingController jobSalaryPeriodController = TextEditingController(
+    text: "Hourly",
+  );
+  final TextEditingController jobWorkTypeController = TextEditingController(
+    text: "Remote",
+  );
+  final TextEditingController jobEmploymentTypeController =
+      TextEditingController(text: "Full Time");
+  final TextEditingController jobSeniorityController = TextEditingController(
+    text: "Junior",
+  );
 
   RecentJobs recentJobs = RecentJobs();
   RecommendedJobs recommendedJobs = RecommendedJobs();
+
+  final List<String> jobSalaryPeriods = [
+    "Hourly",
+    "Weekly",
+    "Monthly",
+    "Annually",
+  ];
+  final List<String> jobWorkTypes = ["Remote", "Hybrid", "Onsite"];
+  final List<String> jobEmploymentTypes = [
+    "Full Time",
+    "Part Time",
+    "Contract",
+  ];
+  final List<String> jobSeniorities = ["Junior", "Mid", "Senior"];
+
   // Create a job
   Future<Job?> createJob() async {
     errorMessage = "";
@@ -50,8 +81,23 @@ class JobProvider extends ChangeNotifier {
                       0.0,
                 ]
                 : [0.0, 0.0],
-        qualifications: [jobQualificationsController.text],
+        qualifications: jobQualificationsController.text,
+        salary_min: int.tryParse(jobSalaryMinController.text),
+        salary_max: int.tryParse(jobSalaryMaxController.text),
+        salary_currency: jobSalaryCurrencyController.text,
+        salary_period: jobSalaryPeriodController.text,
+        work_type: jobWorkTypeController.text,
+        employment_type: jobEmploymentTypeController.text,
+        seniority: jobSeniorityController.text,
       );
+
+      if (!response.success) {
+        errorMessage = response.error;
+        isLoading = false;
+        notifyListeners();
+        currentContext?.pop();
+        return null;
+      }
 
       successMessage = "Job created successfully";
       errorMessage = "";
@@ -96,8 +142,23 @@ class JobProvider extends ChangeNotifier {
                       0.0,
                 ]
                 : [0.0, 0.0],
-        qualifications: [jobQualificationsController.text],
+        qualifications: jobQualificationsController.text,
+        salary_min: int.tryParse(jobSalaryMinController.text),
+        salary_max: int.tryParse(jobSalaryMaxController.text),
+        salary_currency: jobSalaryCurrencyController.text,
+        salary_period: jobSalaryPeriodController.text,
+        work_type: jobWorkTypeController.text,
+        employment_type: jobEmploymentTypeController.text,
+        seniority: jobSeniorityController.text,
       );
+
+      if (!response.success) {
+        errorMessage = response.error;
+        isLoading = false;
+        notifyListeners();
+        currentContext?.pop();
+        return false;
+      }
 
       successMessage = response.data['message'] ?? "";
       errorMessage = response.data['error'] ?? "";
@@ -136,7 +197,16 @@ class JobProvider extends ChangeNotifier {
       setProgressDialog();
 
       final response = await apiService.deleteJobPost(job_id: jobId);
+      print("response = $response");
       successMessage = response.data['message'] ?? "Job deleted successfully";
+
+      if (!response.success) {
+        errorMessage = response.error;
+        isLoading = false;
+        notifyListeners();
+        currentContext?.pop();
+        return false;
+      }
 
       final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
       if (jobIndex != -1) {
@@ -160,13 +230,20 @@ class JobProvider extends ChangeNotifier {
   // Get job details
   Future<Job?> getJobPost({required String jobId}) async {
     errorMessage = "";
-    job = null;
-    isLoading = true;
-    notifyListeners();
+    //job = null;
+    // isLoading = true;
+    // notifyListeners();
     try {
-      setProgressDialog();
+      //setProgressDialog();
 
       final response = await apiService.getJobPost(job_id: jobId);
+      if (!response.success) {
+        errorMessage = response.error;
+        // isLoading = false;
+        // notifyListeners();
+        // currentContext?.pop();
+        return null;
+      }
       final job = Job.fromMap(response.data['job']);
       final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
       if (jobIndex != -1) {
@@ -178,9 +255,9 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-      isLoading = false;
+      // isLoading = false;
       notifyListeners();
-      currentContext?.pop();
+      // currentContext?.pop();
     }
   }
 
@@ -194,6 +271,13 @@ class JobProvider extends ChangeNotifier {
       //setProgressDialog();
 
       final response = await apiService.getJobPosts();
+
+      if (!response.success) {
+        errorMessage = response.error;
+        isLoading = false;
+        notifyListeners();
+        return null;
+      }
       // print("response.data: ${response.data}");
       final jobsList = response.data?['jobs'] as List<dynamic>?;
       if (jobsList == null) {
@@ -215,6 +299,7 @@ class JobProvider extends ChangeNotifier {
 
       //currentContext?.pop();
     }
+    return null;
   }
 
   // Apply for a job
@@ -229,6 +314,13 @@ class JobProvider extends ChangeNotifier {
       setProgressDialog();
 
       final response = await apiService.applyForJob(jobId: jobId);
+      if (!response.success) {
+        errorMessage = response.error;
+        isLoading = false;
+        notifyListeners();
+        currentContext?.pop();
+        return false;
+      }
       successMessage =
           response.data['message'] ?? "Successfully applied for job";
       return true;
@@ -426,9 +518,14 @@ class JobProvider extends ChangeNotifier {
     jobTitleController.clear();
     jobAddressController.clear();
     jobLocationController.clear();
-    jobQualificationsController.text = BulletFormatter.bulletWithSpace;
-
-    // jobQualificationsController.clear();
+    jobQualificationsController.clear();
+    jobSalaryMinController.clear();
+    jobSalaryMaxController.clear();
+    jobSalaryCurrencyController.text = "USD";
+    jobSalaryPeriodController.text = jobSalaryPeriods.first;
+    jobWorkTypeController.text = jobWorkTypes.first;
+    jobEmploymentTypeController.text = jobEmploymentTypes.first;
+    jobSeniorityController.text = jobSeniorities.first;
   }
 
   @override
@@ -437,6 +534,13 @@ class JobProvider extends ChangeNotifier {
     jobAddressController.dispose();
     jobLocationController.dispose();
     jobQualificationsController.dispose();
+    jobSalaryMinController.dispose();
+    jobSalaryMaxController.dispose();
+    jobSalaryCurrencyController.dispose();
+    jobSalaryPeriodController.dispose();
+    jobWorkTypeController.dispose();
+    jobEmploymentTypeController.dispose();
+    jobSeniorityController.dispose();
     super.dispose();
   }
 }

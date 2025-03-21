@@ -138,6 +138,8 @@ class _HireAppliedJobsPageState extends State<HireAppliedJobsPage> {
             HireContainer(
               title: "Saved Candidates",
               rightChild: AppDropdown(
+                height: 40,
+                width: 150,
                 items: options,
                 selectedItem: selectedOption,
                 onChanged: updateSelectedOption,

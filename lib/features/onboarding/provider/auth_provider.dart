@@ -108,6 +108,7 @@ class AuthProvider extends ChangeNotifier {
         email: emailController.text,
         password: passwordController.text,
       );
+      print("response = $response");
 
       loginResponse = LoginResponse.fromJson(response.data);
 

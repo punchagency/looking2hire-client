@@ -14,7 +14,6 @@ import 'package:looking2hire/features/home/pages/job_card_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
-import 'package:looking2hire/features/onboarding/models/employer.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
@@ -85,6 +84,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   void viewJob(Job job) {
+    context.read<JobProvider>().job = job;
     context.pushTo(JobCardPage(jobId: job.id));
   }
 

@@ -381,7 +381,7 @@ class CustomIconTextField extends StatefulWidget {
     super.key,
     required this.textEditingController,
     this.textHint,
-    required this.icon,
+    this.icon,
     this.isPassword = false,
     this.suffixIcon,
     this.validate,
@@ -390,12 +390,13 @@ class CustomIconTextField extends StatefulWidget {
     this.inputFormatters,
     this.minLines,
     this.maxLines,
+    this.keyboardType,
   });
 
   final TextEditingController textEditingController;
   final String? textHint;
   final Function(String)? onChanged;
-  final String icon;
+  final String? icon;
   final bool isPassword;
   final Widget? suffixIcon;
   final FormFieldValidator<String>? validate;
@@ -403,6 +404,7 @@ class CustomIconTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? minLines;
   final int? maxLines;
+  final TextInputType? keyboardType;
 
   @override
   State<CustomIconTextField> createState() => _CustomIconTextFieldState();
@@ -435,6 +437,7 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
       inputFormatters: widget.inputFormatters,
       minLines: widget.minLines,
       maxLines: widget.maxLines,
+      keyboardType: widget.keyboardType,
       // textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         filled: true,
@@ -475,10 +478,13 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
                   ),
                 ),
         hintStyle: bodyMedium?.copyWith(color: Colors.black45),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: SvgPicture.asset(widget.icon, height: 17, width: 17),
-        ),
+        prefixIcon:
+            widget.icon == null
+                ? null
+                : Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SvgPicture.asset(widget.icon!, height: 17, width: 17),
+                ),
         contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
       ),
     );

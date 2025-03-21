@@ -145,7 +145,7 @@ class _JobCardPageState extends State<JobCardPage> {
   @override
   void initState() {
     super.initState();
-    getJobPost();
+    //getJobPost();
   }
 
   @override
@@ -269,16 +269,16 @@ class _JobCardPageState extends State<JobCardPage> {
                         ),
                       ],
                     ),
-                    Positioned(
-                      bottom: 20,
-                      left: 0,
-                      right: 0,
-                      child: ActionButton(
-                        title: "Apply Now",
-                        color: AppColors.lighterBlack,
-                        onPressed: applyForJob,
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom: 20,
+                    //   left: 0,
+                    //   right: 0,
+                    //   child: ActionButton(
+                    //     title: "Apply Now",
+                    //     color: AppColors.lighterBlack,
+                    //     onPressed: applyForJob,
+                    //   ),
+                    // ),
                   ],
                 ),
       ),

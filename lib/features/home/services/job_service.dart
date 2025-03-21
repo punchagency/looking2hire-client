@@ -9,7 +9,14 @@ class JobService {
     String? job_title,
     String? job_address,
     List<double>? location,
-    List<String>? qualifications,
+    String? qualifications,
+    int? salary_min,
+    int? salary_max,
+    String? salary_currency,
+    String? salary_period,
+    String? work_type,
+    String? employment_type,
+    String? seniority,
   }) async {
     final Response response = await dioClient.post(
       ApiRoutes.createJobPost,
@@ -18,6 +25,13 @@ class JobService {
         "job_address": job_address,
         "location": location,
         "qualifications": qualifications,
+        "salary_min": salary_min,
+        "salary_max": salary_max,
+        "salary_currency": salary_currency,
+        "salary_period": salary_period,
+        "work_type": work_type,
+        "employment_type": employment_type,
+        "seniority": seniority,
       },
     );
     return response;
@@ -28,7 +42,14 @@ class JobService {
     String? job_title,
     String? job_address,
     List<double>? location,
-    List<String>? qualifications,
+    String? qualifications,
+    int? salary_min,
+    int? salary_max,
+    String? salary_currency,
+    String? salary_period,
+    String? work_type,
+    String? employment_type,
+    String? seniority,
   }) {
     return dioClient.patch(
       "${ApiRoutes.updateJobPost}/$job_id",
@@ -37,6 +58,13 @@ class JobService {
         if (job_address != null) "job_address": job_address,
         if (location != null) "location": location,
         if (qualifications != null) "qualifications": qualifications,
+        if (salary_min != null) "salary_min": salary_min,
+        if (salary_max != null) "salary_max": salary_max,
+        if (salary_currency != null) "salary_currency": salary_currency,
+        if (salary_period != null) "salary_period": salary_period,
+        if (work_type != null) "work_type": work_type,
+        if (employment_type != null) "employment_type": employment_type,
+        if (seniority != null) "seniority": seniority,
       },
     );
   }

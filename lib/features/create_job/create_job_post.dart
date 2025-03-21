@@ -37,6 +37,29 @@ class _CreateJobPostState extends State<CreateJobPost> {
   //   );
   // }
 
+  void createJob() {
+    final provider = context.read<JobProvider>();
+    provider.createJob().then((job) {
+      if (job != null) {
+        setSnackBar(
+          context: context,
+          title: "Success",
+          message: provider.successMessage,
+        );
+        context.pop();
+        // context.pushReplacement(
+        //   HireJobPostDetailsPage(job: job),
+        // );
+      } else {
+        setSnackBar(
+          context: context,
+          title: "Error",
+          message: provider.errorMessage,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,29 +91,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
                 CreateJobFields(),
                 SizedBox(height: 40),
                 Button(
-                  onPressed: () {
-                    provider.createJob().then((job) {
-                      if (job != null) {
-                        setSnackBar(
-                          context: context,
-                          title: "Success",
-                          message: provider.successMessage,
-                        );
-                        context.pop();
-                        // context.pushReplacement(
-                        //   HireJobPostDetailsPage(job: job),
-                        // );
-                      } else {
-                        setSnackBar(
-                          context: context,
-                          title: "Error",
-                          message: provider.errorMessage,
-                        );
-                      }
-                    });
-
-                    // nextScreen(context, DecalStep1Screen());
-                  },
+                  onPressed: createJob,
                   text: "Generate Job",
                   block: true,
                   color: AppColor.buttonColor,

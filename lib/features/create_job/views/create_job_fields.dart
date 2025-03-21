@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:looking2hire/components/app_dropdown.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
@@ -82,9 +83,70 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
           textHint: "Qualification need for the job",
           icon: AppAssets.graduation,
           focusNode: _qualificationsFocus,
-          minLines: 5,
-          maxLines: 10,
-          inputFormatters: [BulletFormatter()],
+          minLines: 2,
+          maxLines: 5,
+        ),
+        SizedBox(height: 16),
+        CustomIconTextField(
+          textEditingController: provider.jobSalaryMinController,
+          keyboardType: TextInputType.number,
+          textHint: "Salary Min",
+          //icon: AppAssets.money,
+        ),
+        SizedBox(height: 16),
+        CustomIconTextField(
+          textEditingController: provider.jobSalaryMaxController,
+          keyboardType: TextInputType.number,
+          textHint: "Salary Max in USD",
+          //icon: AppAssets.money,
+        ),
+        SizedBox(height: 16),
+        CustomIconTextField(
+          textEditingController: provider.jobSalaryCurrencyController,
+          textHint: "Salary Currency in USD",
+          //icon: AppAssets.money,
+        ),
+        SizedBox(height: 16),
+
+        AppDropdown(
+          isInputField: true,
+          items: provider.jobSalaryPeriods,
+          selectedItem: provider.jobSalaryPeriodController.text,
+          onChanged: (value) {
+            provider.jobSalaryPeriodController.text = value ?? "";
+          },
+        ),
+
+        SizedBox(height: 16),
+
+        AppDropdown(
+          isInputField: true,
+          items: provider.jobWorkTypes,
+          selectedItem: provider.jobWorkTypeController.text,
+          onChanged: (value) {
+            provider.jobWorkTypeController.text = value ?? "";
+          },
+        ),
+        SizedBox(height: 16),
+
+        AppDropdown(
+          isInputField: true,
+          items: provider.jobEmploymentTypes,
+          selectedItem: provider.jobEmploymentTypeController.text,
+          onChanged: (value) {
+            provider.jobEmploymentTypeController.text = value ?? "";
+          },
+        ),
+
+        SizedBox(height: 16),
+
+        AppDropdown(
+          isInputField: true,
+          items: provider.jobSeniorities,
+          selectedItem: provider.jobSeniorityController.text,
+          onChanged: (value) {
+            provider.jobSeniorityController.text = value ?? "";
+          },
         ),
       ],
     );

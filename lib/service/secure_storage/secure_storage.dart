@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:looking2hire/features/onboarding/models/applicant.dart';
-import 'package:looking2hire/features/onboarding/models/employer.dart';
+
+import '../../features/home/models/job.dart';
 
 class SecureStorage {
   static final SecureStorage _instance = SecureStorage._internal();

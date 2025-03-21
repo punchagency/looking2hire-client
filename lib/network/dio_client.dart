@@ -43,6 +43,7 @@ class DioClient {
 
           try {
             var refreshToken = await _secureStorage.retrieveRefreshToken();
+            debugPrint("refreshToken = $refreshToken");
             final refreshResponse = await _dio.post(
               ApiRoutes.refreshToken,
               data: {if (refreshToken != null) "refreshToken": refreshToken},
