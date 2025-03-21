@@ -57,7 +57,7 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
       context: context,
       builder: (context) {
         return DialogContainer(
-          title: "Edit Job Post",
+          title: "Edit Profile",
           hint: "Update the job details and save changes.",
           actions: [
             ActionButtonWithIcon(title: "Save Changes", onPressed: (){

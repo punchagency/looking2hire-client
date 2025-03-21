@@ -28,14 +28,28 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  String? uType;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    uType = await SecureStorage().retrieveUserType();
+    print(uType);
+    setState(() {});
+  }
+
   void gotoDashboard() {
     //context.pushTo(HomePage());
   }
 
   void gotoProfile() {
-    if (isHire) {
-      return;
-    }
+    // if (isHire) {
+    //   return;
+    // }
     context.pushTo(LookingToHireProfile());
   }
 
@@ -82,12 +96,8 @@ class _AppDrawerState extends State<AppDrawer> {
           context: currentContext!,
           title: "Success",
           message: provider.successMessage,
-        );
-      } else {
-        setSnackBar(
-          context: currentContext!,
-          title: "Error",
-          message: provider.errorMessage,
+);      } else {
+        setSnackBar(context: currentContext!, title: "Error", message: provider.errorMessage,
         );
       }
     });
@@ -96,6 +106,8 @@ class _AppDrawerState extends State<AppDrawer> {
     await SecureStorage().saveUserType(userType: '');
     nextScreenReplace(currentContext, WelcomeScreen());
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +134,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Expanded(
                   child: ListView(
                     children: [
-                      if (isWork) ...[
+                      if (uType == "applicant") ...[
                         DrawerItem(
                           icon: AppAssets.dashboard,
                           title: "Dashboard",

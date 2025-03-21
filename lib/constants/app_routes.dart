@@ -17,12 +17,8 @@ class ApiRoutes {
   static const applicantSignIn = "api/auth/applicant/signin";
 
   static const updateApplicantDetails = "api/auth/applicant/update-profile";
-  // static const applicantSignIn = "api/auth/applicant/signin";
-
-  // static const resendOtp = "api/auth/send-otp";
-  // static const applicantVerifyOtp = "api/auth/send-otp";
-  // static const refreshToken = "applicant/refresh-token";
   static const applicantLinkPassword = "applicant/link-password";
+
 
   static const signOut = "api/auth/signout";
 

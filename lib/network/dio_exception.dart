@@ -37,7 +37,7 @@ class DioExceptions implements Exception {
     print("ERROR:::::::: $error");
     switch (statusCode) {
       case 400:
-        return error?["message"] ?? 'Bad request';
+        return error?["error"] ?? 'Bad request';
       case 401:
         return error?["message"] ?? 'Unauthorized';
       case 403:

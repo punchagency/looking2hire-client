@@ -45,6 +45,7 @@ class JobProvider extends ChangeNotifier {
 
   RecentJobs recentJobs = RecentJobs();
   RecommendedJobs recommendedJobs = RecommendedJobs();
+  RecommendedJob recommendedJob = RecommendedJob();
 
   final List<String> jobSalaryPeriods = [
     "Hourly",
@@ -59,6 +60,9 @@ class JobProvider extends ChangeNotifier {
     "Contract",
   ];
   final List<String> jobSeniorities = ["Junior", "Mid", "Senior"];
+
+
+
 
   // Create a job
   Future<Job?> createJob() async {
@@ -309,9 +313,6 @@ class JobProvider extends ChangeNotifier {
     errorMessage = "";
     successMessage = "";
 
-    isLoading = true;
-    notifyListeners();
-
     try {
       setProgressDialog();
 
@@ -330,8 +331,6 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
-      isLoading = false;
-      notifyListeners();
       currentContext?.pop();
     }
   }
