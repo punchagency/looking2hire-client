@@ -135,8 +135,8 @@ class JobProvider extends ChangeNotifier {
     try {
       setProgressDialog();
 
-      await apiService.deleteJobPost(job_id: jobId);
-      successMessage = "Job deleted successfully";
+      final response = await apiService.deleteJobPost(job_id: jobId);
+      successMessage = response.data['message'] ?? "Job deleted successfully";
 
       final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
       if (jobIndex != -1) {
@@ -281,7 +281,8 @@ class JobProvider extends ChangeNotifier {
       // currentContext?.pop();
     }
   }
- // Get recent jobs
+
+  // Get recent jobs
   Future<void> getRecommendedJobPosts() async {
     errorMessage = "";
     try {

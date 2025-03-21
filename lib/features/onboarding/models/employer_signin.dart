@@ -4,27 +4,32 @@ class LoginResponse {
   final bool? success;
   final Employer? employer;
   final String? accessToken;
+  final String? refreshToken;
 
   LoginResponse({
     this.success,
     this.employer,
     this.accessToken,
+    this.refreshToken,
   });
-
-  factory LoginResponse.fromRawJson(String str) => LoginResponse.fromJson(json.decode(str));
+  factory LoginResponse.fromRawJson(String str) =>
+      LoginResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
     success: json["success"],
-    employer: json["employer"] == null ? null : Employer.fromJson(json["employer"]),
+    employer:
+        json["employer"] == null ? null : Employer.fromJson(json["employer"]),
     accessToken: json["accessToken"],
+    refreshToken: json["refreshToken"],
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "employer": employer?.toJson(),
     "accessToken": accessToken,
+    "refreshToken": refreshToken,
   };
 }
 
@@ -55,7 +60,8 @@ class Employer {
     this.v,
   });
 
-  factory Employer.fromRawJson(String str) => Employer.fromJson(json.decode(str));
+  factory Employer.fromRawJson(String str) =>
+      Employer.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -63,13 +69,18 @@ class Employer {
     id: json["_id"],
     companyName: json["company_name"],
     address: json["address"],
-    location: json["location"] == null ? [] : List<int>.from(json["location"]!.map((x) => x)),
+    location:
+        json["location"] == null
+            ? []
+            : List<int>.from(json["location"]!.map((x) => x)),
     fullName: json["full_name"],
     email: json["email"],
     phone: json["phone"],
     isVerified: json["isVerified"],
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    createdAt:
+        json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    updatedAt:
+        json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
   );
 
@@ -77,7 +88,8 @@ class Employer {
     "_id": id,
     "company_name": companyName,
     "address": address,
-    "location": location == null ? [] : List<dynamic>.from(location!.map((x) => x)),
+    "location":
+        location == null ? [] : List<dynamic>.from(location!.map((x) => x)),
     "full_name": fullName,
     "email": email,
     "phone": phone,

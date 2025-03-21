@@ -114,6 +114,7 @@ class AuthProvider extends ChangeNotifier {
       // Saving User ID and AccessToken to Secure Storage
       handleLoginResponse(
         loginResponse.accessToken,
+        loginResponse.refreshToken,
         loginResponse.employer?.id,
         loginResponse.employer?.toJson(),
         "employer",
@@ -146,6 +147,7 @@ class AuthProvider extends ChangeNotifier {
       // Saving User ID and AccessToken to Secure Storage
       handleLoginResponse(
         applicantLoginResponse.accessToken,
+        applicantLoginResponse.refreshToken,
         applicantLoginResponse.applicant?.id,
         applicantLoginResponse.applicant?.toJson(),
         "applicant",
@@ -228,12 +230,14 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> handleLoginResponse(
     String? token,
+    String? refreshToken,
     String? userId,
     Map<String, dynamic>? applicantOrEmployerDetails,
     String? userType,
   ) async {
     await SecureStorage().loggedIn(isLogged: true);
     await SecureStorage().saveToken(token: token ?? '');
+    await SecureStorage().saveRefreshToken(refreshToken: refreshToken ?? '');
     await SecureStorage().saveUserId(userId: userId ?? '');
     await SecureStorage().saveApplicantOrEmployerDetails(
       applicantOrEmployerDetails: applicantOrEmployerDetails ?? {},

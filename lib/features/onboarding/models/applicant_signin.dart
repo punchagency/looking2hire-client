@@ -4,27 +4,36 @@ class ApplicantLoginResponse {
   final bool? success;
   final Applicant? applicant;
   final String? accessToken;
+  final String? refreshToken;
 
   ApplicantLoginResponse({
     this.success,
     this.applicant,
     this.accessToken,
+    this.refreshToken,
   });
 
-  factory ApplicantLoginResponse.fromRawJson(String str) => ApplicantLoginResponse.fromJson(json.decode(str));
+  factory ApplicantLoginResponse.fromRawJson(String str) =>
+      ApplicantLoginResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ApplicantLoginResponse.fromJson(Map<String, dynamic> json) => ApplicantLoginResponse(
-    success: json["success"],
-    applicant: json["applicant"] == null ? null : Applicant.fromJson(json["applicant"]),
-    accessToken: json["accessToken"],
-  );
+  factory ApplicantLoginResponse.fromJson(Map<String, dynamic> json) =>
+      ApplicantLoginResponse(
+        success: json["success"],
+        applicant:
+            json["applicant"] == null
+                ? null
+                : Applicant.fromJson(json["applicant"]),
+        accessToken: json["accessToken"],
+        refreshToken: json["refreshToken"],
+      );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "applicant": applicant?.toJson(),
     "accessToken": accessToken,
+    "refreshToken": refreshToken,
   };
 }
 
@@ -55,7 +64,8 @@ class Applicant {
     this.profilePic,
   });
 
-  factory Applicant.fromRawJson(String str) => Applicant.fromJson(json.decode(str));
+  factory Applicant.fromRawJson(String str) =>
+      Applicant.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -63,9 +73,18 @@ class Applicant {
     id: json["_id"],
     email: json["email"],
     isVerified: json["isVerified"],
-    employmentHistory: json["employment_history"] == null ? [] : List<EmploymentHistory>.from(json["employment_history"]!.map((x) => EmploymentHistory.fromJson(x))),
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    employmentHistory:
+        json["employment_history"] == null
+            ? []
+            : List<EmploymentHistory>.from(
+              json["employment_history"]!.map(
+                (x) => EmploymentHistory.fromJson(x),
+              ),
+            ),
+    createdAt:
+        json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    updatedAt:
+        json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
     description: json["description"],
     heading: json["heading"],
@@ -77,7 +96,10 @@ class Applicant {
     "_id": id,
     "email": email,
     "isVerified": isVerified,
-    "employment_history": employmentHistory == null ? [] : List<dynamic>.from(employmentHistory!.map((x) => x.toJson())),
+    "employment_history":
+        employmentHistory == null
+            ? []
+            : List<dynamic>.from(employmentHistory!.map((x) => x.toJson())),
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,
@@ -109,16 +131,20 @@ class EmploymentHistory {
     this.id,
   });
 
-  factory EmploymentHistory.fromRawJson(String str) => EmploymentHistory.fromJson(json.decode(str));
+  factory EmploymentHistory.fromRawJson(String str) =>
+      EmploymentHistory.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmploymentHistory.fromJson(Map<String, dynamic> json) => EmploymentHistory(
+  factory EmploymentHistory.fromJson(
+    Map<String, dynamic> json,
+  ) => EmploymentHistory(
     jobTitle: json["job_title"],
     companyLogo: json["company_logo"],
     companyName: json["company_name"],
     employmentType: json["employment_type"],
-    startDate: json["start_date"] == null ? null : DateTime.parse(json["start_date"]),
+    startDate:
+        json["start_date"] == null ? null : DateTime.parse(json["start_date"]),
     endDate: json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
     description: json["description"],
     id: json["_id"],

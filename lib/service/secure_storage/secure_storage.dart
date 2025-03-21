@@ -20,9 +20,18 @@ class SecureStorage {
     await storage.write(key: 'token', value: token);
   }
 
+  Future<void> saveRefreshToken({required String refreshToken}) async {
+    await storage.write(key: 'refresh_token', value: refreshToken);
+  }
+
   Future<String?> retrieveToken() async {
     final token = await storage.read(key: 'token');
     return token;
+  }
+
+  Future<String?> retrieveRefreshToken() async {
+    final refreshToken = await storage.read(key: 'refresh_token');
+    return refreshToken;
   }
 
   Future<void> saveResetToken({required String resetToken}) async {
