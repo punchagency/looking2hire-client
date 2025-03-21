@@ -34,7 +34,6 @@ class DioClient {
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
-        // options.extra['withCredentials'] = true;
         return handler.next(options);
       },
       onError: (DioException error, handler) async {
@@ -42,46 +41,66 @@ class DioClient {
           debugPrint("🔄 Attempting to refresh token...");
 
           try {
+            // Store the failed request to retry it later
+            final failedRequest = error.requestOptions;
+
             var refreshToken = await _secureStorage.retrieveRefreshToken();
             debugPrint("refreshToken = $refreshToken");
+
+            if (refreshToken == null) {
+              debugPrint("❌ No refresh token available");
+              await _handleAuthFailure();
+              return handler.reject(error);
+            }
+
             final refreshResponse = await _dio.post(
               ApiRoutes.refreshToken,
-              data: {if (refreshToken != null) "refreshToken": refreshToken},
-              options: Options(
-                // extra: {'withCredentials': true},
-                validateStatus: (status) => status! < 500,
-              ),
+              data: {"refreshToken": refreshToken},
+              options: Options(validateStatus: (status) => status! < 500),
             );
 
             debugPrint(
               "✅ Refresh token response: ${refreshResponse.statusCode}, ${refreshResponse.data}",
             );
 
-            if (refreshResponse.statusCode == 200) {
+            if (refreshResponse.statusCode == 200 &&
+                refreshResponse.data['accessToken'] != null) {
               final newToken = refreshResponse.data['accessToken'];
               final newRefreshToken = refreshResponse.data['refreshToken'];
-              if (newToken != null) {
-                debugPrint(
-                  "🔑 New token received, storing and retrying request.",
-                );
-                await _secureStorage.saveToken(token: newToken);
-                await _secureStorage.saveRefreshToken(
-                  refreshToken: newRefreshToken,
-                );
-                // Retry the original request
-                final originalRequest = error.requestOptions;
-                originalRequest.headers['Authorization'] = 'Bearer $newToken';
 
-                return handler.resolve(await _dio.fetch(originalRequest));
-              }
+              debugPrint(
+                "🔑 New token received, storing and retrying request.",
+              );
+              await _secureStorage.saveToken(token: newToken);
+              await _secureStorage.saveRefreshToken(
+                refreshToken: newRefreshToken,
+              );
+
+              // Create new request with the new token
+              final retryRequest = await _dio.request(
+                failedRequest.path,
+                data: failedRequest.data,
+                queryParameters: failedRequest.queryParameters,
+                options: Options(
+                  method: failedRequest.method,
+                  headers: {
+                    ...failedRequest.headers,
+                    'Authorization': 'Bearer $newToken',
+                  },
+                ),
+              );
+
+              return handler.resolve(retryRequest);
+            } else {
+              debugPrint("❌ Token refresh failed: Invalid response");
+              await _handleAuthFailure();
+              return handler.reject(error);
             }
           } catch (e) {
             debugPrint("❌ Token refresh failed: $e");
+            await _handleAuthFailure();
+            return handler.reject(error);
           }
-
-          // If refresh fails, notify app about auth failure
-          await _handleAuthFailure();
-          return handler.reject(error);
         }
         return handler.reject(error);
       },
@@ -89,9 +108,9 @@ class DioClient {
   }
 
   Future<void> _handleAuthFailure() async {
-    debugPrint("⚠️ Auth failed. Clearing token and notifying app.");
-    // await _secureStorage.deleteToken();
-    // await _cookieJar.deleteAll();
+    debugPrint("⚠️ Auth failed. Clearing tokens and notifying app.");
+    await _secureStorage.deleteToken();
+    await _secureStorage.deleteRefreshToken();
 
     if (onAuthFailure != null) {
       onAuthFailure!();

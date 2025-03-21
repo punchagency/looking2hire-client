@@ -9,8 +9,9 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/pages/hire_job_display_page.dart';
 import 'package:looking2hire/features/home/pages/hire_job_post_details_page.dart';
-import 'package:looking2hire/features/home/pages/job_card_page.dart';
+import 'package:looking2hire/features/home/pages/job_overview_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
@@ -85,7 +86,8 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   void viewJob(Job job) {
     context.read<JobProvider>().job = job;
-    context.pushTo(JobCardPage(jobId: job.id));
+    context.pushTo(HireJobDisplayPage(job: job));
+    // context.pushTo(JobOverviewPage());
   }
 
   void getJobs() async {
@@ -104,6 +106,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   void getEmployer() async {
     employer = await SecureStorage().getEmployer();
     setState(() {});
+  }
+
+  void editProfile() {
+    // context.pushTo(EditProfilePage());
   }
 
   @override
@@ -142,6 +148,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
               name: employer?.company_name ?? "",
               address: employer?.address ?? "",
               milesAway: 0.5,
+              onEdit: editProfile,
             ),
 
             const SizedBox(height: 16),

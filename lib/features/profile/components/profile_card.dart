@@ -11,6 +11,8 @@ class ProfileCard extends StatelessWidget {
   final double milesAway;
   final bool? isSaved;
   final bool showSave;
+  final void Function()? onEdit;
+  final void Function()? onSave;
 
   const ProfileCard({
     super.key,
@@ -20,18 +22,21 @@ class ProfileCard extends StatelessWidget {
     this.isSaved,
     this.imageUrl,
     this.showSave = true,
+    this.onEdit,
+    this.onSave,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // height: 120,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
       decoration: BoxDecoration(
         color: AppColor.profileCardByGrey,
         borderRadius: BorderRadius.circular(28),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 100,
@@ -64,28 +69,63 @@ class ProfileCard extends StatelessWidget {
                   textColor: AppColor.grey.shade500,
                 ),
                 SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomRobotoText(
-                      text: "$milesAway Miles Away",
-                      textSize: 15,
-                      fontWeight: FontWeight.w500,
-                      textColor: AppColor.grey.shade500,
-                    ),
-                    if (showSave)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0, top: 5),
-                        child: SvgPicture.asset(
-                          AppAssets.save,
-                          color: Colors.grey.shade600,
-                          height: 18,
-                        ),
-                      ),
-                  ],
+                CustomRobotoText(
+                  text: "$milesAway Miles Away",
+                  textSize: 15,
+                  fontWeight: FontWeight.w500,
+                  textColor: AppColor.grey.shade500,
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Flexible(
+                //       child: CustomRobotoText(
+                //         text: "$milesAway Miles Away",
+                //         textSize: 15,
+                //         fontWeight: FontWeight.w500,
+                //         textColor: AppColor.grey.shade500,
+                //       ),
+                //     ),
+                //     if (showSave)
+                //       Padding(
+                //         padding: const EdgeInsets.only(right: 8.0, top: 5),
+                //         child: SvgPicture.asset(
+                //           AppAssets.save,
+                //           color: Colors.grey.shade600,
+                //           height: 18,
+                //         ),
+                //       ),
+                //   ],
+                // ),
               ],
             ),
+          ),
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (onEdit != null)
+                IconButton(
+                  onPressed: onEdit,
+
+                  padding: EdgeInsets.all(0),
+                  icon: SvgPicture.asset(
+                    AppAssets.edit,
+                    color: Colors.grey.shade600,
+                    height: 18,
+                  ),
+                ),
+              if (onSave != null)
+                IconButton(
+                  onPressed: onSave,
+                  padding: EdgeInsets.all(0),
+                  icon: SvgPicture.asset(
+                    AppAssets.save,
+                    color: Colors.grey.shade600,
+                    height: 18,
+                  ),
+                ),
+            ],
           ),
         ],
       ),

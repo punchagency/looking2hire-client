@@ -48,6 +48,10 @@ class SecureStorage {
     await storage.delete(key: 'token');
   }
 
+  Future<void> deleteRefreshToken() async {
+    await storage.delete(key: 'refresh_token');
+  }
+
   Future<void> saveApplicantOrEmployerDetails({
     required Map<String, dynamic> applicantOrEmployerDetails,
   }) async {

@@ -3,16 +3,16 @@ import 'dart:convert';
 
 class JobApplication {
   String jobId;
-  String applicantId;
-  String status;
-  String id;
+  String? applicantId;
+  String? status;
+  String? id;
   String createdAt;
   String updatedAt;
   JobApplication({
     required this.jobId,
-    required this.applicantId,
-    required this.status,
-    required this.id,
+    this.applicantId,
+    this.status,
+    this.id,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -49,9 +49,10 @@ class JobApplication {
   factory JobApplication.fromMap(Map<String, dynamic> map) {
     return JobApplication(
       jobId: map['jobId'] as String,
-      applicantId: map['applicantId'] as String,
-      status: map['status'] as String,
-      id: map['_id'] as String,
+      applicantId:
+          map['applicantId'] != null ? map['applicantId'] as String : null,
+      status: map['status'] != null ? map['status'] as String : null,
+      id: map['_id'] != null ? map['_id'] as String : null,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
     );

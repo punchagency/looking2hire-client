@@ -230,18 +230,18 @@ class JobProvider extends ChangeNotifier {
   // Get job details
   Future<Job?> getJobPost({required String jobId}) async {
     errorMessage = "";
-    //job = null;
-    // isLoading = true;
-    // notifyListeners();
+    job = null;
+    isLoading = true;
+    notifyListeners();
     try {
-      //setProgressDialog();
+      setProgressDialog();
 
       final response = await apiService.getJobPost(job_id: jobId);
       if (!response.success) {
         errorMessage = response.error;
-        // isLoading = false;
-        // notifyListeners();
-        // currentContext?.pop();
+        isLoading = false;
+        notifyListeners();
+        currentContext?.pop();
         return null;
       }
       final job = Job.fromMap(response.data['job']);
@@ -250,14 +250,16 @@ class JobProvider extends ChangeNotifier {
         jobPosts[jobIndex] = job;
       }
       this.job = job;
+      isLoading = false;
+      notifyListeners();
       return job;
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-      // isLoading = false;
+      isLoading = false;
       notifyListeners();
-      // currentContext?.pop();
+      currentContext?.pop();
     }
   }
 

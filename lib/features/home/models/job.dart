@@ -171,7 +171,7 @@ class Job {
       applications:
           map['applications'] != null
               ? List<JobApplication>.from(
-                (map['applications'] as List<int>).map<JobApplication?>(
+                (map['applications'] as List<dynamic>).map<JobApplication?>(
                   (x) => JobApplication.fromMap(x as Map<String, dynamic>),
                 ),
               )

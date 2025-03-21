@@ -21,21 +21,14 @@ import 'package:provider/provider.dart';
 
 import '../models/job.dart';
 
-class JobCardPage extends StatefulWidget {
-  final String jobId;
-  const JobCardPage({super.key, required this.jobId});
+class JobOverviewPage extends StatefulWidget {
+  const JobOverviewPage({super.key});
 
   @override
-  State<JobCardPage> createState() => _JobCardPageState();
+  State<JobOverviewPage> createState() => _JobOverviewPageState();
 }
 
-class _JobCardPageState extends State<JobCardPage> {
-  void getJobPost() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    final jobProvider = context.read<JobProvider>();
-    jobProvider.getJobPost(jobId: widget.jobId).then((job) {});
-  }
-
+class _JobOverviewPageState extends State<JobOverviewPage> {
   void applyForJob() {}
 
   void showEditJobPostDialog() {
@@ -103,7 +96,7 @@ class _JobCardPageState extends State<JobCardPage> {
 
   void saveJobPost() {
     final jobProvider = context.read<JobProvider>();
-    jobProvider.updateJobPost(jobId: widget.jobId).then((success) {
+    jobProvider.updateJobPost(jobId: jobProvider.job?.id ?? "").then((success) {
       if (success) {
         setSnackBar(
           context: context,
@@ -123,7 +116,7 @@ class _JobCardPageState extends State<JobCardPage> {
 
   void deleteJobPost() {
     final jobProvider = context.read<JobProvider>();
-    jobProvider.deleteJobPost(jobId: widget.jobId).then((success) {
+    jobProvider.deleteJobPost(jobId: jobProvider.job?.id ?? "").then((success) {
       if (success) {
         setSnackBar(
           context: context,
@@ -153,11 +146,11 @@ class _JobCardPageState extends State<JobCardPage> {
     final jobProvider = context.watch<JobProvider>();
     final job = jobProvider.job;
     return Scaffold(
-      appBar: CustomAppBar(
-        title: jobProvider.job?.job_title ?? "",
-        centeredTitle: true,
-        fontSize: 24,
-      ),
+      // appBar: CustomAppBar(
+      //   title: jobProvider.job?.job_title ?? "",
+      //   centeredTitle: true,
+      //   fontSize: 24,
+      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child:
