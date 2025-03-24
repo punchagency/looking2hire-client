@@ -1,30 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/extensions/datetime_extensions.dart';
+import 'package:looking2hire/features/home/models/job_application.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/reuseable/extensions/string_extensions.dart';
 
 enum ApplicantStatus { shortlisted, interviewed, hired, rejected }
 
 class ApplicantCard extends StatelessWidget {
-  final String name;
-  final String image;
-  final String experience;
-  final String date;
-  final ApplicantStatus status;
+  // final String name;
+  // final String image;
+  // final String experience;
+  // final String date;
+  // final ApplicantStatus status;
+  final JobApplication jobApplication;
   final VoidCallback? onPressed;
 
   const ApplicantCard({
     super.key,
-    required this.image,
-    required this.name,
-    required this.experience,
-    required this.date,
-    required this.status,
+    // required this.image,
+    // required this.name,
+    // required this.experience,
+    // required this.date,
+    // required this.status,
+    required this.jobApplication,
     this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
+    final applicant = jobApplication.applicant;
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(15),
@@ -41,7 +48,16 @@ class ApplicantCard extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(image: AssetImage(image)),
+                image:
+                    (applicant?.profilePic ?? "").isEmpty
+                        ? null
+                        : DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(
+                            applicant!.profilePic!,
+                          ),
+                        ),
+                // image: DecorationImage(image: AssetImage(image)),
               ),
             ),
             const SizedBox(width: 10),
@@ -51,7 +67,7 @@ class ApplicantCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    name,
+                    applicant?.name ?? "",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -60,7 +76,7 @@ class ApplicantCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    experience,
+                    applicant?.heading ?? "",
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -72,7 +88,7 @@ class ApplicantCard extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   Text(
-                    "${status.name.capitalize} candidates\n$date",
+                    "${jobApplication.status?.capitalize} candidates\n${jobApplication.createdAt.toDateTime.toMonthDayYear()}",
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,

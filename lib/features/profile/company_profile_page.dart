@@ -4,6 +4,7 @@ import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
+import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
@@ -37,48 +38,23 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   Employer? employer;
   // bool isLoading = false;
 
-  // late final activeJobWidgets = [
-  //   ActiveJobItem(
-  //     title: "Sales Associate",
-  //     desc: "Description duis aute irure dolor in reprehenderit.....",
-  //     date: "Today",
-  //     time: "23 min",
-  //     onPressed: viewJob,
-  //   ),
-  //   ActiveJobItem(
-  //     title: "Designer Consultant",
-  //     desc: "Description duis aute irure dolor in reprehenderit.....",
-  //     date: "Today",
-  //     time: "23 min",
-  //     onPressed: viewJob,
-  //   ),
-  // ];
-  // final jobHistoryWidgets = [
-  //   ProfileJobHistoryCard(
-  //     companyLogo: AppAssets.apple,
-  //     jobTitle: "West Elm - Retail Sales",
-  //     jobDescription: "Description duis aute irure dolor.....",
-  //     startDate: "Feb 2023",
-  //     endDate: "Jan 2023",
-  //   ),
+  void saveProfile() {}
 
-  //   ProfileJobHistoryCard(
-  //     companyLogo: AppAssets.gap,
-  //     jobTitle: "West Elm - Retail Sales",
-  //     jobDescription: "Description duis aute irure dolor.....",
-  //     startDate: "Feb 2023",
-  //     endDate: "Jan 2023",
-  //     isSaved: true,
-  //   ),
+  void showEditProfileDialog(Job job) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogContainer(
+          title: "Edit Profile",
+          actions: [
+            ActionButtonWithIcon(title: "Update", onPressed: saveProfile),
+          ],
+          //child: SingleChildScrollView(child: CreateJobFields()),
+        );
+      },
+    );
+  }
 
-  //   ProfileJobHistoryCard(
-  //     companyLogo: AppAssets.bananaRepublic,
-  //     jobTitle: "West Elm - Retail Sales",
-  //     jobDescription: "Description duis aute irure dolor.....",
-  //     startDate: "Feb 2023",
-  //     endDate: "Jan 2023",
-  //   ),
-  // ];
   void gotoAddJobPost() {
     context.pushTo(CreateJobPost());
     // context.pushTo(const HireJobPostDetailsPage());
@@ -196,6 +172,12 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
                 const SizedBox(height: 30),
               ] else ...[
+                ActionButtonWithIcon(
+                  title: "Create job",
+                  icon: AppAssets.bag,
+                  onPressed: gotoAddJobPost,
+                ),
+                const SizedBox(height: 20),
                 Text(
                   "Job Posts",
                   style: const TextStyle(
@@ -223,11 +205,11 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 ),
 
                 SizedBox(height: 35),
-                ActionButtonWithIcon(
-                  title: "Create job",
-                  icon: AppAssets.bag,
-                  onPressed: gotoAddJobPost,
-                ),
+                // ActionButtonWithIcon(
+                //   title: "Create job",
+                //   icon: AppAssets.bag,
+                //   onPressed: gotoAddJobPost,
+                // ),
               ],
             ],
           ],

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
+import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/features/onboarding/models/employer_signin.dart';
 import 'package:looking2hire/features/onboarding/service/auth_service.dart';
@@ -29,6 +30,41 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  Applicant? applicant;
+  Employer? employer;
+
+  Future<Applicant?> getApplicant(String applicantId) async {
+    setProgressDialog();
+    try {
+      final response = await apiService.getUserDetails(applicantId);
+      final applicant = Applicant.fromJson(response.data);
+      return applicant;
+    } on DioException catch (e) {
+      applicant = null;
+      errorMessage = DioExceptions.fromDioError(e).toString();
+    } finally {
+      notifyListeners();
+      Navigator.pop(currentContext!);
+    }
+    return null;
+  }
+
+  Future<Employer?> getEmployer(String employerId) async {
+    setProgressDialog();
+    try {
+      final response = await apiService.getUserDetails(employerId);
+      final employer = Employer.fromJson(response.data);
+      return employer;
+    } on DioException catch (e) {
+      employer = null;
+      errorMessage = DioExceptions.fromDioError(e).toString();
+    } finally {
+      notifyListeners();
+      Navigator.pop(currentContext!);
+    }
+    return null;
+  }
 
   Future<bool> createEmployersAccount({required BuildContext context}) async {
     errorMessage = "";
@@ -113,7 +149,7 @@ class AuthProvider extends ChangeNotifier {
       loginResponse = LoginResponse.fromJson(response.data);
 
       // Saving User ID and AccessToken to Secure Storage
-      handleLoginResponse(
+      await handleLoginResponse(
         loginResponse.accessToken,
         loginResponse.refreshToken,
         loginResponse.employer?.id,
@@ -146,7 +182,7 @@ class AuthProvider extends ChangeNotifier {
       applicantLoginResponse = ApplicantLoginResponse.fromJson(response.data);
 
       // Saving User ID and AccessToken to Secure Storage
-      handleLoginResponse(
+      await handleLoginResponse(
         applicantLoginResponse.accessToken,
         applicantLoginResponse.refreshToken,
         applicantLoginResponse.applicant?.id,
@@ -237,8 +273,10 @@ class AuthProvider extends ChangeNotifier {
     String? userType,
   ) async {
     await SecureStorage().loggedIn(isLogged: true);
-    await SecureStorage().saveToken(token: token ?? '');
-    await SecureStorage().saveRefreshToken(refreshToken: refreshToken ?? '');
+    await SecureStorage().saveToken(
+      token: token ?? '',
+      refreshToken: refreshToken ?? '',
+    );
     await SecureStorage().saveUserId(userId: userId ?? '');
     await SecureStorage().saveApplicantOrEmployerDetails(
       applicantOrEmployerDetails: applicantOrEmployerDetails ?? {},

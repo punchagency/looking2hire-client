@@ -46,7 +46,6 @@ class _HireJobDisplayPageState extends State<HireJobDisplayPage> {
         centeredTitle: true,
         fontSize: 24,
       ),
-
       body: Column(
         children: [
           const SizedBox(height: 10),

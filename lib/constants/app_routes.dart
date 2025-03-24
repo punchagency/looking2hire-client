@@ -11,12 +11,16 @@ class ApiRoutes {
   static const employerSignIn = "api/auth/employer/signin";
   static const employerSendOtp = "employer/send-otp";
   static const employerVerifyOtp = "api/auth/verify-otp";
+  static const getEmployerDetails = "api/auth/employer/get";
 
   // applicant auth
   static const applicantSignUp = "api/auth/applicant/signup";
   static const applicantSignIn = "api/auth/applicant/signin";
 
   static const updateApplicantDetails = "api/auth/applicant/update-profile";
+  static const getApplicantDetails = "api/auth/applicant/get";
+  static const userDetails = "api/auth/user-details";
+
   // static const applicantSignIn = "api/auth/applicant/signin";
 
   // static const resendOtp = "api/auth/send-otp";

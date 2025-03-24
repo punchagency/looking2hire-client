@@ -91,4 +91,5 @@ class AppAssets {
   static const graduation = "assets/svgs/graduation.svg";
 
   static const dropdownArrow = "assets/svgs/dropdown_arrow.svg";
+  static const money = "assets/svgs/money.svg";
 }

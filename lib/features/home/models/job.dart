@@ -243,24 +243,39 @@ class Job {
 }
 
 class Employer {
-  String id;
-  String company_name;
-  String address;
-  String full_name;
-  String email;
-  String phone;
+  String? id;
+  String? company_name;
+  String? address;
+  List<double>? location;
+  String? full_name;
+  String? email;
+  String? phone;
+  bool? isVerified;
+  String? createdAt;
+  String? updatedAt;
   String? body;
-  String? company_logo;
   String? heading;
+  // String id;
+  // String company_name;
+  // String address;
+  // String full_name;
+  // String email;
+  // String phone;
+  // String? body;
+  // String? company_logo;
+  // String? heading;
   Employer({
-    required this.id,
-    required this.company_name,
-    required this.address,
-    required this.full_name,
-    required this.email,
-    required this.phone,
+    this.id,
+    this.company_name,
+    this.address,
+    this.location,
+    this.full_name,
+    this.email,
+    this.phone,
+    this.isVerified,
+    this.createdAt,
+    this.updatedAt,
     this.body,
-    this.company_logo,
     this.heading,
   });
 
@@ -268,22 +283,28 @@ class Employer {
     String? id,
     String? company_name,
     String? address,
+    List<double>? location,
     String? full_name,
     String? email,
     String? phone,
+    bool? isVerified,
+    String? createdAt,
+    String? updatedAt,
     String? body,
-    String? company_logo,
     String? heading,
   }) {
     return Employer(
       id: id ?? this.id,
       company_name: company_name ?? this.company_name,
       address: address ?? this.address,
+      location: location ?? this.location,
       full_name: full_name ?? this.full_name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      isVerified: isVerified ?? this.isVerified,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       body: body ?? this.body,
-      company_logo: company_logo ?? this.company_logo,
       heading: heading ?? this.heading,
     );
   }
@@ -293,26 +314,37 @@ class Employer {
       '_id': id,
       'company_name': company_name,
       'address': address,
+      'location': location,
       'full_name': full_name,
       'email': email,
       'phone': phone,
+      'isVerified': isVerified,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
       'body': body,
-      'company_logo': company_logo,
       'heading': heading,
     };
   }
 
   factory Employer.fromMap(Map<String, dynamic> map) {
     return Employer(
-      id: map['_id'] as String,
-      company_name: map['company_name'] as String,
-      address: map['address'] as String,
-      full_name: map['full_name'] as String,
-      email: map['email'] as String,
-      phone: map['phone'] as String,
+      id: map['id'] != null ? map['_id'] as String : null,
+      company_name:
+          map['company_name'] != null ? map['company_name'] as String : null,
+      address: map['address'] != null ? map['address'] as String : null,
+      location:
+          map['location'] != null
+              ? List<double>.from(
+                (map['location'] as List<dynamic>).map((e) => e?.toDouble()),
+              )
+              : null,
+      full_name: map['full_name'] != null ? map['full_name'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      phone: map['phone'] != null ? map['phone'] as String : null,
+      isVerified: map['isVerified'] != null ? map['isVerified'] as bool : null,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
+      updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
       body: map['body'] != null ? map['body'] as String : null,
-      company_logo:
-          map['company_logo'] != null ? map['company_logo'] as String : null,
       heading: map['heading'] != null ? map['heading'] as String : null,
     );
   }
@@ -324,7 +356,7 @@ class Employer {
 
   @override
   String toString() {
-    return 'Employer(id: $id, company_name: $company_name, address: $address, full_name: $full_name, email: $email, phone: $phone, body: $body, company_logo: $company_logo, heading: $heading)';
+    return 'Employer(id: $id, company_name: $company_name, address: $address, location: $location, full_name: $full_name, email: $email, phone: $phone, isVerified: $isVerified, createdAt: $createdAt, updatedAt: $updatedAt, body: $body, heading: $heading)';
   }
 
   @override
@@ -334,11 +366,14 @@ class Employer {
     return other.id == id &&
         other.company_name == company_name &&
         other.address == address &&
+        listEquals(other.location, location) &&
         other.full_name == full_name &&
         other.email == email &&
         other.phone == phone &&
+        other.isVerified == isVerified &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt &&
         other.body == body &&
-        other.company_logo == company_logo &&
         other.heading == heading;
   }
 
@@ -347,11 +382,14 @@ class Employer {
     return id.hashCode ^
         company_name.hashCode ^
         address.hashCode ^
+        location.hashCode ^
         full_name.hashCode ^
         email.hashCode ^
         phone.hashCode ^
+        isVerified.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode ^
         body.hashCode ^
-        company_logo.hashCode ^
         heading.hashCode;
   }
 }

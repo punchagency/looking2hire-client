@@ -96,6 +96,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
                   block: true,
                   color: AppColor.buttonColor,
                 ),
+                SizedBox(height: 40),
               ],
             ),
           );

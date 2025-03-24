@@ -7,11 +7,13 @@ class DrawerItem extends StatelessWidget {
   final String icon;
   final String title;
   final VoidCallback? onPressed;
+  final bool popBefore;
   const DrawerItem({
     super.key,
     required this.icon,
     required this.title,
     this.onPressed,
+    this.popBefore = true,
   });
 
   @override
@@ -21,7 +23,7 @@ class DrawerItem extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            context.pop();
+            if (popBefore) context.pop();
             if (onPressed != null) onPressed!();
           },
           child: SizedBox(

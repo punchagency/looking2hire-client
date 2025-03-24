@@ -14,6 +14,8 @@ class AppDropdown extends StatefulWidget {
   final double? height;
   final bool isInputField;
   final String? icon;
+  final Color? iconColor;
+  final FocusNode? focusNode;
 
   const AppDropdown({
     super.key,
@@ -25,6 +27,8 @@ class AppDropdown extends StatefulWidget {
     this.height,
     this.isInputField = false,
     this.icon,
+    this.iconColor,
+    this.focusNode,
   });
 
   @override
@@ -51,6 +55,7 @@ class _AppDropdownState extends State<AppDropdown> {
       width: widget.width,
       child: DropdownButtonFormField<String>(
         style: bodyMedium,
+        focusNode: widget.focusNode,
         dropdownColor: Colors.white,
 
         decoration:
@@ -99,6 +104,7 @@ class _AppDropdownState extends State<AppDropdown> {
                               widget.icon!,
                               height: 17,
                               width: 17,
+                              color: widget.iconColor,
                             ),
                           ),
                   contentPadding: EdgeInsets.symmetric(
@@ -139,11 +145,19 @@ class _AppDropdownState extends State<AppDropdown> {
                 value: item,
                 child: Text(
                   item,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.lightBlack,
-                  ),
+                  style:
+                      widget.isInputField
+                          ? bodyMedium
+                          : const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.lightBlack,
+                          ),
+                  // style: const TextStyle(
+                  //   fontSize: 16,
+                  //   fontWeight: FontWeight.w400,
+                  //   color: AppColors.lightBlack,
+                  // ),
                 ),
               );
             }).toList(),

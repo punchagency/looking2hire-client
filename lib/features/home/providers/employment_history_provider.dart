@@ -46,7 +46,6 @@ class EmploymentHistoryProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return null;
     } finally {
-
       currentContext?.pop();
     }
   }

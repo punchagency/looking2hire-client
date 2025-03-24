@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:looking2hire/features/onboarding/models/applicant.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
+
 class JobApplication {
   String jobId;
   String? applicantId;
@@ -8,6 +11,8 @@ class JobApplication {
   String? id;
   String createdAt;
   String updatedAt;
+  Applicant? applicant;
+
   JobApplication({
     required this.jobId,
     this.applicantId,
@@ -15,6 +20,7 @@ class JobApplication {
     this.id,
     required this.createdAt,
     required this.updatedAt,
+    this.applicant,
   });
 
   JobApplication copyWith({
@@ -24,6 +30,7 @@ class JobApplication {
     String? id,
     String? createdAt,
     String? updatedAt,
+    Applicant? applicant,
   }) {
     return JobApplication(
       jobId: jobId ?? this.jobId,
@@ -32,6 +39,7 @@ class JobApplication {
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      applicant: applicant ?? this.applicant,
     );
   }
 
@@ -40,9 +48,10 @@ class JobApplication {
       'jobId': jobId,
       'applicantId': applicantId,
       'status': status,
-      '_id': id,
+      'id': id,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'applicant': applicant?.toJson(),
     };
   }
 
@@ -52,9 +61,13 @@ class JobApplication {
       applicantId:
           map['applicantId'] != null ? map['applicantId'] as String : null,
       status: map['status'] != null ? map['status'] as String : null,
-      id: map['_id'] != null ? map['_id'] as String : null,
+      id: map['id'] != null ? map['id'] as String : null,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
+      applicant:
+          map['applicant'] != null
+              ? Applicant.fromJson(map['applicant'] as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -65,7 +78,7 @@ class JobApplication {
 
   @override
   String toString() {
-    return 'JobApplication(jobId: $jobId, applicantId: $applicantId, status: $status, id: $id, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'JobApplication(jobId: $jobId, applicantId: $applicantId, status: $status, id: $id, createdAt: $createdAt, updatedAt: $updatedAt, applicant: $applicant)';
   }
 
   @override
@@ -77,7 +90,8 @@ class JobApplication {
         other.status == status &&
         other.id == id &&
         other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
+        other.updatedAt == updatedAt &&
+        other.applicant == applicant;
   }
 
   @override
@@ -87,6 +101,7 @@ class JobApplication {
         status.hashCode ^
         id.hashCode ^
         createdAt.hashCode ^
-        updatedAt.hashCode;
+        updatedAt.hashCode ^
+        applicant.hashCode;
   }
 }

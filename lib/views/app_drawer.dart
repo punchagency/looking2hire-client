@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/components/action_button_with_icon.dart';
+import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/components/drawer_item.dart';
+import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_decal/decal_screen.dart';
@@ -54,7 +57,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   void gotoAppliedJobs() {
     if (isHire) {
-      context.pushTo(JobApplicationsPage());
+      // context.pushTo(JobApplicationsPage());
     } else {
       context.pushTo(JobsPage(jobType: JobType.applied));
     }
@@ -72,29 +75,63 @@ class _AppDrawerState extends State<AppDrawer> {
     //context.pushTo(SettingsPage());
   }
 
+  void showDeleteJobPostDialog(AuthProvider provider) async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) {
+        return DialogContainer(
+          title: "Sign out",
+          message:
+              "Are you sure you want to sign out? This action cannot be undone.",
+          actions: [
+            ActionButtonWithIcon(
+              title: "Sign Out",
+              isDestructive: true,
+              // icon: AppAssets.trash,
+              onPressed: () => context.pop(true),
+            ),
+            ActionButtonWithIcon(
+              title: "Cancel",
+              // icon: AppAssets.close2,
+              onPressed: () => context.pop(),
+            ),
+          ],
+        );
+      },
+    );
+    if (result == true) {
+      logout(provider);
+    }
+  }
+
   Future<void> logout(AuthProvider provider) async {
-    await provider.signOut().then((success) async {
-      if (success) {
-        // await SecureStorage().loggedIn(isLogged: false);
-        // await SecureStorage().saveToken(token: '');
-        // await SecureStorage().saveUserType(userType: '');
-        setSnackBar(
-          context: currentContext!,
-          title: "Success",
-          message: provider.successMessage,
-        );
-      } else {
-        setSnackBar(
-          context: currentContext!,
-          title: "Error",
-          message: provider.errorMessage,
-        );
-      }
-    });
+    // Store context before any async operations
+    // final currentContext = context;
+
+    // // Close the dialog first
+    // Navigator.of(currentContext).pop();
+
+    // Show progress dialog
+    setProgressDialog();
+
+    await Future.delayed(const Duration(seconds: 2));
     await SecureStorage().loggedIn(isLogged: false);
     await SecureStorage().saveToken(token: '');
     await SecureStorage().saveUserType(userType: '');
-    nextScreenReplace(currentContext, WelcomeScreen());
+    await SecureStorage().saveUserId(userId: '');
+    await SecureStorage().deleteApplicantOrEmployerDetails();
+    await SecureStorage().deleteRefreshToken();
+    await SecureStorage().deleteToken();
+
+    // Check if widget is still mounted before showing snackbar
+    setSnackBar(
+      context: context,
+      title: "Success",
+      message: provider.successMessage,
+    );
+    // Use Navigator directly instead of context extension
+
+    nextScreenReplace(context, const WelcomeScreen());
   }
 
   @override
@@ -138,11 +175,12 @@ class _AppDrawerState extends State<AppDrawer> {
                           title: "Scan",
                           onPressed: gotoScan,
                         ),
-                        DrawerItem(
-                          icon: AppAssets.appliedjobs,
-                          title: "Applied Jobs",
-                          onPressed: gotoAppliedJobs,
-                        ),
+                        if (isWork)
+                          DrawerItem(
+                            icon: AppAssets.appliedjobs,
+                            title: "Applied Jobs",
+                            onPressed: gotoAppliedJobs,
+                          ),
                         DrawerItem(
                           icon: AppAssets.savedjobs,
                           title: "Saved Jobs",
@@ -164,16 +202,16 @@ class _AppDrawerState extends State<AppDrawer> {
                           title: "Create Decal",
                           onPressed: gotoCreateDecal,
                         ),
-                        DrawerItem(
-                          icon: AppAssets.appliedjobs,
-                          title: "Applied Jobs",
-                          onPressed: gotoAppliedJobs,
-                        ),
-                        DrawerItem(
-                          icon: AppAssets.statistics,
-                          title: "Statistics",
-                          onPressed: gotoStatistics,
-                        ),
+                        // DrawerItem(
+                        //   icon: AppAssets.appliedjobs,
+                        //   title: "Applied Jobs",
+                        //   onPressed: gotoAppliedJobs,
+                        // ),
+                        // DrawerItem(
+                        //   icon: AppAssets.statistics,
+                        //   title: "Statistics",
+                        //   onPressed: gotoStatistics,
+                        // ),
                       ],
                       DrawerItem(
                         icon: AppAssets.settings,
@@ -183,9 +221,8 @@ class _AppDrawerState extends State<AppDrawer> {
                       DrawerItem(
                         icon: AppAssets.logout,
                         title: "Logout",
-                        onPressed: () {
-                          logout(provider);
-                        },
+                        onPressed: () => showDeleteJobPostDialog(provider),
+                        popBefore: false,
                       ),
                     ],
                   ),
