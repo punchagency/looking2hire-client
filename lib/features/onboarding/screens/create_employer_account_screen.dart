@@ -32,211 +32,239 @@ class _CreateEmployerAccountScreenState
   bool isChecked = false;
   final formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, provider, child) {
-        return Scaffold(
-          appBar: CustomAppBar(
-            title: "Looking To Hire",
-            arrowColor: AppColor.black,
-            canNotGoBack: true,
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          // onHorizontalDragStart: (_) => FocusScope.of(context).unfocus(),
+          // onVerticalDragStart: (_) => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            appBar: CustomAppBar(
+              title: "Looking To Hire",
+              arrowColor: AppColor.black,
+              canNotGoBack: true,
 
-            rightChild: IconButton(
-              icon: SvgPicture.asset(
-                AppAssets.forwardArrow,
-                color: AppColor.arrowColor,
+              rightChild: IconButton(
+                icon: SvgPicture.asset(
+                  AppAssets.forwardArrow,
+                  color: AppColor.arrowColor,
+                ),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  widget.pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                  );
+                },
               ),
-              onPressed: () {
-                widget.pageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeIn,
-                );
-              },
             ),
-          ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: SafeArea(
-              top: true,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 64),
-                    CustomRobotoText(text: "Create Employer Account", textSize: 24, fontWeight: FontWeight.w600,),
-                    // SizedBox(height: 15),
-                    CustomText(
-                      text: "Your profile creation takes just seconds with AI",
-                      textSize: 16,
-                      fontWeight: FontWeight.w400,
-                      textColor: AppColor.grey[500],
-                    ),
-                    SizedBox(height: 30),
-                    CustomIconTextField(
-                      textEditingController: provider.companyNameController,
-                      textHint: "Business Name",
-                      icon: AppAssets.business,
-                      validate: (value) {
-                        return Validator.validateIsNotEmpty(value);
-                      },
-                    ),
+            body: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SafeArea(
+                top: true,
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 64),
+                      CustomRobotoText(
+                        text: "Create Employer Account",
+                        textSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      // SizedBox(height: 15),
+                      CustomText(
+                        text:
+                            "Your profile creation takes just seconds with AI",
+                        textSize: 16,
+                        fontWeight: FontWeight.w400,
+                        textColor: AppColor.grey[500],
+                      ),
+                      SizedBox(height: 30),
+                      CustomIconTextField(
+                        textEditingController: provider.companyNameController,
+                        textHint: "Business Name",
+                        icon: AppAssets.business,
+                        keyboardType: TextInputType.text,
+                        inputAction: TextInputAction.next,
+                        minLines: 1,
 
-                    SizedBox(height: 16),
-                    CustomIconTextField(
-                      textEditingController: provider.fullNameController,
-                      textHint: "Hiring Contact Full Name",
-                      icon: AppAssets.user,
-                      validate: (value) {
-                        return Validator.validateIsNotEmpty(value);
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    CustomIconTextField(
-                      textEditingController: provider.emailController,
-                      textHint: "Hiring Contact Email",
-                      icon: AppAssets.mail,
-                      validate: (value) {
-                        return Validator.validateIsNotEmpty(value);
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    CustomIconTextField(
-                      textEditingController: provider.phoneController,
-                      textHint: "Hiring Contact Phone",
-                      icon: AppAssets.phone,
-                      validate: (value) {
-                        return Validator.validateIsNotEmpty(value);
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    CustomIconTextField(
-                      textEditingController: provider.passwordController,
-                      textHint: "Enter Password",
-                      icon: AppAssets.lock,
-                      isPassword: true,
-                      validate: (value) {
-                        return Validator.validateIsNotEmpty(value);
-                      },
-                    ),
-                    SizedBox(height: 25),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isChecked,
-                          activeColor: AppColor.black,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onChanged: (changed) {
-                            isChecked = !isChecked;
-                            setState(() {});
-                          },
-                        ),
-                        RichText(
+                        validate: (value) {
+                          return Validator.validateIsNotEmpty(value);
+                        },
+                      ),
+
+                      SizedBox(height: 16),
+                      CustomIconTextField(
+                        textEditingController: provider.fullNameController,
+                        textHint: "Hiring Contact Full Name",
+                        icon: AppAssets.user,
+                        validate: (value) {
+                          return Validator.validateIsNotEmpty(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        inputAction: TextInputAction.next,
+                        minLines: 1,
+                      ),
+                      SizedBox(height: 16),
+                      CustomIconTextField(
+                        textEditingController: provider.emailController,
+                        textHint: "Hiring Contact Email",
+                        icon: AppAssets.mail,
+                        validate: (value) {
+                          return Validator.validateIsNotEmpty(value);
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        inputAction: TextInputAction.next,
+                        minLines: 1,
+                      ),
+                      SizedBox(height: 16),
+                      CustomIconTextField(
+                        textEditingController: provider.phoneController,
+                        textHint: "Hiring Contact Phone",
+                        icon: AppAssets.phone,
+                        validate: (value) {
+                          return Validator.validateIsNotEmpty(value);
+                        },
+                        keyboardType: TextInputType.number,
+                        inputAction: TextInputAction.next,
+                        minLines: 1,
+                      ),
+                      SizedBox(height: 16),
+                      CustomIconTextField(
+                        textEditingController: provider.passwordController,
+                        textHint: "Enter Password",
+                        icon: AppAssets.lock,
+                        isPassword: true,
+                        validate: (value) {
+                          return Validator.validateIsNotEmpty(value);
+                        },
+                        keyboardType: TextInputType.visiblePassword,
+                        inputAction: TextInputAction.done,
+                        minLines: 1,
+                      ),
+                      SizedBox(height: 25),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: AppColor.black,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onChanged: (changed) {
+                              isChecked = !isChecked;
+                              setState(() {});
+                            },
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(letterSpacing: 0),
+                              children: [
+                                TextSpan(
+                                  text: 'I accepts the Terms ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'Terms & Conditions',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    decoration: TextDecoration.underline,
+                                    letterSpacing: 0,
+                                  ),
+                                  recognizer:
+                                      TapGestureRecognizer()..onTap = () {},
+
+                                  // setState(() {});
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 41),
+                      Button(
+                        onPressed: () async {
+                          if (formKey.currentState?.validate() == true) {
+                            await provider
+                                .createEmployersAccount(context: context)
+                                .then((success) {
+                                  if (success) {
+                                    setSnackBar(
+                                      context: context,
+                                      title: "Success",
+                                      message: provider.successMessage,
+                                    );
+                                    nextScreen(
+                                      context,
+                                      OtpVerificationScreen(
+                                        accountType: "employer",
+                                      ),
+                                    );
+                                  } else {
+                                    setSnackBar(
+                                      context: context,
+                                      title: "Error",
+                                      message: provider.errorMessage,
+                                    );
+                                  }
+                                });
+                          }
+                        },
+                        text: "Create account",
+                        block: true,
+                        color: AppColor.buttonColor,
+                      ),
+                      SizedBox(height: 15),
+                      Center(
+                        child: RichText(
+                          textAlign: TextAlign.center,
                           text: TextSpan(
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyLarge?.copyWith(letterSpacing: 0),
+                            style: Theme.of(context).textTheme.bodyLarge,
                             children: [
                               TextSpan(
-                                text: 'I accepts the Terms ',
+                                text: 'Already have an account?  ',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
                                 ),
                               ),
                               TextSpan(
-                                text: 'Terms & Conditions',
+                                text: 'Login',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
                                   decoration: TextDecoration.underline,
-                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
                                 ),
                                 recognizer:
-                                    TapGestureRecognizer()..onTap = () {},
-
-                                // setState(() {});
+                                    TapGestureRecognizer()
+                                      ..onTap = () {
+                                        nextScreen(
+                                          context,
+                                          CandidateSignInScreen(),
+                                        );
+                                      },
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-
-                    SizedBox(height: 41),
-                    Button(
-                      onPressed: () async {
-                        if (formKey.currentState?.validate() == true) {
-                          await provider
-                              .createEmployersAccount(context: context)
-                              .then((success) {
-                                if (success) {
-                                  setSnackBar(
-                                    context: context,
-                                    title: "Success",
-                                    message: provider.successMessage,
-                                  );
-                                  nextScreen(
-                                    context,
-                                    OtpVerificationScreen(
-                                      accountType: "employer",
-                                    ),
-                                  );
-                                } else {
-                                  setSnackBar(
-                                    context: context,
-                                    title: "Error",
-                                    message: provider.errorMessage,
-                                  );
-                                }
-                              });
-                        }
-                      },
-                      text: "Create account",
-                      block: true,
-                      color: AppColor.buttonColor,
-                    ),
-                    SizedBox(height: 15),
-                    Center(
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          children: [
-                            TextSpan(
-                              text: 'Already have an account?  ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Login',
-                              style: TextStyle(
-                                color: Colors.black,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      nextScreen(
-                                        context,
-                                        CandidateSignInScreen(),
-                                      );
-                                    },
-                            ),
-                          ],
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -15,6 +15,7 @@ import 'package:looking2hire/features/home/pages/statistics_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
+import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -31,15 +32,30 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  String? uType;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    uType = await SecureStorage().retrieveUserType();
+    print(uType);
+    setState(() {});
+  }
+
   void gotoDashboard() {
     //context.pushTo(HomePage());
   }
 
   void gotoProfile() {
-    if (isHire) {
-      return;
-    }
-    context.pushTo(LookingToHireProfile());
+    // if (isHire) {
+    //   return;
+    // }
+    // context.pushTo(LookingToHireProfile());
+    context.pushTo(InitialUserProfilePage());
   }
 
   void gotoScan() {
@@ -159,7 +175,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Expanded(
                   child: ListView(
                     children: [
-                      if (isWork) ...[
+                      if (uType == "applicant") ...[
                         DrawerItem(
                           icon: AppAssets.dashboard,
                           title: "Dashboard",

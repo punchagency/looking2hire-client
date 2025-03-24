@@ -5,6 +5,7 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
+import 'package:looking2hire/features/home/models/recomended_jobs.dart';
 import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/hire_job_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_search_page.dart';
@@ -16,6 +17,9 @@ import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
+import 'package:looking2hire/service/navigation_service.dart';
+import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -40,13 +44,22 @@ class _HomePageState extends State<HomePage> {
   ];
   String selectedSearch = "";
   bool firstTime = true;
+  String? uType;
+
+  Future<void> init() async {
+    uType = await SecureStorage().retrieveUserType();
+    print(uType);
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
     selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
-    context.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<UserProvider>().getApplicantProfile();
+    init();
   }
 
   @override
@@ -83,11 +96,13 @@ class _HomePageState extends State<HomePage> {
       if (firstTime) {
         context.pushTo(InitialUserProfilePage());
       } else {
-        context.pushTo(LookingToHireProfile());
+        context.pushTo(InitialUserProfilePage());
+        // context.pushTo(LookingToHireProfile());
       }
       return;
     }
-    context.pushTo(LookingToHireProfile());
+    context.pushTo(InitialUserProfilePage());
+    // context.pushTo(LookingToHireProfile());
   }
 
   @override
@@ -156,7 +171,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, provider, child) {
         return Scaffold(
           appBar: CustomAppBar(
-            title: appTitle,
+            title: "Looking to ${uType == "applicant" ? "Work" : "Hire"}",
             fontSize: 26,
             fontWeight: FontWeight.w500,
             centeredTitle: false,
@@ -203,7 +218,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
+                      OutlinedContainer(
+                        child: SvgPicture.asset(AppAssets.filter),
+                      ),
                     ],
                   ),
                   Expanded(
@@ -309,22 +326,32 @@ class _HomePageState extends State<HomePage> {
                         ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: provider.recommendedJobs.recommendedJobs?.length ?? 0,
+                          itemCount:
+                              provider
+                                  .recommendedJobs
+                                  .recommendedJobs
+                                  ?.length ??
+                              0,
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 15);
                           },
                           itemBuilder: (context, index) {
-                            final data = provider.recommendedJobs.recommendedJobs?[index];
+                            final data =
+                                provider
+                                    .recommendedJobs
+                                    .recommendedJobs?[index];
                             return JobHistoryItem(
                               imageUrl: AppAssets.gap,
                               title: data?.jobTitle ?? "",
-                              description:
-                              data?.summary ?? '',
+                              description: data?.summary ?? '',
                               location: data?.jobAddress ?? "",
                               startDate: "Jan 2020",
                               endDate: "Feb 2023",
-                              onPressed: gotoJobActiveJobs,
-
+                              onPressed: () {
+                                provider.recommendedJob =
+                                    data ?? RecommendedJob();
+                                context.pushTo(HireJobDetailsPage());
+                              },
                             );
                           },
                         ),
@@ -337,7 +364,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         );
-      }
+      },
     );
   }
 }

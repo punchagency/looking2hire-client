@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/constants/app_assets.dart';
-import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/pages/hire_job_display_page.dart';
-import 'package:looking2hire/features/home/pages/hire_job_post_details_page.dart';
-import 'package:looking2hire/features/home/pages/job_overview_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
-import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
-import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
-import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:provider/provider.dart';
-
-import '../home/widgets/job_information_item.dart';
 
 class CompanyProfilePage extends StatefulWidget {
   const CompanyProfilePage({super.key});
@@ -36,6 +27,7 @@ class CompanyProfilePage extends StatefulWidget {
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
   // List<Job> jobPosts = [];
   Employer? employer;
+
   // bool isLoading = false;
 
   void saveProfile() {}

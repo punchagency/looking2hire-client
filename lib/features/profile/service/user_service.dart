@@ -17,4 +17,9 @@ class UserService {
       ,
     );
   }
+
+  Future<Response> applicantProfileApi() async {
+    return await dioClient.get(ApiRoutes.applicantProfile);
+  }
+
 }

@@ -181,6 +181,7 @@ class AuthProvider extends ChangeNotifier {
 
       applicantLoginResponse = ApplicantLoginResponse.fromJson(response.data);
 
+
       // Saving User ID and AccessToken to Secure Storage
       await handleLoginResponse(
         applicantLoginResponse.accessToken,
@@ -272,6 +273,7 @@ class AuthProvider extends ChangeNotifier {
     Map<String, dynamic>? applicantOrEmployerDetails,
     String? userType,
   ) async {
+    // print(applicantOrEmployerDetails);
     await SecureStorage().loggedIn(isLogged: true);
     await SecureStorage().saveToken(
       token: token ?? '',

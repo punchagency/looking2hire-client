@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
-import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
-import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
-import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
-import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
 import 'package:looking2hire/features/create_job/views/create_job_fields.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
-import 'package:looking2hire/utils/next_screen.dart';
 import 'package:provider/provider.dart';
-
-import '../home/pages/hire_job_post_details_page.dart';
 
 class CreateJobPost extends StatefulWidget {
   const CreateJobPost({super.key});

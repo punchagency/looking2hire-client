@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/enums/navigation_page.dart';
+import 'package:looking2hire/features/create_job/provider/create_job_provider.dart';
 import 'package:looking2hire/features/home/providers/employment_history_provider.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/splash_screen.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => NFCProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => CreateJobProvider()),
         ChangeNotifierProvider(
           create: (context) => EmploymentHistoryProvider(),
         ),
