@@ -11,6 +11,7 @@ class ProfileJobHistoryCard extends StatelessWidget {
   final String startDate;
   final String endDate;
   final bool? isSaved;
+  final bool? isNetworkImage;
 
   const ProfileJobHistoryCard({
     super.key,
@@ -19,7 +20,7 @@ class ProfileJobHistoryCard extends StatelessWidget {
     required this.jobDescription,
     required this.startDate,
     required this.endDate,
-    this.isSaved,
+    this.isSaved, this.isNetworkImage,
   });
 
   @override
@@ -33,8 +34,8 @@ class ProfileJobHistoryCard extends StatelessWidget {
             height: 81,
             width: 92,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              image: DecorationImage(image: AssetImage(companyLogo), fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(image: isNetworkImage == true ? NetworkImage(companyLogo) : AssetImage(companyLogo), fit: BoxFit.cover),
             ),
           ),
           SizedBox(width: 16),
@@ -50,7 +51,9 @@ class ProfileJobHistoryCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 13.0),
                       child: SvgPicture.asset(
-                        isSaved == true ? AppAssets.saved : AppAssets.save,
+                        height: 16,
+                        width: 16,
+                        AppAssets.edit,
                         color: isSaved == true ? AppColor.arrowColor : Colors.black,
                       ),
                     ),
@@ -69,7 +72,7 @@ class ProfileJobHistoryCard extends StatelessWidget {
                   text: "$startDate • $endDate",
                   textSize: 12,
                   fontWeight: FontWeight.w400,
-                  textColor: AppColor.arrowColor,
+                  textColor: AppColor.black,
                 ),
               ],
             ),

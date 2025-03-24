@@ -13,6 +13,7 @@ import 'package:looking2hire/features/profile/components/profile_job_history_car
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
+import 'package:looking2hire/utils/date_formart.dart';
 import 'package:provider/provider.dart';
 
 import '../home/widgets/job_information_item.dart';
@@ -60,16 +61,29 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
           title: "Edit Profile",
           hint: "Update the job details and save changes.",
           actions: [
-            ActionButtonWithIcon(title: "Save Changes", onPressed: (){
-              userProvider.updateApplicantDetails(context: context).then((success){
-                if(success){
-                  context.pop();
-                  setSnackBar(context: context, title: "Success", message: userProvider.successMessage);
-                }else{
-                  setSnackBar(context: context, title: "Error", message: userProvider.errorMessage);
-                }
-              });
-            }),
+            ActionButtonWithIcon(
+              title: "Save Changes",
+              onPressed: () {
+                userProvider.updateApplicantDetails(context: context).then((
+                  success,
+                ) {
+                  if (success) {
+                    context.pop();
+                    setSnackBar(
+                      context: context,
+                      title: "Success",
+                      message: userProvider.successMessage,
+                    );
+                  } else {
+                    setSnackBar(
+                      context: context,
+                      title: "Error",
+                      message: userProvider.errorMessage,
+                    );
+                  }
+                });
+              },
+            ),
           ],
           child: Column(
             // mainAxisSize: MainAxisSize.min,
@@ -79,7 +93,6 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 textEditingController: TextEditingController(),
                 textHint: "Upload Picture",
                 icon: AppAssets.upload,
-
               ),
               SizedBox(height: 16),
               CustomIconTextField(
@@ -93,18 +106,33 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 textHint: "Title",
                 icon: AppAssets.briefcase,
               ),
- SizedBox(height: 16),
+              SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: userProvider.descriptionController,
                 textHint: "Description",
                 icon: AppAssets.description,
               ),
-
             ],
           ),
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    final provider = Provider.of<UserProvider>(context, listen: false);
+    provider.descriptionController.text =
+        provider.applicantProfile.user?.description ?? "";
+    provider.headingController.text =
+        provider.applicantProfile.user?.heading ?? "";
+    provider.fullNameController.text =
+        provider.applicantProfile.user?.name ?? "";
   }
 
   @override
@@ -132,11 +160,16 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 // ),
                 Row(
                   children: [
-                    ProfilePhoto(imageUrl: AppAssets.profilePicture2, size: 80),
+                    ProfilePhoto(
+                      imageUrl:
+                          provider.applicantProfile.user?.profilePic ?? "",
+                      size: 80,
+                      isNetwork: true,
+                    ),
                     const SizedBox(width: 20),
                     Expanded(
                       child: Text(
-                        "Michael Smith",
+                        provider.applicantProfile.user?.name ?? "Michael Smith",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
@@ -155,10 +188,12 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 ),
                 SizedBox(height: 14),
                 JobInformationItem(
-                  title: "Reliable and hardworking, expert in retail sales.",
+                  title:
+                      provider.applicantProfile.user?.heading ??
+                      "Reliable and hardworking, expert in retail sales.",
                   fontSize: 22,
-                  value:
-                      "I am a reliable and hardworking professional with expertise in retail sales. I excel at providing excellent customer service, driving sales and building lasting customer relationships. With a strong work ethic and a focus in results, I am committed to contributing to the success of any team I join.",
+                  value: provider.applicantProfile.user?.description ?? "",
+                  // "I am a reliable and hardworking professional with expertise in retail sales. I excel at providing excellent customer service, driving sales and building lasting customer relationships. With a strong work ethic and a focus in results, I am committed to contributing to the success of any team I join.",
                 ),
                 SizedBox(height: 35),
                 Text(
@@ -173,20 +208,44 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: jobHistoryWidgets.length,
+                  itemCount:
+                      provider
+                          .applicantProfile
+                          .user
+                          ?.employmentHistory
+                          ?.length ??
+                      0,
                   separatorBuilder: (context, index) {
                     return const SizedBox(height: 15);
                   },
                   itemBuilder: (context, index) {
-                    final widget = jobHistoryWidgets[index];
-                    return widget;
+                    final data =
+                        provider
+                            .applicantProfile
+                            .user
+                            ?.employmentHistory?[index];
+                    return ProfileJobHistoryCard(
+                      companyLogo: data?.companyLogo ?? "",
+                      isNetworkImage: true,
+                      jobTitle:
+                          "${data?.companyName ?? ""} - ${data?.jobTitle ?? ""}",
+                      jobDescription:
+                          data?.description ??
+                          "Description duis aute irure dolor.....",
+                      startDate: formatDateString2(
+                        data?.startDate.toString() ?? DateTime.now().toString(),
+                      ),
+                      endDate: formatDateString2(
+                        data?.endDate.toString() ?? DateTime.now().toString(),
+                      ),
+                    );
                   },
                 ),
               ],
             ),
           ),
         );
-      }
+      },
     );
   }
 }

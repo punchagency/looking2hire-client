@@ -391,6 +391,7 @@ class CustomIconTextField extends StatefulWidget {
     this.minLines,
     this.maxLines,
     this.keyboardType,
+    this.inputAction,
   });
 
   final TextEditingController textEditingController;
@@ -405,6 +406,7 @@ class CustomIconTextField extends StatefulWidget {
   final int? minLines;
   final int? maxLines;
   final TextInputType? keyboardType;
+  final TextInputAction? inputAction;
 
   @override
   State<CustomIconTextField> createState() => _CustomIconTextFieldState();
@@ -438,6 +440,7 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
       minLines: widget.minLines,
       maxLines: widget.maxLines,
       keyboardType: widget.keyboardType,
+      textInputAction: widget.inputAction,
       // textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         filled: true,

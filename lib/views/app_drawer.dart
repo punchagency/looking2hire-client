@@ -12,6 +12,7 @@ import 'package:looking2hire/features/home/pages/statistics_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
+import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
 import 'package:looking2hire/service/navigation_service.dart';
@@ -50,7 +51,8 @@ class _AppDrawerState extends State<AppDrawer> {
     // if (isHire) {
     //   return;
     // }
-    context.pushTo(LookingToHireProfile());
+    // context.pushTo(LookingToHireProfile());
+    context.pushTo(InitialUserProfilePage());
   }
 
   void gotoScan() {
@@ -96,8 +98,12 @@ class _AppDrawerState extends State<AppDrawer> {
           context: currentContext!,
           title: "Success",
           message: provider.successMessage,
-);      } else {
-        setSnackBar(context: currentContext!, title: "Error", message: provider.errorMessage,
+        );
+      } else {
+        setSnackBar(
+          context: currentContext!,
+          title: "Error",
+          message: provider.errorMessage,
         );
       }
     });
@@ -106,8 +112,6 @@ class _AppDrawerState extends State<AppDrawer> {
     await SecureStorage().saveUserType(userType: '');
     nextScreenReplace(currentContext, WelcomeScreen());
   }
-
-
 
   @override
   Widget build(BuildContext context) {

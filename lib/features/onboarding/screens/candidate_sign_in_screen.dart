@@ -59,6 +59,9 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                       textEditingController: provider.emailController,
                       textHint: "Enter Your Email",
                       icon: AppAssets.mail,
+                      maxLines: 1,
+                      keyboardType: TextInputType.emailAddress,
+                      inputAction: TextInputAction.next,
                       validate: (value) {
                         return Validator.validateIsNotEmpty(value);
                       },
@@ -68,6 +71,9 @@ class _CandidateSignInScreenState extends State<CandidateSignInScreen> {
                       textEditingController: provider.passwordController,
                       textHint: "Enter Password",
                       icon: AppAssets.lock,
+                      maxLines: 1,
+                      keyboardType: TextInputType.visiblePassword,
+                      inputAction: TextInputAction.done,
                       isPassword: true,
                       validate: (value) {
                         return Validator.validateIsNotEmpty(value);

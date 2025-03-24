@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
+import 'package:looking2hire/features/profile/model/applicant_profile.dart';
 import 'package:looking2hire/features/profile/service/user_service.dart';
 import 'package:looking2hire/network/dio_exception.dart';
 
@@ -14,6 +15,8 @@ class UserProvider extends ChangeNotifier {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController headingController = TextEditingController();
+
+  ApplicantProfile applicantProfile = ApplicantProfile();
 
   // TextEditingController fullNameController = TextEditingController();
 
@@ -37,6 +40,19 @@ class UserProvider extends ChangeNotifier {
       return false;
     } finally {
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> getApplicantProfile() async {
+    errorMessage = "";
+    try {
+
+      final response = await apiService.applicantProfileApi();
+      applicantProfile = ApplicantProfile.fromJson(response.data);
+      notifyListeners();
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+      notifyListeners();
     }
   }
 }

@@ -20,6 +20,8 @@ class LinkedInLoginScreen extends StatelessWidget {
         title: "Looking To Work",
         arrowColor: AppColor.arrowColor,
         onBackPressed: () {
+          FocusScope.of(context).unfocus();
+
           pageController.previousPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeIn,

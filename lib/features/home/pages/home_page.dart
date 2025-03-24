@@ -17,6 +17,7 @@ import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/views/app_drawer.dart';
@@ -45,7 +46,6 @@ class _HomePageState extends State<HomePage> {
   bool firstTime = true;
   String? uType;
 
-
   Future<void> init() async {
     uType = await SecureStorage().retrieveUserType();
     print(uType);
@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
     currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<UserProvider>().getApplicantProfile();
     init();
   }
 
@@ -95,11 +96,13 @@ class _HomePageState extends State<HomePage> {
       if (firstTime) {
         context.pushTo(InitialUserProfilePage());
       } else {
-        context.pushTo(LookingToHireProfile());
+        context.pushTo(InitialUserProfilePage());
+        // context.pushTo(LookingToHireProfile());
       }
       return;
     }
-    context.pushTo(LookingToHireProfile());
+    context.pushTo(InitialUserProfilePage());
+    // context.pushTo(LookingToHireProfile());
   }
 
   @override
@@ -215,7 +218,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
+                      OutlinedContainer(
+                        child: SvgPicture.asset(AppAssets.filter),
+                      ),
                     ],
                   ),
                   Expanded(
@@ -321,25 +326,32 @@ class _HomePageState extends State<HomePage> {
                         ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: provider.recommendedJobs.recommendedJobs?.length ?? 0,
+                          itemCount:
+                              provider
+                                  .recommendedJobs
+                                  .recommendedJobs
+                                  ?.length ??
+                              0,
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 15);
                           },
                           itemBuilder: (context, index) {
-                            final data = provider.recommendedJobs.recommendedJobs?[index];
+                            final data =
+                                provider
+                                    .recommendedJobs
+                                    .recommendedJobs?[index];
                             return JobHistoryItem(
                               imageUrl: AppAssets.gap,
                               title: data?.jobTitle ?? "",
-                              description:
-                              data?.summary ?? '',
+                              description: data?.summary ?? '',
                               location: data?.jobAddress ?? "",
                               startDate: "Jan 2020",
                               endDate: "Feb 2023",
-                              onPressed: (){
-                                provider.recommendedJob = data ?? RecommendedJob();
+                              onPressed: () {
+                                provider.recommendedJob =
+                                    data ?? RecommendedJob();
                                 context.pushTo(HireJobDetailsPage());
                               },
-
                             );
                           },
                         ),
@@ -352,7 +364,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         );
-      }
+      },
     );
   }
 }
