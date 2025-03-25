@@ -15,7 +15,7 @@ class CreateJobService {
     String? description,
   }) async {
     FormData data = FormData.fromMap({
-      'files': [await MultipartFile.fromFile(filePath!, filename: '')],
+      'company_logo': [await MultipartFile.fromFile(filePath!, filename: '')],
       'job_title': jobTitle,
       'company_name': companyName,
       'employment_type': employmentType,

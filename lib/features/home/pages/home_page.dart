@@ -224,139 +224,147 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Expanded(
-                    child: ListView(
-                      children: [
-                        const SizedBox(height: 11),
-                        Text(
-                          "Recent searches",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.lightBlack,
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await Future.delayed(const Duration(seconds: 2));
+                        currentContext
+                            ?.read<JobProvider>()
+                            .getRecommendedJobPosts();
+                      },
+                      child: ListView(
+                        children: [
+                          const SizedBox(height: 11),
+                          Text(
+                            "Recent searches",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.lightBlack,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        SizedBox(
-                          height: 30,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: recentSearches.length,
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(width: 5);
-                            },
-                            itemBuilder: (context, index) {
-                              final search = recentSearches[index];
-                              return RecentSearchItem(
-                                title: search,
-                                selected: selectedSearch == search,
-                                onPressed: () => updateSearch(search),
-                              );
-                            },
+                          const SizedBox(height: 4),
+                          SizedBox(
+                            height: 30,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: recentSearches.length,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(width: 5);
+                              },
+                              itemBuilder: (context, index) {
+                                final search = recentSearches[index];
+                                return RecentSearchItem(
+                                  title: search,
+                                  selected: selectedSearch == search,
+                                  onPressed: () => updateSearch(search),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 35),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => context.pushTo(CreateJobPost()),
-                                child: Text(
-                                  "Popular jobs",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.lightBlack,
+                          const SizedBox(height: 35),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () => context.pushTo(CreateJobPost()),
+                                  child: Text(
+                                    "Popular jobs",
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.lightBlack,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: viewAllJobs,
-                              child: Text(
-                                "View all",
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightBlack,
-                                  decoration: TextDecoration.underline,
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: viewAllJobs,
+                                child: Text(
+                                  "View all",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.lightBlack,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 14),
-                        // SizedBox(
-                        //   height: 170,
-                        //   child: ListView.separated(
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: jobWidgets.length,
-                        //     separatorBuilder: (context, index) {
-                        //       return const SizedBox(width: 15);
-                        //     },
-                        //     itemBuilder: (context, index) {
-                        //       final widget = jobWidgets[index];
-                        //       return widget;
-                        //     },
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 180,
-                          child: PageView.builder(
-                            controller: pageController,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: jobWidgets.length,
+                            ],
+                          ),
+                          const SizedBox(height: 14),
+                          // SizedBox(
+                          //   height: 170,
+                          //   child: ListView.separated(
+                          //     scrollDirection: Axis.horizontal,
+                          //     itemCount: jobWidgets.length,
+                          //     separatorBuilder: (context, index) {
+                          //       return const SizedBox(width: 15);
+                          //     },
+                          //     itemBuilder: (context, index) {
+                          //       final widget = jobWidgets[index];
+                          //       return widget;
+                          //     },
+                          //   ),
+                          // ),
+                          SizedBox(
+                            height: 180,
+                            child: PageView.builder(
+                              controller: pageController,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: jobWidgets.length,
 
-                            itemBuilder: (context, index) {
-                              final widget = jobWidgets[index];
-                              return widget;
-                            },
+                              itemBuilder: (context, index) {
+                                final widget = jobWidgets[index];
+                                return widget;
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 25),
-                        Text(
-                          "Recommended Jobs",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.lightBlack,
+                          const SizedBox(height: 25),
+                          Text(
+                            "Recommended Jobs",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.lightBlack,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 14),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount:
-                              provider
-                                  .recommendedJobs
-                                  .recommendedJobs
-                                  ?.length ??
-                              0,
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: 15);
-                          },
-                          itemBuilder: (context, index) {
-                            final data =
+                          const SizedBox(height: 14),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount:
                                 provider
                                     .recommendedJobs
-                                    .recommendedJobs?[index];
-                            return JobHistoryItem(
-                              imageUrl: AppAssets.gap,
-                              title: data?.jobTitle ?? "",
-                              description: data?.summary ?? '',
-                              location: data?.jobAddress ?? "",
-                              startDate: "Jan 2020",
-                              endDate: "Feb 2023",
-                              onPressed: () {
-                                provider.recommendedJob =
-                                    data ?? RecommendedJob();
-                                context.pushTo(HireJobDetailsPage());
-                              },
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 50),
-                      ],
+                                    .recommendedJobs
+                                    ?.length ??
+                                0,
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 15);
+                            },
+                            itemBuilder: (context, index) {
+                              final data =
+                                  provider
+                                      .recommendedJobs
+                                      .recommendedJobs?[index];
+                              return JobHistoryItem(
+                                imageUrl: AppAssets.gap,
+                                title: data?.jobTitle ?? "",
+                                description: data?.summary ?? '',
+                                location: data?.jobAddress ?? "",
+                                startDate: "Jan 2020",
+                                endDate: "Feb 2023",
+                                onPressed: () {
+                                  provider.recommendedJob =
+                                      data ?? RecommendedJob();
+                                  context.pushTo(HireJobDetailsPage());
+                                },
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 50),
+                        ],
+                      ),
                     ),
                   ),
                 ],

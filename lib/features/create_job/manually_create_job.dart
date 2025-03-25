@@ -1,5 +1,6 @@
+import 'dart:io';
 import 'dart:math';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
@@ -24,7 +25,9 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
       TextEditingController();
   final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _companyDescController = TextEditingController();
+  final TextEditingController _startDateController2 = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _endDateController2 = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
 
   @override
@@ -51,8 +54,10 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
       setState(() {
         if (isStartDate) {
           _startDateController.text = formattedDate;
+          _startDateController2.text = picked.toString();
         } else {
           _endDateController.text = formattedDate;
+          _endDateController2.text = picked.toString();
         }
       });
     }
@@ -176,6 +181,37 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
                   ),
                 ),
                 const SizedBox(height: 50),
+                if (provider.filePath != null) ...[
+                  const SizedBox(height: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      File(provider.filePath!),
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+
+                Button(
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? image = await picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (image != null) {
+                      provider.filePath = image.path;
+                      setState(() {});
+                    }
+                  },
+                  text: "Upload Comapny Logo",
+                  textSize: 18,
+                  block: true,
+                  color: AppColor.buttonColor,
+                ),
+                const SizedBox(height: 20),
                 Button(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
@@ -184,8 +220,8 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
                         jobTitle: _jobTitleController.text,
                         companyName: _companyNameController.text,
                         employmentType: _employmentTypeController.text,
-                        startDate: _startDateController.text,
-                        endDate: _endDateController.text,
+                        startDate: _startDateController2.text,
+                        endDate: _endDateController2.text,
                         description: _companyDescController.text,
                       );
                     }

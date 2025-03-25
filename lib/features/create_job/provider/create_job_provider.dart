@@ -8,10 +8,10 @@ class CreateJobProvider extends ChangeNotifier {
   final CreateJobService apiService = CreateJobService();
   String errorMessage = "";
   String successMessage = "";
+  String? filePath;
 
   Future<bool> createEmploymentHistory({
     required BuildContext context,
-    String? filePath,
     String? jobTitle,
     String? companyName,
     String? employmentType,
