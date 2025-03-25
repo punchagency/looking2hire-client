@@ -18,6 +18,7 @@ import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
+import 'package:looking2hire/features/settings/pages/employer_settings_page.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
@@ -42,7 +43,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   Future<void> init() async {
     uType = await SecureStorage().retrieveUserType();
-    print(uType);
+    // print(uType);
     setState(() {});
   }
 
@@ -51,9 +52,9 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void gotoProfile() {
-    // if (isHire) {
-    //   return;
-    // }
+    if (isHire) {
+      return;
+    }
     // context.pushTo(LookingToHireProfile());
     context.pushTo(InitialUserProfilePage());
   }
@@ -88,7 +89,11 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void gotoSettings() {
-    //context.pushTo(SettingsPage());
+    if (isHire) {
+      context.pushTo(EmployerSettingsPage());
+    } else {
+      //context.pushTo(SettingsPage());
+    }
   }
 
   void showDeleteJobPostDialog(AuthProvider provider) async {

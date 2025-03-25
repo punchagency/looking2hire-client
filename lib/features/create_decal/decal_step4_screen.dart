@@ -28,27 +28,27 @@ class _DecalStep4ScreenState extends State<DecalStep4Screen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomRobotoText(
-                    text: "Step 4:",
-                    textSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  Flexible(
-                    child: CustomRobotoText(
-                      text: "Best Placement Practices",
-                      textSize: 24,
-                      fontWeight: FontWeight.w600,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     CustomRobotoText(
+              //       text: "Step 4:",
+              //       textSize: 20,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //     Flexible(
+              //       child: CustomRobotoText(
+              //         text: "Best Placement Practices",
+              //         textSize: 24,
+              //         fontWeight: FontWeight.w600,
+              //         maxLines: 1,
+              //         overflow: TextOverflow.ellipsis,
+              //       ),
+              //     ),
 
-                  Container(width: 40),
-                ],
-              ),
+              //     Container(width: 40),
+              //   ],
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

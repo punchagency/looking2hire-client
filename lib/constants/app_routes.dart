@@ -17,6 +17,7 @@ class ApiRoutes {
   static const applicantSignUp = "api/auth/applicant/signup";
   static const applicantSignIn = "api/auth/applicant/signin";
   static const applicantProfile = "api/auth/user-details?userType=applicant";
+  static const employerProfile = "api/auth/user-details?userType=employer";
 
   static const updateApplicantDetails = "api/auth/applicant/update-profile";
   static const updateEmployerDetails = "api/auth/employer/update-profile";

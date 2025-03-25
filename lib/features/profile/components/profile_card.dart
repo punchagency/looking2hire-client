@@ -51,6 +51,8 @@ class ProfileCard extends StatelessWidget {
                   text: name,
                   textSize: 22,
                   fontWeight: FontWeight.w500,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 CustomRobotoText(
                   text: address,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
@@ -20,23 +21,23 @@ class DecalStep1Screen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomRobotoText(
-                    text: "Step 1:",
-                    textSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  CustomRobotoText(
-                    text: "Position Your Phone",
-                    textSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     CustomRobotoText(
+              //       text: "Step 1:",
+              //       textSize: 20,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //     CustomRobotoText(
+              //       text: "Position Your Phone",
+              //       textSize: 24,
+              //       fontWeight: FontWeight.w600,
+              //     ),
 
-                  Container(width: 40),
-                ],
-              ),
+              //     Container(width: 40),
+              //   ],
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

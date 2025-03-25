@@ -35,10 +35,10 @@ class _EditEmployerProfileFieldsState extends State<EditEmployerProfileFields> {
   Widget build(BuildContext context) {
     final userProvider = context.read<UserProvider>();
     userProvider.companyNameController.text =
-        userProvider.employer.company_name ?? "";
-    userProvider.headingController.text = userProvider.employer.heading ?? "";
+        userProvider.employer?.company_name ?? "";
+    userProvider.headingController.text = userProvider.employer?.heading ?? "";
     //userProvider.emailController.text = userProvider.employer.email ?? "";
-    userProvider.bodyController.text = userProvider.employer.body ?? "";
+    userProvider.bodyController.text = userProvider.employer?.body ?? "";
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class _EditEmployerProfileFieldsState extends State<EditEmployerProfileFields> {
               imageUrl:
                   userProvider.companyLogoController.text.isNotEmpty
                       ? userProvider.companyLogoController.text
-                      : userProvider.employer.company_logo,
+                      : userProvider.employer?.company_logo ?? "",
               width: 60,
               height: 60,
               isFileImage: userProvider.companyLogoController.text.isNotEmpty,

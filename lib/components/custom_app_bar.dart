@@ -74,8 +74,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Positioned(
                   top: 0,
                   bottom: 0,
-                  left: 50,
-                  right: 50,
+                  left: 30,
+                  right: 30,
                   child: Align(
                     alignment: Alignment.center,
                     child: CustomRobotoText(

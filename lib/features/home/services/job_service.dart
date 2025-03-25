@@ -77,8 +77,11 @@ class JobService {
     return dioClient.get("${ApiRoutes.getJobPost}/$job_id");
   }
 
-  Future<Response> getJobPosts() {
-    return dioClient.get(ApiRoutes.getJobPosts);
+  Future<Response> getJobPosts({int? page}) {
+    return dioClient.get(
+      ApiRoutes.getJobPosts,
+      queryParameters: page != null ? {"page": page} : null,
+    );
   }
 
   Future<Response> addEmploymentHistory({

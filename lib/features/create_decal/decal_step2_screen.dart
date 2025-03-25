@@ -28,23 +28,23 @@ class _DecalStep2ScreenState extends State<DecalStep2Screen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomRobotoText(
-                    text: "Step 2:",
-                    textSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  CustomRobotoText(
-                    text: "Activate The Decal",
-                    textSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     CustomRobotoText(
+              //       text: "Step 2:",
+              //       textSize: 20,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //     CustomRobotoText(
+              //       text: "Activate The Decal",
+              //       textSize: 24,
+              //       fontWeight: FontWeight.w600,
+              //     ),
 
-                  Container(width: 40),
-                ],
-              ),
+              //     Container(width: 40),
+              //   ],
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

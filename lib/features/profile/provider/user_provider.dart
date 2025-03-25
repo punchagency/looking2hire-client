@@ -24,8 +24,8 @@ class UserProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
 
   ApplicantProfile applicantProfile = ApplicantProfile();
-  Employer employer = Employer();
-  Applicant applicant = Applicant();
+  Employer? employer;
+  Applicant? applicant;
 
   // TextEditingController fullNameController = TextEditingController();
 
@@ -54,18 +54,47 @@ class UserProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      notifyListeners();
       Navigator.pop(context);
     }
   }
 
   Future<void> getApplicantProfile() async {
+    if (applicant == null) {
+      final storedApplicant = await SecureStorage().getApplicant();
+      if (storedApplicant != null) {
+        applicant = storedApplicant;
+        notifyListeners();
+      }
+    }
     errorMessage = "";
     try {
       final response = await apiService.applicantProfileApi();
       applicantProfile = ApplicantProfile.fromJson(response.data);
+      applicant = Applicant.fromJson(response.data["user"]);
       notifyListeners();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
+      notifyListeners();
+    }
+  }
+
+  Future<void> getEmployerProfile() async {
+    if (employer == null) {
+      final storedEmployer = await SecureStorage().getEmployer();
+      if (storedEmployer != null) {
+        employer = storedEmployer;
+        notifyListeners();
+      }
+    }
+
+    errorMessage = "";
+    try {
+      final response = await apiService.employerProfileApi();
+      employer = Employer.fromMap(response.data["user"]);
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+    } finally {
       notifyListeners();
     }
   }
@@ -75,6 +104,7 @@ class UserProvider extends ChangeNotifier {
     successMessage = "";
     try {
       setProgressDialog();
+
       final response = await apiService.updateEmployerDetails(
         companyLogo: companyLogoController.text,
         companyName: companyNameController.text,
@@ -83,7 +113,7 @@ class UserProvider extends ChangeNotifier {
         body: bodyController.text,
       );
       if (response.data["employer"] != null) {
-        final employer = Employer.fromJson(response.data["employer"]);
+        final employer = Employer.fromMap(response.data["employer"]);
         this.employer = employer;
         await saveEmployerOrApplicant(employer.toMap());
         print(response.data);
@@ -95,6 +125,7 @@ class UserProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      notifyListeners();
       Navigator.pop(context);
     }
   }

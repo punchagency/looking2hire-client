@@ -19,9 +19,14 @@ import 'package:provider/provider.dart';
 class JobProvider extends ChangeNotifier {
   final JobService apiService = JobService();
 
+  final formKey = GlobalKey<FormState>();
+
   String errorMessage = "";
   String successMessage = "";
   bool isLoading = true;
+
+  int page = 1;
+  int totalPages = 0;
 
   List<Job> jobPosts = [];
   Job? job;
@@ -288,6 +293,9 @@ class JobProvider extends ChangeNotifier {
 
   // Get all job posts
   Future<List<Job>?> getJobPosts() async {
+    if (page == 1) {
+      jobPosts = [];
+    }
     errorMessage = "";
 
     isLoading = true;
@@ -295,7 +303,7 @@ class JobProvider extends ChangeNotifier {
     try {
       //setProgressDialog();
 
-      final response = await apiService.getJobPosts();
+      final response = await apiService.getJobPosts(page: page);
 
       if (!response.success) {
         errorMessage = response.error;
@@ -303,14 +311,20 @@ class JobProvider extends ChangeNotifier {
         notifyListeners();
         return null;
       }
-      // print("response.data: ${response.data}");
+      //print("response.data: ${response.data}");
+      print("pagination: ${response.data?["pagination"]}");
       final jobsList = response.data?['jobs'] as List<dynamic>?;
+      totalPages = response.data?["pagination"]?['totalPages'] as int? ?? 0;
+
       if (jobsList == null) {
-        jobPosts = [];
+        isLoading = false;
+        notifyListeners();
         return null;
       }
-      jobPosts =
+      final jobs =
           jobsList.map((e) => Job.fromMap(e as Map<String, dynamic>)).toList();
+      jobPosts.addAll(jobs);
+      isLoading = false;
       notifyListeners();
       return jobPosts;
     } on DioException catch (e) {
@@ -325,6 +339,14 @@ class JobProvider extends ChangeNotifier {
       //currentContext?.pop();
     }
     return null;
+  }
+
+  Future getMoreJobPosts(int index) async {
+    if (index != jobPosts.length - 1 || isLoading || page >= totalPages) {
+      return;
+    }
+    page++;
+    getJobPosts();
   }
 
   // Apply for a job

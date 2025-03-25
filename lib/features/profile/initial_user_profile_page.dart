@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
-import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/get_related_jobs.dart';

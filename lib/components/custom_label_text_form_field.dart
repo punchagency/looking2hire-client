@@ -592,103 +592,100 @@ class CustomGoogleLabelInputText extends StatelessWidget {
             ],
           ),
         // SizedBox(height: 10.h),
-        Theme(
-          data: Theme.of(context).copyWith(
-            cardColor: Colors.white, // Change dropdown background color
-            shadowColor: Colors.black26, // Change shadow color
-          ),
-          child: GooglePlaceAutoCompleteTextField(
-            textEditingController: controller ?? TextEditingController(),
-            googleAPIKey: apiKey ?? "",
-            focusNode: focusNode,
-            // boxDecoration: BoxDecoration(color: Colors.white),
-            textStyle: bodyMedium ?? const TextStyle(color: Colors.black),
+        GooglePlaceAutoCompleteTextField(
+          textEditingController: controller ?? TextEditingController(),
+          googleAPIKey: apiKey ?? "",
+          focusNode: focusNode,
+          validator: (value, context) {
+            if (validate != null) {
+              return validate!(value);
+            }
+            return null;
+          },
+          // boxDecoration: BoxDecoration(color: Colors.white),
+          textStyle: bodyMedium ?? const TextStyle(color: Colors.black),
 
-            // boxDecoration: BoxDecoration(color: Colors.white),
-            // boxDecoration: BoxDecoration(
-            //   color: Colors.white, // Background color
-            //   borderRadius: BorderRadius.circular(10),
-            //   boxShadow: [
-            //     BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 1),
-            //   ],
-            // ),
-            inputDecoration: InputDecoration(
-              filled: true,
-              fillColor: AppColor.grey[100]?.withOpacity(.05),
+          // boxDecoration: BoxDecoration(color: Colors.white),
+          // boxDecoration: BoxDecoration(
+          //   color: Colors.white, // Background color
+          //   borderRadius: BorderRadius.circular(10),
+          //   boxShadow: [
+          //     BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 1),
+          //   ],
+          // ),
+          inputDecoration: InputDecoration(
+            filled: true,
+            fillColor: AppColor.grey[100]?.withOpacity(.05),
 
-              // border: InputBorder.none,
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              hintText: hintText,
-              prefixIcon:
-                  prefixIcon ??
-                  (icon != null
-                      ? Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset(
-                          icon ?? "",
-                          height: 17,
-                          width: 17,
-                        ),
-                      )
-                      : null),
-              counterText: counterText,
-              hintStyle: bodyMedium?.copyWith(color: Colors.black45),
-              suffixIcon: suffixIcon,
-              suffixIconConstraints: const BoxConstraints(
-                maxHeight: 30,
-                maxWidth: 35,
-                minHeight: 20,
-              ),
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 2.h,
-                horizontal: 5.w,
-              ),
+            // border: InputBorder.none,
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
             ),
-            debounceTime: 800,
-
-            showError: true,
-            // Optional: debounce time for typing
-            // countries: const ["ng"],
-            // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
-            isLatLngRequired: true,
-            getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
-            itemClick: itemClick,
-            itemBuilder:
-                itemBuilder ??
-                (context, index, prediction) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey.shade100),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: hintText,
+            prefixIcon:
+                prefixIcon ??
+                (icon != null
+                    ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(
+                        icon ?? "",
+                        height: 17,
+                        width: 17,
                       ),
-                    ),
-                    child: Text(
-                      prediction.description ?? "",
-                      style: bodyMedium,
-                    ),
-                  );
-                },
+                    )
+                    : null),
+            counterText: counterText,
+            hintStyle: bodyMedium?.copyWith(color: Colors.black45),
+            suffixIcon: suffixIcon,
+            suffixIconConstraints: const BoxConstraints(
+              maxHeight: 30,
+              maxWidth: 35,
+              minHeight: 20,
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 2.h,
+              horizontal: 5.w,
+            ),
           ),
+          debounceTime: 800,
+
+          showError: true,
+          // Optional: debounce time for typing
+          // countries: const ["ng"],
+          // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
+          isLatLngRequired: true,
+          getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
+          itemClick: itemClick,
+          itemBuilder:
+              itemBuilder ??
+              (context, index, prediction) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColor.white,
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey.shade100),
+                    ),
+                  ),
+                  child: Text(prediction.description ?? "", style: bodyMedium),
+                );
+              },
         ),
       ],
     );

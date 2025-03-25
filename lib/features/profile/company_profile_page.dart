@@ -30,16 +30,17 @@ class CompanyProfilePage extends StatefulWidget {
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
   // List<Job> jobPosts = [];
-  Employer? employer;
+  //Employer? employer;
 
   // bool isLoading = false;
 
   void gotoEditProfile() {
     final userProvider = context.read<UserProvider>();
-    userProvider.companyNameController.text = employer?.company_name ?? "";
-    userProvider.headingController.text = employer?.heading ?? "";
-    userProvider.emailController.text = employer?.email ?? "";
-    userProvider.bodyController.text = employer?.body ?? "";
+    userProvider.companyNameController.text =
+        userProvider.employer?.company_name ?? "";
+    userProvider.headingController.text = userProvider.employer?.heading ?? "";
+    userProvider.emailController.text = userProvider.employer?.email ?? "";
+    userProvider.bodyController.text = userProvider.employer?.body ?? "";
     //userProvider.companyLogoController.text = employer.company_logo ?? "";
 
     showDialog(
@@ -62,7 +63,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                       title: "Success",
                       message: userProvider.successMessage,
                     );
-                    getEmployer();
+                    //getEmployer();
                   } else {
                     setSnackBar(
                       context: context,
@@ -140,9 +141,9 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   void getEmployer() async {
-    employer = await SecureStorage().getEmployer();
-    context.read<UserProvider>().employer = employer ?? Employer();
-    setState(() {});
+    await Future.delayed(const Duration(milliseconds: 100));
+    final userProvider = context.read<UserProvider>();
+    await userProvider.getEmployerProfile();
   }
 
   void editProfile() {
@@ -157,15 +158,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
     final userProvider = context.watch<UserProvider>();
+    final employer = userProvider.employer;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -221,60 +217,59 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             //     color: AppColors.lightBlack,
             //   ),
             // ),
+            // if (jobProvider.isLoading) ...[
+            //   const SizedBox(height: 20),
+            //   Center(child: const AppProgressBar()),
+            //   const SizedBox(height: 20),
+            // ] else ...[
+            SizedBox(height: 35),
+            if (jobProvider.jobPosts.isEmpty) ...[
+              ActionButtonWithIcon(
+                title: "Add First Job Post",
+                icon: AppAssets.addRounded,
+                onPressed: gotoAddJobPost,
+              ),
+
+              const SizedBox(height: 30),
+            ] else ...[
+              ActionButtonWithIcon(
+                title: "Create job",
+                icon: AppAssets.bag,
+                onPressed: gotoAddJobPost,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Job Posts",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.lightBlack,
+                ),
+              ),
+              const SizedBox(height: 14),
+
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: jobProvider.jobPosts.length,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 26);
+                },
+                itemBuilder: (context, index) {
+                  jobProvider.getMoreJobPosts(index);
+                  final job = jobProvider.jobPosts[index];
+                  return ActiveJobItem(job: job, onPressed: () => viewJob(job));
+                },
+              ),
+
+              SizedBox(height: 35),
+            ],
+
+            //],
             if (jobProvider.isLoading) ...[
               const SizedBox(height: 20),
               Center(child: const AppProgressBar()),
               const SizedBox(height: 20),
-            ] else ...[
-              SizedBox(height: 35),
-              if (jobProvider.jobPosts.isEmpty) ...[
-                ActionButtonWithIcon(
-                  title: "Add First Job Post",
-                  icon: AppAssets.addRounded,
-                  onPressed: gotoAddJobPost,
-                ),
-
-                const SizedBox(height: 30),
-              ] else ...[
-                ActionButtonWithIcon(
-                  title: "Create job",
-                  icon: AppAssets.bag,
-                  onPressed: gotoAddJobPost,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Job Posts",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.lightBlack,
-                  ),
-                ),
-                const SizedBox(height: 14),
-
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: jobProvider.jobPosts.length,
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 26);
-                  },
-                  itemBuilder: (context, index) {
-                    final job = jobProvider.jobPosts[index];
-                    return ActiveJobItem(
-                      job: job,
-                      onPressed: () => viewJob(job),
-                    );
-                  },
-                ),
-
-                SizedBox(height: 35),
-                // ActionButtonWithIcon(
-                //   title: "Create job",
-                //   icon: AppAssets.bag,
-                //   onPressed: gotoAddJobPost,
-                // ),
-              ],
             ],
           ],
         ),

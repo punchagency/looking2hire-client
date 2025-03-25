@@ -28,6 +28,9 @@ class _CreateJobPostState extends State<CreateJobPost> {
 
   void createJob() {
     final provider = context.read<JobProvider>();
+    if (provider.formKey.currentState?.validate() == false) {
+      return;
+    }
     provider.createJob().then((job) {
       if (job != null) {
         setSnackBar(
