@@ -9,7 +9,7 @@ class ActionButtonWithIcon extends StatelessWidget {
   final Color? iconColor;
 
   final bool isDestructive;
-  final Function() onPressed;
+  final Function()? onPressed;
   const ActionButtonWithIcon({
     super.key,
     required this.title,
@@ -17,7 +17,7 @@ class ActionButtonWithIcon extends StatelessWidget {
     this.color = const Color(0xFFF5F5F5),
     this.iconColor,
     this.isDestructive = false,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override

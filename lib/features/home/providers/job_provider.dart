@@ -3,14 +3,18 @@ import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/extensions/response_extension.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/home/models/recent_jobs.dart';
 import 'package:looking2hire/features/home/models/recomended_jobs.dart';
 import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
 import 'package:looking2hire/features/home/widgets/bullet_formatter.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
+import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/main.dart';
 import 'package:looking2hire/network/dio_exception.dart';
 import 'package:looking2hire/service/navigation_service.dart';
+import 'package:provider/provider.dart';
 
 class JobProvider extends ChangeNotifier {
   final JobService apiService = JobService();
@@ -21,6 +25,7 @@ class JobProvider extends ChangeNotifier {
 
   List<Job> jobPosts = [];
   Job? job;
+  JobApplication? jobApplication;
 
   final TextEditingController jobTitleController = TextEditingController();
   final TextEditingController jobAddressController = TextEditingController();
@@ -61,8 +66,22 @@ class JobProvider extends ChangeNotifier {
   ];
   final List<String> jobSeniorities = ["Junior", "Mid", "Senior"];
 
-
-
+  Future<void> addApplicantToJobApplication() async {
+    if (job == null) {
+      errorMessage = "Job not found";
+      return;
+    }
+    if (job!.applications == null) {
+      job!.applications = [];
+      return;
+    }
+    for (var jobApplication in job!.applications!) {
+      final applicant = await currentContext!.read<AuthProvider>().getApplicant(
+        jobApplication.applicant!.id!,
+      );
+      jobApplication.applicant = applicant;
+    }
+  }
 
   // Create a job
   Future<Job?> createJob() async {

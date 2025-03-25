@@ -3,24 +3,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/dotted_lines_painter.dart';
 import 'package:looking2hire/constants/app_assets.dart';
+import 'package:looking2hire/extensions/datetime_extensions.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 
 class EmploymentHistoryItem extends StatelessWidget {
-  final String companyName;
-  final String jobTitle;
-  final String startDate;
-  final String endDate;
-  final List<String>? responsibilities;
-  const EmploymentHistoryItem({
-    super.key,
-    required this.companyName,
-    required this.jobTitle,
-    required this.startDate,
-    required this.endDate,
-    this.responsibilities,
-  });
+  final EmploymentHistory employmentHistory;
+  const EmploymentHistoryItem({super.key, required this.employmentHistory});
 
   @override
   Widget build(BuildContext context) {
+    final responsibilities =
+        employmentHistory.description != null
+            ? [employmentHistory.description!]
+            : [];
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,7 +44,7 @@ class EmploymentHistoryItem extends StatelessWidget {
               children: [
                 // const SizedBox(height: 4),
                 Text(
-                  "$jobTitle | $companyName",
+                  "${employmentHistory.jobTitle} | ${employmentHistory.companyName}",
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -58,7 +53,7 @@ class EmploymentHistoryItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "$startDate - $endDate",
+                  "${employmentHistory.startDate?.toMonthYear() ?? "Present"} - ${employmentHistory.endDate?.toMonthYear() ?? "Present"}",
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -66,37 +61,37 @@ class EmploymentHistoryItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                if (responsibilities != null)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(responsibilities!.length, (index) {
-                      final responsibility = responsibilities![index];
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0, left: 8),
-                            child: CircleAvatar(
-                              radius: 2,
-                              backgroundColor: AppColors.lighterBlack,
+                // if (responsibilities != null)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(responsibilities!.length, (index) {
+                    final responsibility = responsibilities![index];
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, left: 8),
+                          child: CircleAvatar(
+                            radius: 2,
+                            backgroundColor: AppColors.lighterBlack,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            responsibility,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.lighterBlack,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              responsibility,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.lighterBlack,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
                 const SizedBox(height: 4),
               ],
             ),

@@ -5,8 +5,10 @@ import 'package:looking2hire/components/hire_container.dart';
 import 'package:looking2hire/components/stat_card.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/applicant_card.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/features/profile/hire_user_profile_page.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:looking2hire/views/stats_cards.dart';
@@ -36,7 +38,8 @@ class _JobApplicationsPageState extends State<JobApplicationsPage> {
   void showHiredCandidates() {}
   void showRejectedCandidates() {}
 
-  void showApplicantProfile() {
+  void showApplicantProfile(JobApplication jobApplication) {
+    context.read<JobProvider>().jobApplication = jobApplication;
     context.pushTo(HireUserProfilePage());
   }
 
@@ -44,6 +47,7 @@ class _JobApplicationsPageState extends State<JobApplicationsPage> {
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
     final job = jobProvider.job;
+
     // final applicantCards = [
     //   ApplicantCard(
     //     name: "Emily Carter",
@@ -105,26 +109,23 @@ class _JobApplicationsPageState extends State<JobApplicationsPage> {
             ),
             const SizedBox(height: 30),
             HireContainer(
-              title: "Applicant Cards",
-              //   child: ListView.separated(
-              //     shrinkWrap: true,
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     itemCount: job?.applications?.length ?? 0,
-              //     separatorBuilder: (context, index) {
-              //       return const SizedBox(height: 14);
-              //     },
-              //     itemBuilder: (context, index) {
-              //       final application = job!.applications![index];
-              //       return ApplicantCard(
-              //         name: application.user.name,
-              //         image: AppAssets.profilePicture4,
-              //         experience: application.user.experience,
-              //         date: application.createdAt,
-              //         status: application.status,
-              //         onPressed: showApplicantProfile,
-              //       );
-              //     },
-              //   ),
+              title: "Applicants",
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: job?.applications?.length ?? 0,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 14);
+                },
+                itemBuilder: (context, index) {
+                  final application = job!.applications![index];
+                  if (application.applicant == null) return const SizedBox();
+                  return ApplicantCard(
+                    jobApplication: application,
+                    onPressed: () => showApplicantProfile(application),
+                  );
+                },
+              ),
             ),
 
             const SizedBox(height: 30),

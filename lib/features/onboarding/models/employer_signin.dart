@@ -37,7 +37,7 @@ class Employer {
   final String? id;
   final String? companyName;
   final String? address;
-  final List<int>? location;
+  final List<double>? location;
   final String? fullName;
   final String? email;
   final String? phone;
@@ -72,7 +72,7 @@ class Employer {
     location:
         json["location"] == null
             ? []
-            : List<int>.from(json["location"]!.map((x) => x)),
+            : List<double>.from(json["location"]!.map((x) => x.toDouble())),
     fullName: json["full_name"],
     email: json["email"],
     phone: json["phone"],

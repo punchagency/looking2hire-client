@@ -391,6 +391,7 @@ class CustomIconTextField extends StatefulWidget {
     this.minLines,
     this.maxLines,
     this.keyboardType,
+    this.iconColor,
     this.inputAction,
   });
 
@@ -398,6 +399,7 @@ class CustomIconTextField extends StatefulWidget {
   final String? textHint;
   final Function(String)? onChanged;
   final String? icon;
+  final Color? iconColor;
   final bool isPassword;
   final Widget? suffixIcon;
   final FormFieldValidator<String>? validate;
@@ -486,7 +488,12 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
                 ? null
                 : Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: SvgPicture.asset(widget.icon!, height: 17, width: 17),
+                  child: SvgPicture.asset(
+                    widget.icon!,
+                    height: 17,
+                    width: 17,
+                    color: widget.iconColor,
+                  ),
                 ),
         contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
       ),
@@ -561,6 +568,7 @@ class CustomGoogleLabelInputText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var bodyMedium = Theme.of(context).textTheme.bodyMedium;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -584,65 +592,103 @@ class CustomGoogleLabelInputText extends StatelessWidget {
             ],
           ),
         // SizedBox(height: 10.h),
-        GooglePlaceAutoCompleteTextField(
-          textEditingController: controller ?? TextEditingController(),
-          googleAPIKey: apiKey ?? "",
-          focusNode: focusNode,
-          inputDecoration: InputDecoration(
-            filled: true,
-            fillColor: AppColor.grey[100]?.withOpacity(.05),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            hintText: hintText,
-            prefixIcon:
-                prefixIcon ??
-                (icon != null
-                    ? Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(
-                        icon ?? "",
-                        height: 17,
-                        width: 17,
-                      ),
-                    )
-                    : null),
-            counterText: counterText,
-            hintStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
-              color: Colors.black45,
-            ),
-            suffixIcon: suffixIcon,
-            suffixIconConstraints: const BoxConstraints(
-              maxHeight: 30,
-              maxWidth: 35,
-              minHeight: 20,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 2.h,
-              horizontal: 5.w,
-            ),
+        Theme(
+          data: Theme.of(context).copyWith(
+            cardColor: Colors.white, // Change dropdown background color
+            shadowColor: Colors.black26, // Change shadow color
           ),
-          debounceTime: 800,
+          child: GooglePlaceAutoCompleteTextField(
+            textEditingController: controller ?? TextEditingController(),
+            googleAPIKey: apiKey ?? "",
+            focusNode: focusNode,
+            // boxDecoration: BoxDecoration(color: Colors.white),
+            textStyle: bodyMedium ?? const TextStyle(color: Colors.black),
 
-          showError: true,
-          // Optional: debounce time for typing
-          // countries: const ["ng"],
-          // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
-          isLatLngRequired: true,
-          getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
-          itemClick: itemClick,
-          itemBuilder: itemBuilder,
+            // boxDecoration: BoxDecoration(color: Colors.white),
+            // boxDecoration: BoxDecoration(
+            //   color: Colors.white, // Background color
+            //   borderRadius: BorderRadius.circular(10),
+            //   boxShadow: [
+            //     BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 1),
+            //   ],
+            // ),
+            inputDecoration: InputDecoration(
+              filled: true,
+              fillColor: AppColor.grey[100]?.withOpacity(.05),
+
+              // border: InputBorder.none,
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: hintText,
+              prefixIcon:
+                  prefixIcon ??
+                  (icon != null
+                      ? Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(
+                          icon ?? "",
+                          height: 17,
+                          width: 17,
+                        ),
+                      )
+                      : null),
+              counterText: counterText,
+              hintStyle: bodyMedium?.copyWith(color: Colors.black45),
+              suffixIcon: suffixIcon,
+              suffixIconConstraints: const BoxConstraints(
+                maxHeight: 30,
+                maxWidth: 35,
+                minHeight: 20,
+              ),
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 2.h,
+                horizontal: 5.w,
+              ),
+            ),
+            debounceTime: 800,
+
+            showError: true,
+            // Optional: debounce time for typing
+            // countries: const ["ng"],
+            // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
+            isLatLngRequired: true,
+            getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
+            itemClick: itemClick,
+            itemBuilder:
+                itemBuilder ??
+                (context, index, prediction) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColor.white,
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade100),
+                      ),
+                    ),
+                    child: Text(
+                      prediction.description ?? "",
+                      style: bodyMedium,
+                    ),
+                  );
+                },
+          ),
         ),
       ],
     );

@@ -97,4 +97,11 @@ class AuthService {
   Future<Response> authToken(String code) async {
     return await dioClient.get(ApiRoutes.authToken, queryParameters: {"code": code});
   }
+
+  Future<Response> getUserDetails(String userType) async {
+    return await dioClient.get(
+      ApiRoutes.userDetails,
+      queryParameters: {"userType": userType},
+    );
+  }
 }

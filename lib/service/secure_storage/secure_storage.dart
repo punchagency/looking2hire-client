@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:looking2hire/features/onboarding/models/applicant.dart';
+import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 
 import '../../features/home/models/job.dart';
 
@@ -17,8 +18,9 @@ class SecureStorage {
     storage = const FlutterSecureStorage();
   }
 
-  Future<void> saveToken({required String token}) async {
+  Future<void> saveToken({required String token, String? refreshToken}) async {
     await storage.write(key: 'token', value: token);
+    await storage.write(key: 'refresh_token', value: refreshToken);
   }
 
   Future<void> saveRefreshToken({required String refreshToken}) async {
@@ -35,17 +37,18 @@ class SecureStorage {
     return refreshToken;
   }
 
-  Future<void> saveResetToken({required String resetToken}) async {
-    await storage.write(key: 'reset_token', value: resetToken);
-  }
+  // Future<void> saveResetToken({required String resetToken}) async {
+  //   await storage.write(key: 'reset_token', value: resetToken);
+  // }
 
-  Future<String?> retrieveResetToken() async {
-    final resetToken = await storage.read(key: 'reset_token');
-    return resetToken;
-  }
+  // Future<String?> retrieveResetToken() async {
+  //   final resetToken = await storage.read(key: 'reset_token');
+  //   return resetToken;
+  // }
 
   Future<void> deleteToken() async {
     await storage.delete(key: 'token');
+    await storage.delete(key: 'refresh_token');
   }
 
   Future<void> deleteRefreshToken() async {
@@ -70,6 +73,10 @@ class SecureStorage {
         : null;
   }
 
+  Future<void> deleteApplicantOrEmployerDetails() async {
+    await storage.delete(key: 'applicantOrEmployerDetails');
+  }
+
   Future<Employer?> getEmployer() async {
     final applicantOrEmployerDetails =
         await retrieveApplicantOrEmployerDetails();
@@ -83,7 +90,7 @@ class SecureStorage {
     final applicantOrEmployerDetails =
         await retrieveApplicantOrEmployerDetails();
     if (applicantOrEmployerDetails != null) {
-      return Applicant.fromMap(applicantOrEmployerDetails);
+      return Applicant.fromJson(applicantOrEmployerDetails);
     }
     return null;
   }

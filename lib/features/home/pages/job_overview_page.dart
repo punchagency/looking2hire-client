@@ -34,19 +34,6 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
   void showEditJobPostDialog() {
     final jobProvider = context.read<JobProvider>();
 
-    // job_title: jobTitleController.text,
-    //     job_address: jobAddressController.text,
-    //     location:
-    //         jobLocationController.text.contains(",")
-    //             ? [
-    //               double.tryParse(jobLocationController.text.split(",")[0]) ??
-    //                   0.0,
-    //               double.tryParse(jobLocationController.text.split(",")[1]) ??
-    //                   0.0,
-    //             ]
-    //             : [0.0, 0.0],
-    //     qualifications: [jobQualificationsController.text],
-
     jobProvider.jobTitleController.text = jobProvider.job?.job_title ?? "";
     jobProvider.jobAddressController.text = jobProvider.job?.job_address ?? "";
     jobProvider.jobLocationController.text =
@@ -62,7 +49,7 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
           actions: [
             ActionButtonWithIcon(title: "Save Changes", onPressed: saveJobPost),
           ],
-          child: CreateJobFields(),
+          child: SingleChildScrollView(child: CreateJobFields()),
         );
       },
     );

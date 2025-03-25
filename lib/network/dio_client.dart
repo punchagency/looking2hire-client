@@ -4,7 +4,10 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:looking2hire/constants/app_routes.dart';
+import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
+import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 
 class DioClient {
@@ -56,7 +59,7 @@ class DioClient {
             final refreshResponse = await _dio.post(
               ApiRoutes.refreshToken,
               data: {"refreshToken": refreshToken},
-              options: Options(validateStatus: (status) => status! < 500),
+              // options: Options(validateStatus: (status) => status! < 500),
             );
 
             debugPrint(
@@ -66,15 +69,15 @@ class DioClient {
             if (refreshResponse.statusCode == 200 &&
                 refreshResponse.data['accessToken'] != null) {
               final newToken = refreshResponse.data['accessToken'];
-              final newRefreshToken = refreshResponse.data['refreshToken'];
+              // final newRefreshToken = refreshResponse.data['refreshToken'];
 
               debugPrint(
                 "🔑 New token received, storing and retrying request.",
               );
               await _secureStorage.saveToken(token: newToken);
-              await _secureStorage.saveRefreshToken(
-                refreshToken: newRefreshToken,
-              );
+              // await _secureStorage.saveRefreshToken(
+              //   refreshToken: newRefreshToken,
+              // );
 
               // Create new request with the new token
               final retryRequest = await _dio.request(
@@ -111,10 +114,24 @@ class DioClient {
     debugPrint("⚠️ Auth failed. Clearing tokens and notifying app.");
     await _secureStorage.deleteToken();
     await _secureStorage.deleteRefreshToken();
+    await _secureStorage.deleteApplicantOrEmployerDetails();
+    await _secureStorage.loggedIn(isLogged: false);
+    await _secureStorage.saveUserType(userType: "");
+    await _secureStorage.saveUserId(userId: "");
 
     if (onAuthFailure != null) {
       onAuthFailure!();
     }
+
+    // Use WidgetsBinding to ensure navigation happens after the frame is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (currentContext != null && currentContext!.mounted) {
+        Navigator.of(currentContext!).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          (route) => false,
+        );
+      }
+    });
   }
 
   // Helper method to merge options
