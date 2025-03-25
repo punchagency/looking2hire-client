@@ -245,6 +245,7 @@ class Job {
 class Employer {
   String? id;
   String? company_name;
+  String? company_logo;
   String? address;
   List<double>? location;
   String? full_name;
@@ -255,18 +256,11 @@ class Employer {
   String? updatedAt;
   String? body;
   String? heading;
-  // String id;
-  // String company_name;
-  // String address;
-  // String full_name;
-  // String email;
-  // String phone;
-  // String? body;
-  // String? company_logo;
-  // String? heading;
+
   Employer({
     this.id,
     this.company_name,
+    this.company_logo,
     this.address,
     this.location,
     this.full_name,
@@ -282,6 +276,7 @@ class Employer {
   Employer copyWith({
     String? id,
     String? company_name,
+    String? company_logo,
     String? address,
     List<double>? location,
     String? full_name,
@@ -296,6 +291,7 @@ class Employer {
     return Employer(
       id: id ?? this.id,
       company_name: company_name ?? this.company_name,
+      company_logo: company_logo ?? this.company_logo,
       address: address ?? this.address,
       location: location ?? this.location,
       full_name: full_name ?? this.full_name,
@@ -313,6 +309,7 @@ class Employer {
     return <String, dynamic>{
       '_id': id,
       'company_name': company_name,
+      'company_logo': company_logo,
       'address': address,
       'location': location,
       'full_name': full_name,
@@ -331,6 +328,8 @@ class Employer {
       id: map['id'] != null ? map['_id'] as String : null,
       company_name:
           map['company_name'] != null ? map['company_name'] as String : null,
+      company_logo:
+          map['company_logo'] != null ? map['company_logo'] as String : null,
       address: map['address'] != null ? map['address'] as String : null,
       location:
           map['location'] != null
@@ -356,7 +355,7 @@ class Employer {
 
   @override
   String toString() {
-    return 'Employer(id: $id, company_name: $company_name, address: $address, location: $location, full_name: $full_name, email: $email, phone: $phone, isVerified: $isVerified, createdAt: $createdAt, updatedAt: $updatedAt, body: $body, heading: $heading)';
+    return 'Employer(id: $id, company_name: $company_name, company_logo: $company_logo, address: $address, location: $location, full_name: $full_name, email: $email, phone: $phone, isVerified: $isVerified, createdAt: $createdAt, updatedAt: $updatedAt, body: $body, heading: $heading)';
   }
 
   @override
@@ -365,6 +364,7 @@ class Employer {
 
     return other.id == id &&
         other.company_name == company_name &&
+        other.company_logo == company_logo &&
         other.address == address &&
         listEquals(other.location, location) &&
         other.full_name == full_name &&
@@ -381,6 +381,7 @@ class Employer {
   int get hashCode {
     return id.hashCode ^
         company_name.hashCode ^
+        company_logo.hashCode ^
         address.hashCode ^
         location.hashCode ^
         full_name.hashCode ^

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePhoto extends StatelessWidget {
@@ -6,7 +7,13 @@ class ProfilePhoto extends StatelessWidget {
   final bool? isNetwork;
   final VoidCallback? onPressed;
 
-  const ProfilePhoto({super.key, required this.imageUrl, this.onPressed, this.size = 48, this.isNetwork});
+  const ProfilePhoto({
+    super.key,
+    required this.imageUrl,
+    this.onPressed,
+    this.size = 48,
+    this.isNetwork,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,10 @@ class ProfilePhoto extends StatelessWidget {
           shape: BoxShape.circle,
           image: DecorationImage(
             // image: NetworkImage(imageUrl),
-            image: isNetwork == true ? NetworkImage(imageUrl) : AssetImage(imageUrl),
+            image:
+                isNetwork == true
+                    ? CachedNetworkImageProvider(imageUrl)
+                    : AssetImage(imageUrl),
             fit: BoxFit.cover,
           ),
         ),

@@ -19,14 +19,10 @@ class ApiRoutes {
   static const applicantProfile = "api/auth/user-details?userType=applicant";
 
   static const updateApplicantDetails = "api/auth/applicant/update-profile";
+  static const updateEmployerDetails = "api/auth/employer/update-profile";
   static const getApplicantDetails = "api/auth/applicant/get";
   static const userDetails = "api/auth/user-details";
 
-  // static const applicantSignIn = "api/auth/applicant/signin";
-
-  // static const resendOtp = "api/auth/send-otp";
-  // static const applicantVerifyOtp = "api/auth/send-otp";
-  // static const refreshToken = "applicant/refresh-token";
   static const applicantLinkPassword = "applicant/link-password";
 
   static const createEmploymentHistory = "api/job/applicant/employment-history";

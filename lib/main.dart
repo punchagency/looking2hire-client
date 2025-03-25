@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
+                fontFamily: "Roboto",
                 // primarySwatch: Color(0xfffaf9f9),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 scaffoldBackgroundColor: Colors.white,

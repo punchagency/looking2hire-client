@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:looking2hire/components/custom_text.dart';
+import 'package:looking2hire/components/rounded_image.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
@@ -8,7 +10,7 @@ class ProfileCard extends StatelessWidget {
   final String? imageUrl;
   final String name;
   final String address;
-  final double milesAway;
+  final double? milesAway;
   final bool? isSaved;
   final bool showSave;
   final void Function()? onEdit;
@@ -18,7 +20,7 @@ class ProfileCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.address,
-    required this.milesAway,
+    this.milesAway,
     this.isSaved,
     this.imageUrl,
     this.showSave = true,
@@ -36,19 +38,9 @@ class ProfileCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(28),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 100,
-            width: 110,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              image: DecorationImage(
-                image: AssetImage(imageUrl ?? AppAssets.profileImage),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          RoundedImage(imageUrl: imageUrl),
           SizedBox(width: 20),
           Expanded(
             child: Column(
@@ -68,13 +60,16 @@ class ProfileCard extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   textColor: AppColor.grey.shade500,
                 ),
-                SizedBox(height: 5),
-                CustomRobotoText(
-                  text: "$milesAway Miles Away",
-                  textSize: 15,
-                  fontWeight: FontWeight.w500,
-                  textColor: AppColor.grey.shade500,
-                ),
+                if (milesAway != null) ...[
+                  SizedBox(height: 5),
+
+                  CustomRobotoText(
+                    text: "$milesAway Miles Away",
+                    textSize: 15,
+                    fontWeight: FontWeight.w500,
+                    textColor: AppColor.grey.shade500,
+                  ),
+                ],
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //   children: [

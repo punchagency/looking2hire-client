@@ -153,7 +153,8 @@ class AuthProvider extends ChangeNotifier {
         loginResponse.accessToken,
         loginResponse.refreshToken,
         loginResponse.employer?.id,
-        loginResponse.employer?.toJson(),
+        response.data["employer"],
+        // loginResponse.employer?.toJson(),
         "employer",
       );
 
@@ -181,13 +182,13 @@ class AuthProvider extends ChangeNotifier {
 
       applicantLoginResponse = ApplicantLoginResponse.fromJson(response.data);
 
-
       // Saving User ID and AccessToken to Secure Storage
       await handleLoginResponse(
         applicantLoginResponse.accessToken,
         applicantLoginResponse.refreshToken,
         applicantLoginResponse.applicant?.id,
-        applicantLoginResponse.applicant?.toJson(),
+        response.data["applicant"],
+        //applicantLoginResponse.applicant?.toJson(),
         "applicant",
       );
 

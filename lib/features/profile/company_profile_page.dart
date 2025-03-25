@@ -3,6 +3,7 @@ import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
+import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
@@ -13,7 +14,10 @@ import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
+import 'package:looking2hire/features/profile/views/edit_employer_profile_fields.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -30,18 +34,82 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   // bool isLoading = false;
 
-  void saveProfile() {}
+  void gotoEditProfile() {
+    final userProvider = context.read<UserProvider>();
+    userProvider.companyNameController.text = employer?.company_name ?? "";
+    userProvider.headingController.text = employer?.heading ?? "";
+    userProvider.emailController.text = employer?.email ?? "";
+    userProvider.bodyController.text = employer?.body ?? "";
+    //userProvider.companyLogoController.text = employer.company_logo ?? "";
 
-  void showEditProfileDialog(Job job) {
     showDialog(
       context: context,
       builder: (context) {
         return DialogContainer(
           title: "Edit Profile",
+          hint: "Update the employer details and save changes.",
           actions: [
-            ActionButtonWithIcon(title: "Update", onPressed: saveProfile),
+            ActionButtonWithIcon(
+              title: "Save Changes",
+              onPressed: () {
+                userProvider.updateEmployerDetails(context: context).then((
+                  success,
+                ) {
+                  if (success) {
+                    context.pop();
+                    setSnackBar(
+                      context: context,
+                      title: "Success",
+                      message: userProvider.successMessage,
+                    );
+                    getEmployer();
+                  } else {
+                    setSnackBar(
+                      context: context,
+                      title: "Error",
+                      message: userProvider.errorMessage,
+                    );
+                  }
+                });
+              },
+            ),
           ],
-          //child: SingleChildScrollView(child: CreateJobFields()),
+          child: EditEmployerProfileFields(),
+          // child: Column(
+          //   // mainAxisSize: MainAxisSize.min,
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     CustomIconTextField(
+          //       textEditingController: TextEditingController(),
+          //       textHint: "Upload Picture",
+          //       icon: AppAssets.upload,
+          //     ),
+          //     SizedBox(height: 16),
+          //     CustomIconTextField(
+          //       textEditingController: userProvider.companyNameController,
+          //       textHint: "Company Name",
+          //       icon: AppAssets.user,
+          //     ),
+          //     // SizedBox(height: 16),
+          //     // CustomIconTextField(
+          //     //   textEditingController: userProvider.headingController,
+          //     //   textHint: "Email",
+          //     //   icon: AppAssets.briefcase,
+          //     // ),
+          //     SizedBox(height: 16),
+          //     CustomIconTextField(
+          //       textEditingController: userProvider.headingController,
+          //       textHint: "Heading",
+          //       icon: AppAssets.description,
+          //     ),
+          //     SizedBox(height: 16),
+          //     CustomIconTextField(
+          //       textEditingController: userProvider.descriptionController,
+          //       textHint: "Body",
+          //       icon: AppAssets.description,
+          //     ),
+          //   ],
+          // ),
         );
       },
     );
@@ -73,6 +141,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
   void getEmployer() async {
     employer = await SecureStorage().getEmployer();
+    context.read<UserProvider>().employer = employer ?? Employer();
     setState(() {});
   }
 
@@ -96,6 +165,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   @override
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
+    final userProvider = context.watch<UserProvider>();
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -115,40 +185,42 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             ProfileCard(
               name: employer?.company_name ?? "",
               address: employer?.address ?? "",
-              milesAway: 0.5,
-              onEdit: editProfile,
+              imageUrl: employer?.company_logo ?? "",
+              onEdit: gotoEditProfile,
             ),
 
-            const SizedBox(height: 16),
+            if ((employer?.heading ?? "").isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(
+                employer?.heading ?? "",
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.lightBlack,
+                ),
+              ),
+            ],
+            if ((employer?.body ?? "").isNotEmpty) ...[
+              const SizedBox(height: 11),
+              Text(
+                employer?.body ?? "",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.lightBlack,
+                ),
+              ),
+            ],
 
-            Text(
-              "We have everything we need to inspire our customers. Except you.",
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlack,
-              ),
-            ),
-            const SizedBox(height: 11),
-            Text(
-              """We inspire purpose-filled living that brings joy to the modern home. With a team of more than 8,000 associates spanning 130 store and distribution locations across the U.S and Canada, we achieve together, drive results and innovate to inspire. Drawn together by a shared passion of our customers and a spirit of fun, we deliver high-quality home furnishings that are expertly designed, responsibly sourced and bring beauty and function to people’s homes. From the day we opened our first store in Chicago in 1962 to the digital innovations that engage millions of customers today, our iconic brand is nearly 60 years in the making and our story is unfolding.
-      Come make an impact that’s uniquely you.""",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: AppColors.lightBlack,
-              ),
-            ),
-            const SizedBox(height: 11),
-            Text(
-              "Come make an impact that’s uniquely you.",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightBlack,
-              ),
-            ),
-
+            // const SizedBox(height: 11),
+            // Text(
+            //   "Come make an impact that’s uniquely you.",
+            //   style: const TextStyle(
+            //     fontSize: 14,
+            //     fontWeight: FontWeight.w500,
+            //     color: AppColors.lightBlack,
+            //   ),
+            // ),
             if (jobProvider.isLoading) ...[
               const SizedBox(height: 20),
               Center(child: const AppProgressBar()),

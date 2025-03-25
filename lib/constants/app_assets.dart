@@ -24,6 +24,7 @@ class AppAssets {
   static const activated = "assets/images/activated.png";
   static const placement = "assets/images/placement.png";
   static const done = "assets/images/tick.png";
+  static const defaultProfilePic = "assets/images/default_profile_pic.jpg";
   //Svgs
   static const search = "assets/svgs/search.svg";
   static const filter = "assets/svgs/filter.svg";

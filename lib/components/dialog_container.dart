@@ -71,7 +71,7 @@ class DialogContainer extends StatelessWidget {
                 ],
                 if (child != null) ...[
                   const SizedBox(height: 32),
-                  Flexible(child: child!),
+                  Flexible(child: SingleChildScrollView(child: child!)),
                 ],
                 const SizedBox(height: 40),
                 SizedBox(

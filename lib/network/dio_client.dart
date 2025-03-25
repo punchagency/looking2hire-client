@@ -113,7 +113,6 @@ class DioClient {
   Future<void> _handleAuthFailure() async {
     debugPrint("⚠️ Auth failed. Clearing tokens and notifying app.");
     await _secureStorage.deleteToken();
-    await _secureStorage.deleteRefreshToken();
     await _secureStorage.deleteApplicantOrEmployerDetails();
     await _secureStorage.loggedIn(isLogged: false);
     await _secureStorage.saveUserType(userType: "");
@@ -164,7 +163,27 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      final mergedOptions = _mergeOptions(options, method);
+      // Determine content type based on data type
+      String? contentType;
+      if (data != null) {
+        if (data is FormData) {
+          contentType = 'multipart/form-data';
+        } else if (data is Map) {
+          contentType = 'application/json';
+        } else if (data is String) {
+          contentType = 'text/plain';
+        } else if (data is List) {
+          contentType = 'application/json';
+        }
+      }
+
+      final mergedOptions = _mergeOptions(
+        options ??
+            (contentType != null
+                ? Options(headers: {'Content-Type': contentType})
+                : null),
+        method,
+      );
 
       return await _dio.request(
         url,

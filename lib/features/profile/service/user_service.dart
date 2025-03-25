@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/network/dio_client.dart';
@@ -5,16 +7,20 @@ import 'package:looking2hire/network/dio_client.dart';
 class UserService {
   final DioClient dioClient = DioClient();
 
-  Future<Response> updateApplicantDetails({String? name, String? profilePic, String? heading, String? description}) async {
+  Future<Response> updateApplicantDetails({
+    String? name,
+    String? profilePic,
+    String? heading,
+    String? description,
+  }) async {
     return await dioClient.patch(
       ApiRoutes.updateApplicantDetails,
       data: {
         "name": name,
         "profile_pic": profilePic,
         "heading": heading,
-        "description": description
-      }
-      ,
+        "description": description,
+      },
     );
   }
 
@@ -22,4 +28,66 @@ class UserService {
     return await dioClient.get(ApiRoutes.applicantProfile);
   }
 
+  Future<Response> updateEmployerDetails({
+    String? companyLogo,
+    String? companyName,
+    String? heading,
+    String? email,
+    String? body,
+  }) async {
+    print("companyLogo ${companyLogo}");
+    print("companyName ${companyName}");
+    print("heading ${heading}");
+    print("email ${email}");
+    print("body ${body}");
+
+    var data = FormData.fromMap({
+      if (companyLogo != null && companyLogo.isNotEmpty)
+        'company_logo': await MultipartFile.fromFile(
+          companyLogo,
+          filename: 'company_logo.jpg', // Ensure a valid filename
+        ),
+      if (companyName != null) 'company_name': companyName,
+      if (email != null) 'email': email,
+      if (heading != null) 'heading': heading,
+      if (body != null) 'body': body,
+    });
+
+    Response response = await dioClient.patch(
+      ApiRoutes.updateEmployerDetails,
+      data: data,
+      options: Options(headers: {"Content-Type": "multipart/form-data"}),
+    );
+
+    print("Response: ${response.data}");
+    return response;
+    // var data = FormData.fromMap({
+    //   if ((companyLogo ?? "").isNotEmpty)
+    //     // 'company_logo': \[
+    //     //   await MultipartFile.fromFile(companyLogo!, filename: 'company_logo'),
+    //     // ],
+    //     'company_logo': await MultipartFile.fromFile(
+    //       companyLogo!,
+    //       filename: '',
+    //     ),
+    //   if (companyName != null) 'company_name': companyName,
+    //   if (heading != null) 'heading': heading,
+    //   if (body != null) 'body': body,
+    // });
+
+    // return await dioClient.patch(
+    //   ApiRoutes.updateEmployerDetails,
+    //   data: data,
+    //   // data: FormData.fromMap({
+    //   //   if ((companyLogo ?? "").isNotEmpty)
+    //   //     "company_logo": await MultipartFile.fromFile(
+    //   //       companyLogo!,
+    //   //       filename: "company_logo",
+    //   //     ),
+    //   //   if (companyName != null) "company_name": companyName,
+    //   //   if (heading != null) "heading": heading,
+    //   //   if (body != null) "body": body,
+    //   // }),
+    // );
+  }
 }

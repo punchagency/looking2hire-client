@@ -58,6 +58,7 @@ dependencies:
   google_places_autocomplete_text_field: ^1.1.0
   google_places_flutter: ^2.0.1
   flutter_dotenv: ^5.2.1
+  image_picker: ^1.1.2
 
   # Firbase
   firebase_core: ^3.8.1
@@ -96,6 +97,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/icons/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -109,10 +111,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -44,6 +44,12 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
     _jobTitleFocus.dispose();
     _locationFocus.dispose();
     _qualificationsFocus.dispose();
+    _jobSalaryMinFocus.dispose();
+    _jobSalaryMaxFocus.dispose();
+    _jobSalaryPeriodFocus.dispose();
+    _jobWorkTypeFocus.dispose();
+    _jobEmploymentTypeFocus.dispose();
+    _jobSeniorityFocus.dispose();
     super.dispose();
   }
 

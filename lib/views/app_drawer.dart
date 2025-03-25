@@ -136,7 +136,6 @@ class _AppDrawerState extends State<AppDrawer> {
     await SecureStorage().saveUserType(userType: '');
     await SecureStorage().saveUserId(userId: '');
     await SecureStorage().deleteApplicantOrEmployerDetails();
-    await SecureStorage().deleteRefreshToken();
     await SecureStorage().deleteToken();
 
     // Check if widget is still mounted before showing snackbar
