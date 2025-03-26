@@ -7,6 +7,7 @@ import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/home/models/popular_jobs.dart' as popular;
 import 'package:looking2hire/features/home/models/recent_jobs.dart';
+import 'package:looking2hire/features/home/models/recent_search.dart';
 import 'package:looking2hire/features/home/models/recomended_jobs.dart';
 import 'package:looking2hire/features/home/models/saved_jobs.dart';
 import 'package:looking2hire/features/home/models/viewed_jobs.dart';
@@ -27,8 +28,9 @@ class JobProvider extends ChangeNotifier {
   bool isLoading = false;
 
   int page = 1;
-  int totalPages = 0;
+  int totalPages = 1;
 
+  List<RecentSearch> recentSearches = [];
   List<Job> jobPosts = [];
   List<Job> searchedJobs = [];
   List<Job> jobsInDistance = [];
@@ -361,8 +363,8 @@ class JobProvider extends ChangeNotifier {
     return null;
   }
 
-  Future getMoreJobPosts(int index) async {
-    if (index != jobPosts.length - 1 || isLoading || page >= totalPages) {
+  Future getMoreJobPosts() async {
+    if (isLoading || page >= totalPages) {
       return;
     }
     page++;
@@ -477,22 +479,6 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  // Get recent searches
-  Future<List<dynamic>?> getRecentSearches() async {
-    errorMessage = "";
-    try {
-      setProgressDialog();
-
-      final response = await apiService.getRecentSearches();
-      return response.data['searches'];
-    } on DioException catch (e) {
-      errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
-    } finally {
-      currentContext?.pop();
-    }
-  }
-
   // Get jobs within distance
   Future<void> getJobsInDistance({
     required double latitude,
@@ -595,6 +581,29 @@ class JobProvider extends ChangeNotifier {
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
+    }
+  }
+
+  // Get recent jobs
+  Future<void> getRecentSearches() async {
+    errorMessage = "";
+    try {
+      // setProgressDialog();
+
+      final response = await apiService.getRecentSearches();
+      recentSearches =
+          (response.data['searches'] as List<dynamic>)
+              .map((e) => RecentSearch.fromMap(e as Map<String, dynamic>))
+              .where((search) => (search.query ?? "").trim().isNotEmpty)
+              .toList();
+      print(response.data);
+      notifyListeners();
+      // return response.data['jobs'];
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+    } finally {
+      notifyListeners();
+      // currentContext?.pop();
     }
   }
 

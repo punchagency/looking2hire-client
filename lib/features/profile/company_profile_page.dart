@@ -7,6 +7,7 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/extensions/scroll_controller_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/pages/hire_job_display_page.dart';
@@ -29,10 +30,7 @@ class CompanyProfilePage extends StatefulWidget {
 }
 
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
-  // List<Job> jobPosts = [];
-  //Employer? employer;
-
-  // bool isLoading = false;
+  final ScrollController _scrollController = ScrollController();
 
   void gotoEditProfile() {
     final userProvider = context.read<UserProvider>();
@@ -135,9 +133,10 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     final jobProvider = context.read<JobProvider>();
     //jobPosts =
     await jobProvider.getJobPosts() ?? [];
-    // print("jobPosts: $jobPosts");
-    // isLoading = false;
-    // setState(() {});
+
+    _scrollController.addOnScrollEndListener(() {
+      jobProvider.getMoreJobPosts();
+    });
   }
 
   void getEmployer() async {
@@ -158,6 +157,17 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // void _onScroll() {
+  //   if (_scrollController.position.pixels >=
+  //       _scrollController.position.maxScrollExtent - 200) {}
+  // }
+
+  @override
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
     final userProvider = context.watch<UserProvider>();
@@ -174,6 +184,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       ),
       endDrawer: AppDrawer(),
       body: SingleChildScrollView(
+        controller: _scrollController,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +221,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
 
             // const SizedBox(height: 11),
             // Text(
-            //   "Come make an impact that’s uniquely you.",
+            //   "Come make an impact that's uniquely you.",
             //   style: const TextStyle(
             //     fontSize: 14,
             //     fontWeight: FontWeight.w500,
@@ -256,7 +267,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                   return const SizedBox(height: 26);
                 },
                 itemBuilder: (context, index) {
-                  jobProvider.getMoreJobPosts(index);
                   final job = jobProvider.jobPosts[index];
                   return ActiveJobItem(job: job, onPressed: () => viewJob(job));
                 },

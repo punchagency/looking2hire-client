@@ -36,25 +36,29 @@ class ProgressDialog extends StatelessWidget {
             ],
           ),
         )
-        : Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LoadingAnimationWidget.discreteCircle(
-                size: 20,
-                color: AppColor.primaryColor,
-                secondRingColor: AppColor.secondaryColor,
-                thirdRingColor: AppColor.accent,
-              ),
-              if ((message ?? "").isNotEmpty) ...[
-                const SizedBox(height: 10),
-                CustomRobotoText(
-                  text: message!,
-                  textColor: Colors.white,
-                  alignText: TextAlign.center,
+        : Dialog(
+          backgroundColor: Colors.transparent,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                LoadingAnimationWidget.discreteCircle(
+                  size: 20,
+                  color: AppColor.primaryColor,
+                  secondRingColor: AppColor.secondaryColor,
+                  thirdRingColor: AppColor.accent,
                 ),
+                if ((message ?? "").isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  CustomRobotoText(
+                    text: message!,
+                    textSize: 16,
+                    textColor: Colors.white,
+                    alignText: TextAlign.center,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         );
   }
