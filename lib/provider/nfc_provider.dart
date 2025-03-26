@@ -40,7 +40,7 @@ class NFCProvider extends ChangeNotifier {
   Future<void> startNFCOperation({
     required NFCOperation operation,
     String dataType = '',
-    required PageController pageController,
+    PageController? pageController,
   }) async {
     try {
       isProcessing = true;
@@ -65,7 +65,7 @@ class NFCProvider extends ChangeNotifier {
                 message = "NFC Tag found";
                 isActive = true;
 
-                if (pageController.page == 0) {
+                if (pageController!.page == 0) {
                   pageController.nextPage(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn,
@@ -94,7 +94,8 @@ class NFCProvider extends ChangeNotifier {
           activateNfc(
             operation: operation,
             url: "http://ayomilotunde.github.io",
-            pageController: pageController,
+            pageController: pageController!,
+            isProvider: true,
           );
         }
       }
@@ -111,9 +112,12 @@ class NFCProvider extends ChangeNotifier {
     required NFCOperation operation,
     required String url,
     required PageController pageController,
+    bool? isProvider,
   }) async {
     try {
-      setProgressDialog();
+      if (isProvider == false) {
+        setProgressDialog();
+      }
       await checkNfcAvailability();
 
       if (isNfcAvailable) {
@@ -149,12 +153,16 @@ class NFCProvider extends ChangeNotifier {
             notifyListeners();
 
             await NfcManager.instance.stopSession();
-            currentContext?.pop();
+            if (isProvider == false) {
+              currentContext?.pop();
+            }
           },
           onError: (e) async {
             message = e.toString();
             isProcessing = false;
-            currentContext?.pop();
+            if (isProvider == false) {
+              currentContext?.pop();
+            }
             notifyListeners();
           },
         );

@@ -16,7 +16,6 @@ import 'package:looking2hire/features/home/widgets/job_card.dart';
 import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
-import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
@@ -48,7 +47,12 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> init() async {
     uType = await SecureStorage().retrieveUserType();
-    print(uType);
+    currentContext?.read<JobProvider>().getRecentSearches();
+    currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<JobProvider>().getPopularJobs();
+    currentContext?.read<UserProvider>().getApplicantProfile();
+    currentContext?.read<JobProvider>().getSavedJobs();
+    currentContext?.read<JobProvider>().getViewedJobs();
     setState(() {});
   }
 
@@ -57,12 +61,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     //selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
-    currentContext?.read<JobProvider>().getRecentSearches();
-    currentContext?.read<JobProvider>().getRecommendedJobPosts();
-    currentContext?.read<JobProvider>().getPopularJobs();
-    currentContext?.read<UserProvider>().getApplicantProfile();
-    currentContext?.read<JobProvider>().getSavedJobs();
-    currentContext?.read<JobProvider>().getViewedJobs();
+
     init();
   }
 
@@ -237,17 +236,7 @@ class _HomePageState extends State<HomePage> {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         await Future.delayed(const Duration(seconds: 2));
-
-                        currentContext
-                            ?.read<JobProvider>()
-                            .getRecommendedJobPosts();
-                        currentContext
-                            ?.read<UserProvider>()
-                            .getApplicantProfile();
                         init();
-                        currentContext?.read<JobProvider>().getPopularJobs();
-                        currentContext?.read<JobProvider>().getSavedJobs();
-                        currentContext?.read<JobProvider>().getViewedJobs();
                       },
                       child: ListView(
                         children: [

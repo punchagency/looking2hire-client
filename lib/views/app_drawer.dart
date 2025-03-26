@@ -53,13 +53,13 @@ class _AppDrawerState extends State<AppDrawer> {
     if (isHire) {
       return;
     }
-    // context.pushTo(LookingToHireProfile());
-    context.pushTo(InitialUserProfilePage());
+    context.pushTo(LookingToHireProfile());
+    // context.pushTo(InitialUserProfilePage());
   }
 
   void gotoScan() {
-    // context.pushTo(ScanNfcPage());
-    context.pushTo(LookingToHireProfile());
+    context.pushTo(ScanNfcPage());
+    // context.pushTo(LookingToHireProfile());
   }
 
   void gotoCreateDecal() {
