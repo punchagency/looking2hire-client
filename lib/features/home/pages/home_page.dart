@@ -34,14 +34,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final pageController = PageController(viewportFraction: 0.9);
-  List<String> recentSearches = [
-    "All Jobs",
-    "Designer",
-    "Doctor",
-    "Engineer",
-    "Artist",
-    "Musician",
-  ];
+  // List<String> recentSearches = [
+  //   "All Jobs",
+  //   "Designer",
+  //   "Doctor",
+  //   "Engineer",
+  //   "Artist",
+  //   "Musician",
+  // ];
   String selectedSearch = "";
   bool firstTime = true;
   String? uType;
@@ -55,8 +55,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    selectedSearch = recentSearches.firstOrNull ?? "";
+    //selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
+    currentContext?.read<JobProvider>().getRecentSearches();
     currentContext?.read<JobProvider>().getRecommendedJobPosts();
     currentContext?.read<JobProvider>().getPopularJobs();
     currentContext?.read<UserProvider>().getApplicantProfile();
@@ -110,65 +111,71 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final jobWidgets = [
-      JobCard(
-        logoUrl: AppAssets.jobLogo1,
-        price: "\$50 - \$75 / Mo",
-        title: "Senior Project Manager",
-        location: "Tokopedia - Jakarta, ID",
-        isFullTime: true,
-        isRemote: true,
-        isSenior: true,
-        bgColor: AppColors.bluishGrey,
-        onPressed: gotoJobDetails,
-      ),
-      JobCard(
-        logoUrl: AppAssets.jobLogo2,
-        price: "\$50 - \$75 / Mo",
-        title: "Junior Graphic Designer",
-        location: "OLX - Jakarta, ID",
-        isFullTime: true,
-        isRemote: true,
-        isSenior: false,
-        bgColor: Colors.white,
-        onPressed: gotoJobDetails,
-      ),
-    ];
+    // final jobWidgets = [
+    //   JobCard(
+    //     logoUrl: AppAssets.jobLogo1,
+    //     price: "\$50 - \$75 / Mo",
+    //     title: "Senior Project Manager",
+    //     location: "Tokopedia - Jakarta, ID",
+    //     isFullTime: true,
+    //     isRemote: true,
+    //     isSenior: true,
+    //     bgColor: AppColors.bluishGrey,
+    //     onPressed: gotoJobDetails,
+    //   ),
+    //   JobCard(
+    //     logoUrl: AppAssets.jobLogo2,
+    //     price: "\$50 - \$75 / Mo",
+    //     title: "Junior Graphic Designer",
+    //     location: "OLX - Jakarta, ID",
+    //     isFullTime: true,
+    //     isRemote: true,
+    //     isSenior: false,
+    //     bgColor: Colors.white,
+    //     onPressed: gotoJobDetails,
+    //   ),
+    // ];
 
-    final jobHistoryWidgets = [
-      JobHistoryItem(
-        imageUrl: AppAssets.bananaRepublic,
-        title: "Target - Marketing Specialist",
-        description:
-            "Implemented campaigns focusing on community engagement..,",
-        location: "California",
-        startDate: "Jan 2020",
-        endDate: "Feb 2023",
-        onPressed: gotoJobActiveJobs,
-      ),
+    // final jobHistoryWidgets = [
+    //   JobHistoryItem(
+    //     imageUrl: AppAssets.bananaRepublic,
+    //     title: "Target - Marketing Specialist",
+    //     description:
+    //         "Implemented campaigns focusing on community engagement..,",
+    //     location: "California",
+    //     startDate: "Jan 2020",
+    //     endDate: "Feb 2023",
+    //     onPressed: gotoJobActiveJobs,
+    //   ),
 
-      JobHistoryItem(
-        imageUrl: AppAssets.gap,
-        title: "Google - Product Designer",
-        description:
-            "Specialized in creating intuitive interfaces for web applications...",
-        location: "Pakistan",
-        startDate: "Jan 2020",
-        endDate: "Feb 2023",
-        onPressed: gotoJobActiveJobs,
-      ),
+    //   JobHistoryItem(
+    //     imageUrl: AppAssets.gap,
+    //     title: "Google - Product Designer",
+    //     description:
+    //         "Specialized in creating intuitive interfaces for web applications...",
+    //     location: "Pakistan",
+    //     startDate: "Jan 2020",
+    //     endDate: "Feb 2023",
+    //     onPressed: gotoJobActiveJobs,
+    //   ),
 
-      JobHistoryItem(
-        imageUrl: AppAssets.apple,
-        title: "Apple - UX Designer",
-        description:
-            "Focused on enhancing user experience for mobile applications...",
-        location: "London",
-        startDate: "Jan 2020",
-        endDate: "Feb 2023",
-        onPressed: gotoJobActiveJobs,
-      ),
-    ];
+    //   JobHistoryItem(
+    //     imageUrl: AppAssets.apple,
+    //     title: "Apple - UX Designer",
+    //     description:
+    //         "Focused on enhancing user experience for mobile applications...",
+    //     location: "London",
+    //     startDate: "Jan 2020",
+    //     endDate: "Feb 2023",
+    //     onPressed: gotoJobActiveJobs,
+    //   ),
+    // ];
+
+    final provider = context.watch<JobProvider>();
+
+    if (selectedSearch.isEmpty) {
+      selectedSearch = provider.recentSearches.firstOrNull?.query ?? "";
+    }
 
     return Consumer<JobProvider>(
       builder: (context, provider, child) {
@@ -258,16 +265,21 @@ class _HomePageState extends State<HomePage> {
                             height: 30,
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
-                              itemCount: recentSearches.length,
+                              itemCount: provider.recentSearches.length,
                               separatorBuilder: (context, index) {
                                 return const SizedBox(width: 5);
                               },
                               itemBuilder: (context, index) {
-                                final search = recentSearches[index];
+                                final recentSearch =
+                                    provider.recentSearches[index];
                                 return RecentSearchItem(
-                                  title: search,
-                                  selected: selectedSearch == search,
-                                  onPressed: () => updateSearch(search),
+                                  title: recentSearch.query ?? "",
+                                  selected:
+                                      selectedSearch == recentSearch.query,
+                                  onPressed:
+                                      () => updateSearch(
+                                        recentSearch.query ?? "",
+                                      ),
                                 );
                               },
                             ),
