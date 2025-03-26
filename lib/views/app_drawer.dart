@@ -7,9 +7,7 @@ import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_decal/decal_screen.dart';
-import 'package:looking2hire/features/create_decal/decal_step1_screen.dart';
 import 'package:looking2hire/features/home/enums/enums.dart';
-import 'package:looking2hire/features/home/pages/job_applications_page.dart';
 import 'package:looking2hire/features/home/pages/jobs_page.dart';
 import 'package:looking2hire/features/home/pages/statistics_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
@@ -60,7 +58,8 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void gotoScan() {
-    context.pushTo(ScanNfcPage());
+    // context.pushTo(ScanNfcPage());
+    context.pushTo(LookingToHireProfile());
   }
 
   void gotoCreateDecal() {

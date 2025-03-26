@@ -12,6 +12,7 @@ class ProfileJobHistoryCard extends StatelessWidget {
   final String endDate;
   final bool? isSaved;
   final bool? isNetworkImage;
+  final Function()? onPressed;
 
   const ProfileJobHistoryCard({
     super.key,
@@ -20,14 +21,19 @@ class ProfileJobHistoryCard extends StatelessWidget {
     required this.jobDescription,
     required this.startDate,
     required this.endDate,
-    this.isSaved, this.isNetworkImage,
+    this.isSaved,
+    this.isNetworkImage,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(color: AppColor.profileCardByGrey, borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+        color: AppColor.profileCardByGrey,
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Row(
         children: [
           Container(
@@ -35,7 +41,13 @@ class ProfileJobHistoryCard extends StatelessWidget {
             width: 92,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(image: isNetworkImage == true ? NetworkImage(companyLogo) : AssetImage(companyLogo), fit: BoxFit.cover),
+              image: DecorationImage(
+                image:
+                    isNetworkImage == true
+                        ? NetworkImage(companyLogo)
+                        : AssetImage(companyLogo),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(width: 16),
@@ -47,14 +59,26 @@ class ProfileJobHistoryCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomRobotoText(text: jobTitle, textSize: 16, fontWeight: FontWeight.w500),
+                    Expanded(
+                      child: CustomRobotoText(
+                        text: jobTitle,
+                        textSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 13.0),
-                      child: SvgPicture.asset(
-                        height: 16,
-                        width: 16,
-                        AppAssets.edit,
-                        color: isSaved == true ? AppColor.arrowColor : Colors.black,
+                      child: GestureDetector(
+                        onTap: onPressed,
+                        child: SvgPicture.asset(
+                          height: 16,
+                          width: 16,
+                          AppAssets.edit,
+                          color:
+                              isSaved == true
+                                  ? AppColor.arrowColor
+                                  : Colors.black,
+                        ),
                       ),
                     ),
                   ],

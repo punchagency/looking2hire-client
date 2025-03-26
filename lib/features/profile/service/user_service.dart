@@ -24,6 +24,32 @@ class UserService {
     );
   }
 
+  Future<Response> updateApplicantJobHistory({
+    String? jobTitle,
+    String? jobDescription,
+    String? jobStartDate,
+    String? jobEndDate,
+    String? companyName,
+    String? employmentType,
+    String? filePath,
+  }) async {
+    var data = FormData.fromMap({
+      'company_logo': [
+        await MultipartFile.fromFile(filePath!, filename: filePath),
+      ],
+      'job_title': jobTitle,
+      'company_name': companyName,
+      'employment_type': employmentType,
+      'start_date': jobStartDate,
+      'end_date': jobEndDate,
+      'description': jobDescription,
+    });
+    return await dioClient.patch(
+      ApiRoutes.updateApplicantJobHistory,
+      data: data,
+    );
+  }
+
   Future<Response> applicantProfileApi() async {
     return await dioClient.get(ApiRoutes.applicantProfile);
   }

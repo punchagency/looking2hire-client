@@ -5,8 +5,11 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/extensions/response_extension.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/job_application.dart';
+import 'package:looking2hire/features/home/models/popular_jobs.dart' as popular;
 import 'package:looking2hire/features/home/models/recent_jobs.dart';
 import 'package:looking2hire/features/home/models/recomended_jobs.dart';
+import 'package:looking2hire/features/home/models/saved_jobs.dart';
+import 'package:looking2hire/features/home/models/viewed_jobs.dart';
 import 'package:looking2hire/features/home/services/job_service.dart';
 import 'package:dio/dio.dart';
 import 'package:looking2hire/features/home/widgets/bullet_formatter.dart';
@@ -61,6 +64,9 @@ class JobProvider extends ChangeNotifier {
   RecentJobs recentJobs = RecentJobs();
   RecommendedJobs recommendedJobs = RecommendedJobs();
   RecommendedJob recommendedJob = RecommendedJob();
+  popular.PopularJobs popularJobs = popular.PopularJobs();
+  SavedJobs savedJobs = SavedJobs();
+  ViewedJobs viewedJobs = ViewedJobs();
 
   final List<String> jobSalaryPeriods = [
     "Hourly",
@@ -394,23 +400,19 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Get popular jobs
-  Future<List<dynamic>?> getPopularJobs() async {
+  Future<void> getPopularJobs() async {
     errorMessage = "";
-    isLoading = true;
-    notifyListeners();
+    // isLoading = true;
+    // notifyListeners();
 
     try {
-      setProgressDialog();
-
       final response = await apiService.getPopularJobs();
-      return response.data['jobs'];
+      popularJobs = popular.PopularJobs.fromJson(response.data);
+      print(response.data);
+      notifyListeners();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
-    } finally {
-      isLoading = false;
       notifyListeners();
-      currentContext?.pop();
     }
   }
 
@@ -552,19 +554,39 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Get saved jobs
-  Future<List<dynamic>?> getSavedJobs() async {
+  Future<void> getSavedJobs() async {
     errorMessage = "";
     try {
-      setProgressDialog();
+      // setProgressDialog();
 
       final response = await apiService.getSavedJobs();
-      return response.data['jobs'];
+      savedJobs = SavedJobs.fromJson(response.data);
+      notifyListeners();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
-    } finally {
-      currentContext?.pop();
+      notifyListeners();
     }
+    // finally {
+    //   currentContext?.pop();
+    // }
+  }
+
+  // Get viewed jobs
+  Future<void> getViewedJobs() async {
+    errorMessage = "";
+    try {
+      // setProgressDialog();
+
+      final response = await apiService.getViewedJobs();
+      viewedJobs = ViewedJobs.fromJson(response.data);
+      notifyListeners();
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+      notifyListeners();
+    }
+    // finally {
+    //   currentContext?.pop();
+    // }
   }
 
   // Add viewed job

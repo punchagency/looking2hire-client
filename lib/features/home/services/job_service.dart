@@ -197,6 +197,11 @@ class JobService {
     return dioClient.get(ApiRoutes.getSavedJobs);
   }
 
+  // Get viewed jobs
+  Future<Response> getViewedJobs() {
+    return dioClient.get(ApiRoutes.getViewedJobs);
+  }
+
   // Add viewed job
   Future<Response> addViewedJob({required String jobId}) {
     return dioClient.post(ApiRoutes.addViewedJob, data: {"jobId": jobId});

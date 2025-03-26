@@ -20,6 +20,8 @@ class ApiRoutes {
   static const employerProfile = "api/auth/user-details?userType=employer";
 
   static const updateApplicantDetails = "api/auth/applicant/update-profile";
+  static const updateApplicantJobHistory =
+      "api/job/applicant/employment-history";
   static const updateEmployerDetails = "api/auth/employer/update-profile";
   static const getApplicantDetails = "api/auth/applicant/get";
   static const userDetails = "api/auth/user-details";
@@ -73,7 +75,7 @@ class ApiRoutes {
   static const addViewedJob = "api/job/applicant/view";
 
   // get viewed jobs
-  static const getViewedJobs = "api/job/applicant/view";
+  static const getViewedJobs = "api/job/applicant/viewed";
 
   // resume
   static const uploadResume = "api/resume/upload";
