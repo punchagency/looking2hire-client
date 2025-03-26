@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
+import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/provider/nfc_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'decal_step1_screen.dart';
 import 'decal_step2_screen.dart';
@@ -26,9 +29,23 @@ class _DecalScreenState extends State<DecalScreen> {
       "4. Best Placement Practices",
     ];
     return Scaffold(
-      appBar: CustomAppBar(title: titles[currentPage], fontSize: 20),
+      appBar: CustomAppBar(
+        title: titles[currentPage],
+        fontSize: 20,
+        onBackPressed: () {
+          setState(() {
+            if (currentPage > 0) {
+              currentPage = currentPage - 1;
+            } else {
+              context.pop();
+            }
+            context.read<NFCProvider>().isActive = false;
+          });
+        },
+      ),
       body: PageView(
         controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() {
             currentPage = index;
