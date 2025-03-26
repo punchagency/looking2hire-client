@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/extensions/response_extension.dart';
@@ -23,12 +24,16 @@ class JobProvider extends ChangeNotifier {
 
   String errorMessage = "";
   String successMessage = "";
-  bool isLoading = true;
+  bool isLoading = false;
 
   int page = 1;
   int totalPages = 0;
 
   List<Job> jobPosts = [];
+  List<Job> searchedJobs = [];
+  List<Job> jobsInDistance = [];
+
+  Position? currentPosition;
   Job? job;
   JobApplication? jobApplication;
 
@@ -70,6 +75,16 @@ class JobProvider extends ChangeNotifier {
     "Contract",
   ];
   final List<String> jobSeniorities = ["Junior", "Mid", "Senior"];
+
+  void setLoading() {
+    isLoading = true;
+    notifyListeners();
+  }
+
+  void setLoaded() {
+    isLoading = false;
+    notifyListeners();
+  }
 
   Future<void> addApplicantToJobApplication() async {
     if (job == null) {
@@ -257,8 +272,9 @@ class JobProvider extends ChangeNotifier {
 
   // Get job details
   Future<Job?> getJobPost({required String jobId}) async {
+    print("jobId: $jobId");
     errorMessage = "";
-    job = null;
+    //job = null;
     isLoading = true;
     notifyListeners();
     try {
@@ -273,6 +289,7 @@ class JobProvider extends ChangeNotifier {
         return null;
       }
       final job = Job.fromMap(response.data['job']);
+      print("employer: ${job.employer}");
       final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
       if (jobIndex != -1) {
         jobPosts[jobIndex] = job;
@@ -437,18 +454,27 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Search for jobs
-  Future<List<dynamic>?> searchJob({required String title}) async {
+  Future<void> searchJob({required String title}) async {
+    if (title.isEmpty) {
+      searchedJobs = [];
+      isLoading = false;
+      notifyListeners();
+      return;
+    }
     errorMessage = "";
     try {
-      setProgressDialog();
+      setLoading();
 
       final response = await apiService.searchJob(title: title);
-      return response.data['jobs'];
+      searchedJobs =
+          (response.data['jobs'] as List<dynamic>)
+              .map((e) => Job.fromMap(e as Map<String, dynamic>))
+              .toList();
+      // setLoaded();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
     } finally {
-      currentContext?.pop();
+      setLoaded();
     }
   }
 
@@ -469,39 +495,39 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Get jobs within distance
-  Future<List<dynamic>?> getJobsInDistance({
+  Future<void> getJobsInDistance({
     required double latitude,
     required double longitude,
     required int maxDistance,
   }) async {
     errorMessage = "";
     try {
-      setProgressDialog();
+      setLoading();
 
       final response = await apiService.getJobsInDistance(
         latitude: latitude,
         longitude: longitude,
         maxDistance: maxDistance,
       );
-      return response.data['jobs'];
+      jobsInDistance =
+          (response.data['jobs'] as List<dynamic>)
+              .map((e) => Job.fromMap(e as Map<String, dynamic>))
+              .toList();
+      print("jobsInDistanceLength: ${jobsInDistance.length}");
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
     } finally {
-      currentContext?.pop();
+      setLoaded();
     }
   }
 
-  // Save job
   Future<bool> saveJob({required String jobId}) async {
     errorMessage = "";
-    successMessage = "";
     try {
-      setProgressDialog();
-
+      setProgressDialog(message: "Saving job...");
       final response = await apiService.saveJob(jobId: jobId);
-      successMessage = response.data['message'] ?? "Job saved successfully";
-      return true;
+      successMessage = "Job saved successfully";
+      return response.data['success'];
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
@@ -510,16 +536,13 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  // Unsave job
   Future<bool> unsaveJob({required String jobId}) async {
     errorMessage = "";
-    successMessage = "";
     try {
-      setProgressDialog();
-
-      await apiService.unsaveJob(jobId: jobId);
-      successMessage = "Job removed from saved";
-      return true;
+      setProgressDialog(message: "UnSaving job...");
+      final response = await apiService.unsaveJob(jobId: jobId);
+      successMessage = "Job removed from saved jobs successfully";
+      return response.data['success'];
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;

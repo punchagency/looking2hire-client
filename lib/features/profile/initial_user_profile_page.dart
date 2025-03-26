@@ -46,7 +46,7 @@ class _InitialUserProfilePageState extends State<InitialUserProfilePage> {
                 ProfilePhoto(
                   size: 200,
                   imageUrl: provider.applicantProfile.user?.profilePic ?? "",
-                  isNetwork: true,
+                  // isNetwork: true,
                 ),
                 const SizedBox(height: 19),
                 Text(

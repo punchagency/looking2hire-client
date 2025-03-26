@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,12 +10,16 @@ import 'package:looking2hire/components/bottom_sheet_container.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/user.dart';
+import 'package:looking2hire/features/home/pages/work_job_details_page.dart';
+import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:looking2hire/utils/platform.dart';
+import 'package:provider/provider.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../widgets/mile_action_item.dart';
@@ -38,12 +43,12 @@ class _LocateJobPageState extends State<LocateJobPage>
   int selectedMileIndex = 0;
   String time = "23 min";
 
-  bool isLoading = true;
+  bool isLoading = false;
 
   int usersCountLimit = 10;
 
   Marker? currentUserMarker;
-  Set<Marker> userMarkers = {};
+  Set<Marker> jobMarkers = {};
   Position? currentPosition;
   CameraPosition? initialCameraPosition;
   final LatLng defaultCameraPosition = const LatLng(
@@ -51,22 +56,7 @@ class _LocateJobPageState extends State<LocateJobPage>
     -122.4194,
   ); // Default to San Francisco
 
-  List<String> names = [
-    "John Doe",
-    "James Bond",
-    "Sarah Williams",
-    "Michael Chen",
-    "Emma Rodriguez",
-    "David Kim",
-    "Rachel Thompson",
-    "Marcus Johnson",
-    "Olivia Patel",
-    "Alexander Lee",
-    "Sofia Garcia",
-    "Lucas Anderson",
-  ];
-
-  List<User> foundUsers = [];
+  //List<User> foundUsers = [];
 
   @override
   void initState() {
@@ -75,7 +65,7 @@ class _LocateJobPageState extends State<LocateJobPage>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    loadUserMarkers();
+    loadjobMarkers();
   }
 
   @override
@@ -85,17 +75,14 @@ class _LocateJobPageState extends State<LocateJobPage>
     super.dispose();
   }
 
-  void gotoEmployerProfile(User user) {
-    context.pushTo(const LookingToHireProfile());
-  }
-
   void decrementMile() {
     if (mile.toInt() <= 0) return;
     mile = mile.toInt() - 1;
     final mileIndex = miles.indexWhere((miles) => miles >= mile);
     selectedMileIndex = mileIndex != -1 ? mileIndex : 0;
     setState(() {});
-    generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
+    getJobsInDistance();
+    //generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
   }
 
   void incrementMile() {
@@ -105,7 +92,8 @@ class _LocateJobPageState extends State<LocateJobPage>
     selectedMileIndex = mileIndex != -1 ? mileIndex : 0;
 
     setState(() {});
-    generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
+    getJobsInDistance();
+    //generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
   }
 
   void updateSelectedMiles(int index) {
@@ -113,7 +101,8 @@ class _LocateJobPageState extends State<LocateJobPage>
     mile = miles[index].toDouble();
 
     setState(() {});
-    generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
+    getJobsInDistance();
+    //generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
   }
 
   void updateMile(double value) {
@@ -122,7 +111,8 @@ class _LocateJobPageState extends State<LocateJobPage>
     mile = value;
 
     setState(() {});
-    generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
+    getJobsInDistance();
+    //generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
   }
 
   void openSheet() {
@@ -148,10 +138,12 @@ class _LocateJobPageState extends State<LocateJobPage>
   }
 
   Future loadLocationMarker() async {
+    if (currentPosition != null) return;
     final position = await getCurrentLocation();
     if (position == null) return;
 
     currentPosition = position;
+    context.read<JobProvider>().currentPosition = position;
 
     initialCameraPosition = CameraPosition(
       target: LatLng(position.latitude, position.longitude),
@@ -172,86 +164,129 @@ class _LocateJobPageState extends State<LocateJobPage>
     currentUserMarker = marker;
   }
 
-  void generateRandomUsersLatLngBasedOnMilesFromCurrentLocation() async {
-    if (currentPosition == null || currentUserMarker == null) return;
+  void gotoJobDetails(Job job) {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.job = job;
+    context.pushTo(WorkJobDetailsPage());
+  }
+
+  void getJobsInDistance() async {
+    final jobProvider = context.read<JobProvider>();
     isLoading = true;
+    setState(() {});
+    await jobProvider.getJobsInDistance(
+      latitude: currentPosition!.latitude,
+      longitude: currentPosition!.longitude,
+      maxDistance: mile.toInt(),
+    );
 
-    foundUsers.clear();
-    userMarkers.clear();
-
-    final random = Random();
-
-    // final usersCount = random.nextInt(usersCountLimit) + 1;
-    int usersCount = usersCountLimit;
-
-    for (int i = 0; i < usersCount; i++) {
-      final mile = random.nextInt(miles[selectedMileIndex]) + 1;
-      // Convert miles to meters (1 mile = 1609.34 meters)
-      final radiusInMeters = mile * 1609.34;
-
-      // Generate random angle in radians
-      final angle = random.nextDouble() * 2 * pi;
-
-      // Calculate random point within circle using current position as center
-      final lat =
-          currentPosition!.latitude + (radiusInMeters / 111320) * cos(angle);
-      final lng =
-          currentPosition!.longitude +
-          (radiusInMeters / (111320 * cos(currentPosition!.latitude))) *
-              sin(angle);
-
-      final user = User(
-        id: (i + 1).toString(),
-        name: names[random.nextInt(names.length)],
-        imageUrl: AppAssets.profilePicture,
-        lat: lat,
-        lng: lng,
-        miles: mile,
+    final jobsInDistance = jobProvider.jobsInDistance;
+    print("mile: $mile, jobsInDistance: $jobsInDistance");
+    for (var job in jobsInDistance) {
+      final markerIcon = await _createMarkerIcon(job);
+      final marker = Marker(
+        markerId: MarkerId(job.id),
+        position: LatLng(
+          job.employer!.location![0],
+          job.employer!.location![1],
+        ),
+        icon: markerIcon,
+        onTap: () => gotoJobDetails(job),
       );
-
-      foundUsers.add(user);
+      jobMarkers.add(marker);
     }
-
-    for (int i = 0; i < foundUsers.length; i++) {
-      final user = foundUsers[i];
-      try {
-        final BitmapDescriptor markerIcon = await _createMarkerIcon(user);
-        final marker = Marker(
-          markerId: MarkerId("${i + 1}"),
-          position: LatLng(user.lat, user.lng),
-          icon: markerIcon,
-          onTap: () => gotoEmployerProfile(user),
-        );
-        userMarkers.add(marker);
-      } catch (e) {
-        debugPrint('Error creating marker for user ${user.id}: $e');
-        // Fallback to default marker if custom marker fails
-        final marker = Marker(
-          markerId: MarkerId("${i + 1}"),
-          position: LatLng(user.lat, user.lng),
-          onTap: () => gotoEmployerProfile(user),
-        );
-        userMarkers.add(marker);
-      }
-    }
-    userMarkers.add(currentUserMarker!);
-
     isLoading = false;
     _updateCameraZoom();
     setState(() {});
   }
 
-  Future<void> loadUserMarkers() async {
+  // void generateRandomUsersLatLngBasedOnMilesFromCurrentLocation() async {
+  //   if (currentPosition == null || currentUserMarker == null) return;
+  //   isLoading = true;
+
+  //   foundUsers.clear();
+  //   jobMarkers.clear();
+
+  //   final random = Random();
+
+  //   // final usersCount = random.nextInt(usersCountLimit) + 1;
+  //   int usersCount = usersCountLimit;
+
+  //   for (int i = 0; i < usersCount; i++) {
+  //     final mile = random.nextInt(miles[selectedMileIndex]) + 1;
+  //     // Convert miles to meters (1 mile = 1609.34 meters)
+  //     final radiusInMeters = mile * 1609.34;
+
+  //     // Generate random angle in radians
+  //     final angle = random.nextDouble() * 2 * pi;
+
+  //     // Calculate random point within circle using current position as center
+  //     final lat =
+  //         currentPosition!.latitude + (radiusInMeters / 111320) * cos(angle);
+  //     final lng =
+  //         currentPosition!.longitude +
+  //         (radiusInMeters / (111320 * cos(currentPosition!.latitude))) *
+  //             sin(angle);
+
+  //     final user = User(
+  //       id: (i + 1).toString(),
+  //       name: names[random.nextInt(names.length)],
+  //       imageUrl: AppAssets.profilePicture,
+  //       lat: lat,
+  //       lng: lng,
+  //       miles: mile,
+  //     );
+
+  //     foundUsers.add(user);
+  //   }
+
+  //   for (int i = 0; i < foundUsers.length; i++) {
+  //     final user = foundUsers[i];
+  //     try {
+  //       final BitmapDescriptor markerIcon = await _createMarkerIcon(user);
+  //       final marker = Marker(
+  //         markerId: MarkerId("${i + 1}"),
+  //         position: LatLng(user.lat, user.lng),
+  //         icon: markerIcon,
+  //         onTap: () => gotoEmployerProfile(user),
+  //       );
+  //       jobMarkers.add(marker);
+  //     } catch (e) {
+  //       debugPrint('Error creating marker for user ${user.id}: $e');
+  //       // Fallback to default marker if custom marker fails
+  //       final marker = Marker(
+  //         markerId: MarkerId("${i + 1}"),
+  //         position: LatLng(user.lat, user.lng),
+  //         onTap: () => gotoEmployerProfile(user),
+  //       );
+  //       jobMarkers.add(marker);
+  //     }
+  //   }
+  //   jobMarkers.add(currentUserMarker!);
+
+  //   isLoading = false;
+  //   _updateCameraZoom();
+  //   setState(() {});
+  // }
+
+  Future<void> loadjobMarkers() async {
     if (!isAndroidAndIos) return;
-    userMarkers.clear();
+    jobMarkers.clear();
 
     await loadLocationMarker();
 
-    generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
+    getJobsInDistance();
+
+    //generateRandomUsersLatLngBasedOnMilesFromCurrentLocation();
   }
 
-  Future<BitmapDescriptor> _createMarkerIcon(User user) async {
-    // final Widget markerWidget = MapUserMilesItem(user: user, onPressed: () {});
+  Future<BitmapDescriptor> _createMarkerIcon(Job job) async {
+    final miles = getMilesBetweenTwoPoints(
+      currentPosition!.latitude,
+      currentPosition!.longitude,
+      job.employer!.location![0],
+      job.employer!.location![1],
+    );
     final Widget markerWidget = Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -273,13 +308,17 @@ class _LocateJobPageState extends State<LocateJobPage>
             // ProfilePhoto(imageUrl: user.imageUrl, size: 30),
             CircleAvatar(
               radius: 15,
-              backgroundImage: AssetImage(user.imageUrl),
+              backgroundImage:
+                  (job.employer?.company_logo ?? "").isNotEmpty
+                      ? CachedNetworkImageProvider(job.employer!.company_logo!)
+                      : AssetImage(AppAssets.defaultProfilePic)
+                          as ImageProvider,
               // backgroundImage: NetworkImage(user.imageUrl),
               backgroundColor: Colors.grey[200],
             ),
             const SizedBox(width: 4),
             Text(
-              "${user.miles} mile${user.miles == 1 ? "" : "s"}",
+              "${miles.toInt()} mile${miles.toInt() == 1 ? "" : "s"}",
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -320,7 +359,7 @@ class _LocateJobPageState extends State<LocateJobPage>
               bottom: showSheet ? 240 : 0,
               child: GoogleMap(
                 initialCameraPosition: initialCameraPosition!,
-                markers: userMarkers,
+                markers: jobMarkers,
                 onMapCreated: (controller) {
                   _mapController = controller;
                 },

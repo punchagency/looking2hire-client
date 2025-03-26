@@ -40,6 +40,19 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
         "${jobProvider.job?.location[0]},${jobProvider.job?.location[1]}";
     jobProvider.jobQualificationsController.text =
         jobProvider.job?.qualifications.firstOrNull ?? "";
+    jobProvider.jobSalaryCurrencyController.text =
+        jobProvider.job?.salary_currency ?? "USD";
+    jobProvider.jobSalaryMinController.text =
+        jobProvider.job?.salary_min?.toString() ?? "";
+    jobProvider.jobSalaryMaxController.text =
+        jobProvider.job?.salary_max?.toString() ?? "";
+    jobProvider.jobSeniorityController.text = jobProvider.job?.seniority ?? "";
+    jobProvider.jobEmploymentTypeController.text =
+        jobProvider.job?.employment_type ?? "";
+    jobProvider.jobWorkTypeController.text = jobProvider.job?.work_type ?? "";
+    jobProvider.jobSalaryPeriodController.text =
+        jobProvider.job?.salary_period ?? "";
+
     showDialog(
       context: context,
       builder: (context) {
