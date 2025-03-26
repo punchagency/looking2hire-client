@@ -42,6 +42,7 @@ class _HireJobDetailsPageState extends State<HireJobDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     const tabs = ["Description", "Company"];
     return Consumer<JobProvider>(
       builder: (context, provider, child) {

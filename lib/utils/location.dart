@@ -43,3 +43,18 @@ Future<String?> getAddressFromCoordinates(
     return null;
   }
 }
+
+double getMilesBetweenTwoPoints(
+  double latitude1,
+  double longitude1,
+  double latitude2,
+  double longitude2,
+) {
+  final distance = Geolocator.distanceBetween(
+    latitude1,
+    longitude1,
+    latitude2,
+    longitude2,
+  );
+  return distance / 1609.34;
+}

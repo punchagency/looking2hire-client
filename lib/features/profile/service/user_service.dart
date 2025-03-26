@@ -71,11 +71,11 @@ class UserService {
       //   'company_logo': [
       //     await MultipartFile.fromFile(companyLogo, filename: ''),
       //   ],
-      if (companyLogo != null && companyLogo.isNotEmpty)
-        'company_logo': await MultipartFile.fromFile(
-          companyLogo,
-          filename: companyLogo.split('/').last, // Extracts "1000023420.jpg"
-        ),
+      // if (companyLogo != null && companyLogo.isNotEmpty)
+      //   'company_logo': await MultipartFile.fromFile(
+      //     companyLogo,
+      //     filename: companyLogo.split('/').last, // Extracts "1000023420.jpg"
+      //   ),
       if (companyName != null) 'company_name': companyName,
       if (email != null) 'email': email,
       if (heading != null) 'heading': heading,

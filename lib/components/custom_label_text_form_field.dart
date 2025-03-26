@@ -591,8 +591,10 @@ class CustomGoogleLabelInputText extends StatelessWidget {
                 ),
             ],
           ),
-        // SizedBox(height: 10.h),
         GooglePlaceAutoCompleteTextField(
+          boxDecoration: BoxDecoration(
+            border: Border.all(color: Colors.transparent),
+          ),
           textEditingController: controller ?? TextEditingController(),
           googleAPIKey: apiKey ?? "",
           focusNode: focusNode,
@@ -602,22 +604,10 @@ class CustomGoogleLabelInputText extends StatelessWidget {
             }
             return null;
           },
-          // boxDecoration: BoxDecoration(color: Colors.white),
           textStyle: bodyMedium ?? const TextStyle(color: Colors.black),
-
-          // boxDecoration: BoxDecoration(color: Colors.white),
-          // boxDecoration: BoxDecoration(
-          //   color: Colors.white, // Background color
-          //   borderRadius: BorderRadius.circular(10),
-          //   boxShadow: [
-          //     BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 1),
-          //   ],
-          // ),
           inputDecoration: InputDecoration(
             filled: true,
             fillColor: AppColor.grey[100]?.withOpacity(.05),
-
-            // border: InputBorder.none,
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
               borderRadius: BorderRadius.circular(10),
@@ -632,6 +622,14 @@ class CustomGoogleLabelInputText extends StatelessWidget {
             ),
             disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade300, width: .9),
               borderRadius: BorderRadius.circular(10),
             ),
             hintText: hintText,
@@ -661,11 +659,7 @@ class CustomGoogleLabelInputText extends StatelessWidget {
             ),
           ),
           debounceTime: 800,
-
           showError: true,
-          // Optional: debounce time for typing
-          // countries: const ["ng"],
-          // Optional: specify country code for filtering (e.g., "ng" for Nigeria)
           isLatLngRequired: true,
           getPlaceDetailWithLatLng: getPlaceDetailWithLatLng,
           itemClick: itemClick,

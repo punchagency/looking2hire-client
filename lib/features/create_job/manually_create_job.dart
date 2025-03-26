@@ -206,7 +206,7 @@ class _ManuallyCreateJobState extends State<ManuallyCreateJob> {
                       setState(() {});
                     }
                   },
-                  text: "Upload Comapny Logo",
+                  text: "Upload Company Logo",
                   textSize: 18,
                   block: true,
                   color: AppColor.buttonColor,
