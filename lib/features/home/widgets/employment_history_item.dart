@@ -61,37 +61,45 @@ class EmploymentHistoryItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                // if (responsibilities != null)
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(responsibilities!.length, (index) {
-                    final responsibility = responsibilities![index];
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, left: 8),
-                          child: CircleAvatar(
-                            radius: 2,
-                            backgroundColor: AppColors.lighterBlack,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            responsibility,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.lighterBlack,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
+                Text(
+                  employmentHistory.description ?? "",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.lighterBlack,
+                  ),
                 ),
+                // if (responsibilities != null)
+                // Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: List.generate(responsibilities!.length, (index) {
+                //     final responsibility = responsibilities![index];
+                //     return Row(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.only(top: 8.0, left: 8),
+                //           child: CircleAvatar(
+                //             radius: 2,
+                //             backgroundColor: AppColors.lighterBlack,
+                //           ),
+                //         ),
+                //         const SizedBox(width: 8),
+                //         Expanded(
+                //           child: Text(
+                //             responsibility,
+                //             style: const TextStyle(
+                //               fontSize: 14,
+                //               fontWeight: FontWeight.w400,
+                //               color: AppColors.lighterBlack,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     );
+                //   }),
+                // ),
                 const SizedBox(height: 4),
               ],
             ),

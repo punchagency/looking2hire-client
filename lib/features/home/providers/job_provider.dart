@@ -27,7 +27,7 @@ class JobProvider extends ChangeNotifier {
   bool isLoading = false;
 
   int page = 1;
-  int totalPages = 0;
+  int totalPages = 1;
 
   List<Job> jobPosts = [];
   List<Job> searchedJobs = [];
@@ -358,8 +358,8 @@ class JobProvider extends ChangeNotifier {
     return null;
   }
 
-  Future getMoreJobPosts(int index) async {
-    if (index != jobPosts.length - 1 || isLoading || page >= totalPages) {
+  Future getMoreJobPosts() async {
+    if (isLoading || page >= totalPages) {
       return;
     }
     page++;
