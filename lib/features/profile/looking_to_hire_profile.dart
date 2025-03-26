@@ -10,6 +10,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
+import 'package:looking2hire/features/profile/model/applicant_profile.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
@@ -26,6 +27,32 @@ class LookingToHireProfile extends StatefulWidget {
 }
 
 class _LookingToHireProfileState extends State<LookingToHireProfile> {
+  final TextEditingController _startDateController2 = TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _endDateController2 = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
+  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      final String formattedDate =
+          "${picked.day}/${picked.month}/${picked.year}";
+      setState(() {
+        if (isStartDate) {
+          _startDateController.text = formattedDate;
+          _startDateController2.text = picked.toString();
+        } else {
+          _endDateController.text = formattedDate;
+          _endDateController2.text = picked.toString();
+        }
+      });
+    }
+  }
+
   final jobHistoryWidgets = [
     ProfileJobHistoryCard(
       companyLogo: AppAssets.apple,
@@ -119,6 +146,85 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
     );
   }
 
+  void gotoEditJobHistory(UserProvider userProvider) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogContainer(
+          title: "Edit Job",
+          hint: "Update the job details and save changes.",
+          actions: [
+            ActionButtonWithIcon(
+              title: "Save Changes",
+              onPressed: () {
+                userProvider.updateApplicantJobHistory(context: context).then((
+                  success,
+                ) {
+                  if (success) {
+                    context.pop();
+                    setSnackBar(
+                      context: context,
+                      title: "Success",
+                      message: userProvider.successMessage,
+                    );
+                  } else {
+                    setSnackBar(
+                      context: context,
+                      title: "Error",
+                      message: userProvider.errorMessage,
+                    );
+                  }
+                });
+              },
+            ),
+          ],
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomIconTextField(
+                textEditingController: TextEditingController(),
+                textHint: "Upload Picture",
+                icon: AppAssets.upload,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: userProvider.jobTitleController,
+                textHint: "Job Title",
+                icon: AppAssets.briefcase,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: userProvider.companyNameController,
+                textHint: "Company Name",
+                icon: AppAssets.briefcase,
+              ),
+              SizedBox(height: 16),
+
+              CustomIconTextField(
+                textEditingController: userProvider.jobDescriptionController,
+                textHint: "Job Description",
+                icon: AppAssets.description,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: userProvider.jobStartDateController,
+                textHint: "Date of Joining",
+                icon: AppAssets.time,
+              ),
+              SizedBox(height: 16),
+              CustomIconTextField(
+                textEditingController: userProvider.jobEndDateController,
+                textHint: "Date of Leaving",
+                icon: AppAssets.time,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,6 +239,26 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
         provider.applicantProfile.user?.heading ?? "";
     provider.fullNameController.text =
         provider.applicantProfile.user?.name ?? "";
+  }
+
+  Future<void> initJobHistory() async {
+    final provider = Provider.of<UserProvider>(context, listen: false);
+    provider.jobTitleController.text =
+        provider.employmentHistory.jobTitle ?? "";
+    provider.jobDescriptionController.text =
+        provider.employmentHistory.description ?? "";
+    provider.jobStartDateController.text = formatDateString2(
+      provider.employmentHistory.startDate.toString(),
+    );
+    provider.jobEndDateController.text = formatDateString2(
+      provider.employmentHistory.endDate.toString(),
+    );
+    provider.employmentTypeController.text =
+        provider.employmentHistory.employmentType ?? "";
+    provider.companyNameController.text =
+        provider.employmentHistory.companyName ?? "";
+    provider.filePathController.text =
+        provider.employmentHistory.companyLogo ?? "";
   }
 
   @override
@@ -238,6 +364,12 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                       endDate: formatDateString2(
                         data?.endDate.toString() ?? DateTime.now().toString(),
                       ),
+                      onPressed: () {
+                        provider.employmentHistory =
+                            data ?? EmploymentHistory();
+                        initJobHistory();
+                        gotoEditJobHistory(provider);
+                      },
                     );
                   },
                 ),

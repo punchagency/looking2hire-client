@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:looking2hire/service/navigation_service.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class NFCProvider extends ChangeNotifier {
@@ -17,6 +19,7 @@ class NFCProvider extends ChangeNotifier {
     } else {
       message = 'Please enable NFC from settings';
       isProcessing = false;
+      setSnackBar(context: currentContext!, title: "NFC", message: message);
       notifyListeners();
     }
   }
@@ -47,7 +50,7 @@ class NFCProvider extends ChangeNotifier {
             if (operation == NFCOperation.read) {
               readFromTag(tag: tag);
             } else {
-              writeToTag(tag: tag, dataType: dataType);
+              // writeToTag(tag: tag, dataType: dataType);
             }
             isProcessing = false;
             notifyListeners();
@@ -61,9 +64,11 @@ class NFCProvider extends ChangeNotifier {
           },
         );
       }
+      setSnackBar(context: currentContext!, title: "Success", message: message);
     } catch (e) {
       message = e.toString();
       isProcessing = false;
+      setSnackBar(context: currentContext!, title: "Error", message: message);
       notifyListeners();
     }
   }
@@ -77,18 +82,18 @@ class NFCProvider extends ChangeNotifier {
 
     String? decodeText;
 
-    // if(data.containsKey("ndef")){
-    //   List<int> payload = data['ndef']['cachedMessage']['records'][0]['payload'];
-    //   String text = String.fromCharCodes(payload);
-    //   decodeText = text.substring(3);
-    // }
-    // else{
-    //   List<int> payload = data['mifareultralight']['payload'];
-    //   String text = String.fromCharCodes(payload);
-    //   decodeText = text.substring(3);
-    // }
-    // message = decodeText ?? 'No data found';
-    // message =  tag.data.toString();
+    if (data.containsKey("ndef")) {
+      List<int> payload =
+          data['ndef']['cachedMessage']['records'][0]['payload'];
+      String text = String.fromCharCodes(payload);
+      decodeText = text.substring(3);
+    } else {
+      List<int> payload = data['mifareultralight']['payload'];
+      String text = String.fromCharCodes(payload);
+      decodeText = text.substring(3);
+    }
+    message = decodeText ?? 'No data found';
+    message = tag.data.toString();
     print(data);
     notifyListeners();
   }

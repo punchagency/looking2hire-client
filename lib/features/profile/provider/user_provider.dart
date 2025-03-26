@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
-import 'package:looking2hire/features/profile/model/applicant_profile.dart';
+import 'package:looking2hire/features/profile/model/applicant_profile.dart'
+    as UserProfile;
 import 'package:looking2hire/features/profile/service/user_service.dart';
 import 'package:looking2hire/network/dio_exception.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
@@ -23,9 +24,20 @@ class UserProvider extends ChangeNotifier {
   TextEditingController bodyController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  ApplicantProfile applicantProfile = ApplicantProfile();
+  // TextEditingController companyNameController = TextEditingController();
+  TextEditingController employmentTypeController = TextEditingController();
+  TextEditingController filePathController = TextEditingController();
+  TextEditingController jobTitleController = TextEditingController();
+  TextEditingController jobDescriptionController = TextEditingController();
+  TextEditingController jobStartDateController = TextEditingController();
+  TextEditingController jobEndDateController = TextEditingController();
+
+  UserProfile.ApplicantProfile applicantProfile =
+      UserProfile.ApplicantProfile();
   Employer? employer;
   Applicant? applicant;
+  UserProfile.EmploymentHistory employmentHistory =
+      UserProfile.EmploymentHistory();
 
   // TextEditingController fullNameController = TextEditingController();
 
@@ -59,6 +71,34 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> updateApplicantJobHistory({
+    required BuildContext context,
+  }) async {
+    errorMessage = "";
+    successMessage = "";
+    try {
+      setProgressDialog();
+      final response = await apiService.updateApplicantJobHistory(
+        jobTitle: jobTitleController.text,
+        jobDescription: jobDescriptionController.text,
+        jobStartDate: jobStartDateController.text,
+        jobEndDate: jobEndDateController.text,
+        companyName: companyNameController.text,
+        employmentType: employmentTypeController.text,
+        filePath: filePathController.text,
+      );
+
+      print(response.data);
+      successMessage = "Job History Updated Successfully";
+      return true;
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+      return false;
+    } finally {
+      Navigator.pop(context);
+    }
+  }
+
   Future<void> getApplicantProfile() async {
     if (applicant == null) {
       final storedApplicant = await SecureStorage().getApplicant();
@@ -70,7 +110,7 @@ class UserProvider extends ChangeNotifier {
     errorMessage = "";
     try {
       final response = await apiService.applicantProfileApi();
-      applicantProfile = ApplicantProfile.fromJson(response.data);
+      applicantProfile = UserProfile.ApplicantProfile.fromJson(response.data);
       applicant = Applicant.fromJson(response.data["user"]);
       notifyListeners();
     } on DioException catch (e) {

@@ -58,7 +58,10 @@ class _HomePageState extends State<HomePage> {
     selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
     currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<JobProvider>().getPopularJobs();
     currentContext?.read<UserProvider>().getApplicantProfile();
+    currentContext?.read<JobProvider>().getSavedJobs();
+    currentContext?.read<JobProvider>().getViewedJobs();
     init();
   }
 
@@ -227,9 +230,17 @@ class _HomePageState extends State<HomePage> {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         await Future.delayed(const Duration(seconds: 2));
+
                         currentContext
                             ?.read<JobProvider>()
                             .getRecommendedJobPosts();
+                        currentContext
+                            ?.read<UserProvider>()
+                            .getApplicantProfile();
+                        init();
+                        currentContext?.read<JobProvider>().getPopularJobs();
+                        currentContext?.read<JobProvider>().getSavedJobs();
+                        currentContext?.read<JobProvider>().getViewedJobs();
                       },
                       child: ListView(
                         children: [
@@ -312,11 +323,27 @@ class _HomePageState extends State<HomePage> {
                             child: PageView.builder(
                               controller: pageController,
                               scrollDirection: Axis.horizontal,
-                              itemCount: jobWidgets.length,
+                              itemCount: provider.popularJobs.jobs?.length ?? 0,
 
                               itemBuilder: (context, index) {
-                                final widget = jobWidgets[index];
-                                return widget;
+                                final data = provider.popularJobs.jobs?[index];
+                                return JobCard(
+                                  logoUrl: AppAssets.jobLogo1,
+                                  price: "\$50 - \$75 / Mo",
+                                  title:
+                                      data?.jobDetails?.jobTitle ??
+                                      "Senior Project Manager",
+                                  location:
+                                      "${data?.jobDetails?.companyName ?? ""} - ${data?.jobDetails?.jobAddress ?? ""}",
+                                  isFullTime: false,
+                                  isRemote: true,
+                                  isSenior: true,
+                                  bgColor:
+                                      index == 0
+                                          ? AppColors.bluishGrey
+                                          : Colors.white,
+                                  onPressed: gotoJobDetails,
+                                );
                               },
                             ),
                           ),
