@@ -7,6 +7,7 @@ import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const String routeName = '/splash';
   const SplashScreen({super.key});
 
   @override

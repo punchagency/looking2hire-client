@@ -17,12 +17,12 @@ import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/features/profile/views/edit_employer_profile_fields.dart';
-import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/views/app_drawer.dart';
 import 'package:provider/provider.dart';
 
 class CompanyProfilePage extends StatefulWidget {
+  static const String routeName = '/employerprofile';
   const CompanyProfilePage({super.key});
 
   @override

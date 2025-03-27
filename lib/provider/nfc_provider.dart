@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -285,8 +287,14 @@ class NFCProvider extends ChangeNotifier {
         notifyListeners();
         return;
       }
-
-      NdefMessage ndefMessage = NdefMessage([NdefRecord.createText(text)]);
+      NdefRecord record = NdefRecord.createUri(Uri.parse(text));
+      NdefMessage ndefMessage = NdefMessage([
+        // record,
+        NdefRecord.createMime(
+          'application/com.punch.looking2hire',
+          Uint8List.fromList("/employerprofile".codeUnits),
+        ),
+      ]);
 
       try {
         await ndef.write(ndefMessage);

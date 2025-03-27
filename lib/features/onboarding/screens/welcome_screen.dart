@@ -7,6 +7,7 @@ import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/features/onboarding/screens/create_employer_account_screen.dart';
 import 'package:looking2hire/features/onboarding/screens/linkedin_login_screen.dart';
 import 'package:looking2hire/main.dart';
+import 'package:looking2hire/service/deep_linking_handler.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -47,6 +48,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeIn,
                           );
+                          // DeepLinkHandler.handleDeepLink(
+                          //   context,
+                          //   Uri.parse(
+                          //     'com.punch.looking2hire://employerProfile',
+                          //   ),
+                          // );
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
