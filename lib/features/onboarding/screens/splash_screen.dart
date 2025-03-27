@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:looking2hire/enums/app_type.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';
+import 'package:looking2hire/main.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 
@@ -27,11 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
     final userType = await SecureStorage().retrieveUserType();
     await Future.delayed(Duration(microseconds: 500));
     if (token != null && token.isNotEmpty) {
+      currentAppType = userType == "employer" ? AppType.hire : AppType.work;
       nextScreenReplace(
         context,
         userType == "employer" ? CompanyProfilePage() : HomePage(),
       );
     } else {
+      currentAppType = AppType.hire;
       nextScreenReplace(context, WelcomeScreen());
     }
     setState(() {});

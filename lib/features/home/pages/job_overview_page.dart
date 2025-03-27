@@ -134,6 +134,14 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
   }
 
   @override
+  void deactivate() {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider.job = null;
+    jobProvider.clearControllers();
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
     final job = jobProvider.job;

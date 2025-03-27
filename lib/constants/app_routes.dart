@@ -46,7 +46,9 @@ class ApiRoutes {
   static const createJobPost = "api/job/employer/create";
   static const updateJobPost = "api/job/employer/update";
   static const deleteJobPost = "api/job/employer/delete";
-  static const getJobPost = "api/job/employer/get";
+  static const getJobPostEmployer = "api/job/employer/get";
+  static const getJobPostApplicant = "api/job/applicant/job-detail";
+
   static const getJobPosts = "api/job/employer/get/all";
   static const getRecommendedJobPosts = "api/job/applicant/recommended";
 
@@ -60,6 +62,7 @@ class ApiRoutes {
   static const applyForJob = "api/job/applicant/apply";
   static const getPopularJobs = "api/job/applicant/popular";
   static const getRecentJobs = "api/job/applicant/recent";
+  static const getAppliedJobs = "api/job/applicant/applied";
 
   //  search
   static const searchJob = "api/job/applicant/search";

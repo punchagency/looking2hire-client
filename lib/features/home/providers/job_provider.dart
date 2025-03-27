@@ -18,6 +18,7 @@ import 'package:dio/dio.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/network/dio_exception.dart';
 import 'package:looking2hire/service/navigation_service.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class JobProvider extends ChangeNotifier {
@@ -164,7 +165,7 @@ class JobProvider extends ChangeNotifier {
       return null;
     } finally {
       isLoading = false;
-      resetControllers();
+      clearControllers();
       notifyListeners();
       currentContext?.pop();
     }
@@ -230,7 +231,7 @@ class JobProvider extends ChangeNotifier {
       return false;
     } finally {
       isLoading = false;
-      resetControllers();
+      clearControllers();
       notifyListeners();
       currentContext?.pop();
     }
@@ -296,7 +297,6 @@ class JobProvider extends ChangeNotifier {
         return null;
       }
       final job = Job.fromMap(response.data['job']);
-      print("employer: ${job.employer}");
       final jobIndex = jobPosts.indexWhere((job) => job.id == jobId);
       if (jobIndex != -1) {
         jobPosts[jobIndex] = job;
@@ -379,7 +379,7 @@ class JobProvider extends ChangeNotifier {
     successMessage = "";
 
     try {
-      setProgressDialog();
+      setProgressDialog(message: "Applying for job...");
 
       final response = await apiService.applyForJob(jobId: jobId);
       if (!response.success) {
@@ -389,6 +389,7 @@ class JobProvider extends ChangeNotifier {
         currentContext?.pop();
         return false;
       }
+      job!.isApplied = response.data['success'];
       successMessage =
           response.data['message'] ?? "Successfully applied for job";
       return true;
@@ -396,6 +397,7 @@ class JobProvider extends ChangeNotifier {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -457,7 +459,10 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Search for jobs
-  Future<void> searchJob({required String title}) async {
+  Future<void> searchJob({
+    required String title,
+    bool isFinalSearch = false,
+  }) async {
     if (title.isEmpty) {
       searchedJobs = [];
       isLoading = false;
@@ -468,14 +473,15 @@ class JobProvider extends ChangeNotifier {
     try {
       setLoading();
 
-      final response = await apiService.searchJob(title: title);
-      searchedJobs = response.data['jobs'].castToList(
-        (map) => Job.fromMap(map),
+      final response = await apiService.searchJob(
+        title: title,
+        isFinalSearch: isFinalSearch,
       );
-      // searchedJobs =
-      //     (response.data['jobs'] as List<dynamic>)
-      //         .map((e) => Job.fromMap(e as Map<String, dynamic>))
-      //         .toList();
+
+      searchedJobs =
+          (response.data['jobs'] as List<dynamic>)
+              .map((e) => Job.fromMap(e as Map<String, dynamic>))
+              .toList();
       // setLoaded();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
@@ -511,17 +517,36 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> saveJob({required String jobId}) async {
+  Future<void> toggleSaveJob({required String jobId}) async {
     errorMessage = "";
+    bool saved = job?.isSaved == true;
     try {
-      setProgressDialog(message: "Saving job...");
-      final response = await apiService.saveJob(jobId: jobId);
-      successMessage = "Job saved successfully";
-      return response.data['success'];
+      setProgressDialog(message: "${saved ? "Un" : ""}Saving job...");
+      final response = await apiService.toggleSaveJob(jobId: jobId);
+      final success = response.data['success'];
+      if (success) {
+        successMessage = "Job ${saved ? "unsaved" : "saved"} successfully";
+        job?.isSaved = !saved;
+      } else {
+        errorMessage = "Unable to ${saved ? "unsave" : "save"} job";
+      }
+      if (success) {
+        setSnackBar(
+          context: currentContext!,
+          title: "Success",
+          message: successMessage,
+        );
+      } else {
+        setSnackBar(
+          context: currentContext!,
+          title: "Error",
+          message: errorMessage,
+        );
+      }
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return false;
     } finally {
+      notifyListeners();
       currentContext?.pop();
     }
   }
@@ -577,6 +602,19 @@ class JobProvider extends ChangeNotifier {
     // }
   }
 
+  // Get applied jobs
+  Future<void> getAppliedJobs() async {
+    errorMessage = "";
+    // try {
+    //   final response = await apiService.getAppliedJobs();
+    //   appliedJobs = AppliedJobs.fromJson(response.data);
+    //   notifyListeners();
+    // } on DioException catch (e) {
+    //   errorMessage = DioExceptions.fromDioError(e).toString();
+    //   notifyListeners();
+    // }
+  }
+
   // Add viewed job
   Future<bool> addViewedJob({required String jobId}) async {
     errorMessage = "";
@@ -612,7 +650,7 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  void resetControllers() {
+  void clearControllers() {
     jobTitleController.clear();
     jobAddressController.clear();
     jobLocationController.clear();

@@ -60,6 +60,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   image_picker: ^1.0.7
   url_launcher: ^6.2.5
+  share_plus: ^10.1.4
 
   # Firbase
   firebase_core: ^3.8.1

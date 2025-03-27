@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:looking2hire/constants/app_routes.dart';
+import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/network/dio_client.dart';
 
 class JobService {
@@ -74,7 +75,9 @@ class JobService {
   }
 
   Future<Response> getJobPost({required String job_id}) {
-    return dioClient.get("${ApiRoutes.getJobPost}/$job_id");
+    return dioClient.get(
+      "${isHire ? ApiRoutes.getJobPostEmployer : ApiRoutes.getJobPostApplicant}/$job_id",
+    );
   }
 
   Future<Response> getJobPosts({int? page}) {
@@ -154,10 +157,13 @@ class JobService {
   }
 
   // Search for a job
-  Future<Response> searchJob({required String title}) {
+  Future<Response> searchJob({
+    required String title,
+    bool isFinalSearch = false,
+  }) {
     return dioClient.get(
       ApiRoutes.searchJob,
-      queryParameters: {"title": title},
+      queryParameters: {"title": title, "isFinalSearch": isFinalSearch},
     );
   }
 
@@ -183,8 +189,8 @@ class JobService {
   }
 
   // Save a job
-  Future<Response> saveJob({required String jobId}) {
-    return dioClient.post(ApiRoutes.saveJob, data: {"jobId": jobId});
+  Future<Response> toggleSaveJob({required String jobId}) {
+    return dioClient.post("${ApiRoutes.saveJob}/$jobId");
   }
 
   // Unsave a job
@@ -195,6 +201,11 @@ class JobService {
   // Get saved jobs
   Future<Response> getSavedJobs() {
     return dioClient.get(ApiRoutes.getSavedJobs);
+  }
+
+  // Get applied jobs
+  Future<Response> getAppliedJobs() {
+    return dioClient.get(ApiRoutes.getAppliedJobs);
   }
 
   // Get viewed jobs

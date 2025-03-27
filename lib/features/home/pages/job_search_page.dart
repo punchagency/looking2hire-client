@@ -16,7 +16,8 @@ import 'dart:async';
 import '../../../app_colors.dart';
 
 class JobSearchPage extends StatefulWidget {
-  const JobSearchPage({super.key});
+  final String? search;
+  const JobSearchPage({super.key, this.search});
 
   @override
   State<JobSearchPage> createState() => _JobSearchPageState();
@@ -28,8 +29,14 @@ class _JobSearchPageState extends State<JobSearchPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    if (widget.search != null) {
+      textController.text = widget.search!.trim();
+      context.read<JobProvider>().searchJob(
+        title: widget.search!.trim(),
+        isFinalSearch: false,
+      );
+    }
   }
 
   @override
@@ -48,6 +55,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
   void viewJob(Job job) {
     final jobProvider = context.read<JobProvider>();
     jobProvider.job = job;
+    jobProvider.searchJob(title: job.job_title, isFinalSearch: true);
     context.pushTo(WorkJobDetailsPage());
   }
 
@@ -58,7 +66,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      context.read<JobProvider>().searchJob(title: query);
+      context.read<JobProvider>().searchJob(title: query, isFinalSearch: false);
     });
   }
 
@@ -66,6 +74,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();
     final searchedJobs = jobProvider.searchedJobs;
+    //final recentSearches = jobProvider.recentSearches;
     // final searchString = textController.text;
     // final searchedJobs =
     //     jobs
@@ -93,11 +102,11 @@ class _JobSearchPageState extends State<JobSearchPage> {
                   // const SizedBox(width: 10),
                   Expanded(
                     child: OutlinedContainer(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.only(left: 15, right: 5),
                       child: Row(
                         children: [
-                          SvgPicture.asset(AppAssets.search),
-                          const SizedBox(width: 8),
+                          // SvgPicture.asset(AppAssets.search),
+                          // const SizedBox(width: 8),
                           Expanded(
                             child: TextField(
                               autofocus: true,
@@ -133,8 +142,8 @@ class _JobSearchPageState extends State<JobSearchPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
-                  OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
+                  // SizedBox(width: 8),
+                  // OutlinedContainer(child: SvgPicture.asset(AppAssets.filter)),
                 ],
               ),
               const SizedBox(height: 14),

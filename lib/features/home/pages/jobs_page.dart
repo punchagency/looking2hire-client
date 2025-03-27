@@ -31,8 +31,14 @@ class _JobsPageState extends State<JobsPage> {
     if (widget.jobType == JobType.viewed) {
       selectedTab = 1;
     }
-    currentContext?.read<JobProvider>().getSavedJobs();
-    currentContext?.read<JobProvider>().getViewedJobs();
+    if (widget.jobType == JobType.popular) {
+      currentContext?.read<JobProvider>().getPopularJobs();
+    } else if (widget.jobType == JobType.recommended) {
+      currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    } else {
+      currentContext?.read<JobProvider>().getSavedJobs();
+      currentContext?.read<JobProvider>().getViewedJobs();
+    }
   }
 
   void toggleTab(int tab) {

@@ -8,6 +8,7 @@ import 'package:looking2hire/constants/app_color.dart';
 
 class AppDropdown extends StatefulWidget {
   final List<String> items;
+  final List<String>? icons;
   final String? selectedItem;
   final Function(String?)? onChanged;
   final String? hintText;
@@ -22,6 +23,7 @@ class AppDropdown extends StatefulWidget {
   const AppDropdown({
     super.key,
     required this.items,
+    this.icons,
     this.selectedItem,
     required this.onChanged,
     this.hintText,
@@ -74,6 +76,8 @@ class _AppDropdownState extends State<AppDropdown> {
             style: bodyMedium,
             focusNode: widget.focusNode,
             dropdownColor: Colors.white,
+            isExpanded: true,
+            menuMaxHeight: 300,
 
             decoration:
                 widget.isInputField
@@ -156,25 +160,35 @@ class _AppDropdownState extends State<AppDropdown> {
             // borderRadius: BorderRadius.circular(15),
             value: selectedItem,
             onChanged: widget.onChanged,
+
             items:
                 widget.items.map((String item) {
+                  final index = widget.items.indexOf(item);
                   return DropdownMenuItem<String>(
                     value: item,
-                    child: Text(
-                      item,
-                      style:
-                          widget.isInputField
-                              ? bodyMedium
-                              : const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.lightBlack,
-                              ),
-                      // style: const TextStyle(
-                      //   fontSize: 16,
-                      //   fontWeight: FontWeight.w400,
-                      //   color: AppColors.lightBlack,
-                      // ),
+                    child: Row(
+                      children: [
+                        if (widget.icons != null) ...[
+                          SvgPicture.asset(widget.icons![index]),
+                          SizedBox(width: 10),
+                        ],
+                        Text(
+                          item,
+                          style:
+                              widget.isInputField
+                                  ? bodyMedium
+                                  : const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.lightBlack,
+                                  ),
+                          // style: const TextStyle(
+                          //   fontSize: 16,
+                          //   fontWeight: FontWeight.w400,
+                          //   color: AppColors.lightBlack,
+                          // ),
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),

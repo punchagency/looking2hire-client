@@ -84,7 +84,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             focusNode: _locationFocus,
             getPlaceDetailWithLatLng: (prediction) {
               provider.jobLocationController.text =
-                  "${prediction.lat},${prediction.lng}";
+                  "${prediction.lng},${prediction.lat}";
               provider.jobAddressController.text = prediction.description ?? "";
               provider
                   .jobAddressController
@@ -94,7 +94,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             },
             itemClick: (prediction) {
               provider.jobLocationController.text =
-                  "${prediction.lat},${prediction.lng}";
+                  "${prediction.lng},${prediction.lat}";
               provider.jobAddressController.text = prediction.description ?? "";
               provider
                   .jobAddressController
@@ -124,7 +124,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             keyboardType: TextInputType.number,
             textHint: "Salary Min in USD",
             icon: AppAssets.dollars,
-            iconColor: AppColors.lightBlack.withOpacity(0.5),
+            // iconColor: AppColors.lightBlack.withOpacity(0.5),
             focusNode: _jobSalaryMinFocus,
             validate: (value) {
               return Validator.validateIsNotEmpty(value);
@@ -137,7 +137,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             keyboardType: TextInputType.number,
             textHint: "Salary Max in USD",
             icon: AppAssets.dollars,
-            iconColor: AppColors.lightBlack.withOpacity(0.5),
+            // iconColor: AppColors.lightBlack.withOpacity(0.5),
             focusNode: _jobSalaryMaxFocus,
             validate: (value) {
               return Validator.validateIsNotEmpty(value);
@@ -156,7 +156,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             isInputField: true,
             label: "Salary Period",
             icon: AppAssets.time,
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             items: provider.jobSalaryPeriods,
             selectedItem: provider.jobSalaryPeriodController.text,
             onChanged: (value) {
@@ -172,7 +172,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             label: "Work Type",
             icon: AppAssets.location,
             items: provider.jobWorkTypes,
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             selectedItem: provider.jobWorkTypeController.text,
             onChanged: (value) {
               provider.jobWorkTypeController.text = value ?? "";
@@ -185,7 +185,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             isInputField: true,
             icon: AppAssets.time,
             label: "Employment Type",
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             items: provider.jobEmploymentTypes,
             selectedItem: provider.jobEmploymentTypeController.text,
             onChanged: (value) {
