@@ -121,7 +121,7 @@ class Job {
       'updatedAt': updatedAt,
       'employer': employer?.toMap(),
       'applicationStats': applicationStats?.toMap(),
-      'applications': applications?.map((x) => x?.toMap()).toList(),
+      'applications': applications?.map((x) => x.toMap()).toList(),
     };
   }
 

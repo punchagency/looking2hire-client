@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:looking2hire/features/onboarding/models/applicant.dart';
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 
 import '../../features/home/models/job.dart';

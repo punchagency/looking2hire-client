@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,12 +9,10 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/job.dart';
-import 'package:looking2hire/features/home/models/user.dart';
 import 'package:looking2hire/features/home/pages/work_job_details_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
-import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:looking2hire/utils/platform.dart';
 import 'package:provider/provider.dart';
@@ -177,7 +173,7 @@ class _LocateJobPageState extends State<LocateJobPage>
     await jobProvider.getJobsInDistance(
       latitude: currentPosition!.latitude,
       longitude: currentPosition!.longitude,
-      maxDistance: mile.toInt(),
+      maxDistance: mile,
     );
 
     final jobsInDistance = jobProvider.jobsInDistance;

@@ -4,7 +4,6 @@ import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/rounded_image.dart';
 import 'package:looking2hire/constants/app_assets.dart';
-import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 

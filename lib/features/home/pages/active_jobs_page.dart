@@ -7,7 +7,6 @@ import 'package:looking2hire/features/home/pages/add_job_page.dart';
 import 'package:looking2hire/features/home/pages/job_display_page.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
-import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 
 import '../../profile/components/profile_card.dart';
 

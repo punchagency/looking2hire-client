@@ -170,7 +170,7 @@ class JobService {
   Future<Response> getJobsInDistance({
     required double latitude,
     required double longitude,
-    required int maxDistance,
+    required double maxDistance,
   }) {
     return dioClient.post(
       ApiRoutes.getJobsInDistance,

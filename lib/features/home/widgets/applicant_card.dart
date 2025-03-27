@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
-import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/datetime_extensions.dart';
 import 'package:looking2hire/features/home/models/job_application.dart';
-import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/reuseable/extensions/string_extensions.dart';
 
 enum ApplicantStatus { shortlisted, interviewed, hired, rejected }

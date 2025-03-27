@@ -16,7 +16,6 @@ import 'package:looking2hire/features/home/widgets/job_card.dart';
 import 'package:looking2hire/features/home/widgets/job_history_item.dart';
 import 'package:looking2hire/features/home/widgets/recent_search_item.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
-import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';

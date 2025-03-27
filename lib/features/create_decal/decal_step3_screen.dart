@@ -6,9 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/features/create_decal/decal_step4_screen.dart';
 import 'package:looking2hire/utils/button.dart';
-import 'package:looking2hire/utils/next_screen.dart';
 
 class DecalStep3Screen extends StatefulWidget {
   final PageController pageController;

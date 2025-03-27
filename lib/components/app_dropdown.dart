@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
@@ -10,6 +11,7 @@ class AppDropdown extends StatefulWidget {
   final String? selectedItem;
   final Function(String?)? onChanged;
   final String? hintText;
+  final String? label;
   final double? width;
   final double? height;
   final bool isInputField;
@@ -23,6 +25,7 @@ class AppDropdown extends StatefulWidget {
     this.selectedItem,
     required this.onChanged,
     this.hintText,
+    this.label,
     this.width,
     this.height,
     this.isInputField = false,
@@ -49,119 +52,135 @@ class _AppDropdownState extends State<AppDropdown> {
             ? widget.items.firstOrNull
             : widget.selectedItem;
     var bodyMedium = Theme.of(context).textTheme.bodyMedium;
+    final labelText = widget.label ?? widget.hintText ?? "";
 
-    return SizedBox(
-      height: widget.height,
-      width: widget.width,
-      child: DropdownButtonFormField<String>(
-        style: bodyMedium,
-        focusNode: widget.focusNode,
-        dropdownColor: Colors.white,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (labelText.isNotEmpty) ...[
+          CustomRobotoText(
+            text: labelText,
+            textColor: Colors.black,
+            textSize: 14.sp,
+            fontWeight: FontWeight.w400,
+          ),
+          const SizedBox(height: 4),
+        ],
+        SizedBox(
+          height: widget.height,
+          width: widget.width,
+          child: DropdownButtonFormField<String>(
+            style: bodyMedium,
+            focusNode: widget.focusNode,
+            dropdownColor: Colors.white,
 
-        decoration:
-            widget.isInputField
-                ? InputDecoration(
-                  filled: true,
-                  fillColor: AppColor.grey[100]?.withOpacity(.05),
+            decoration:
+                widget.isInputField
+                    ? InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.grey[100]?.withOpacity(.05),
 
-                  border: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: .9,
+                      border: OutlineInputBorder(
+                        // borderSide: BorderSide.none,
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: .9,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        // borderSide: BorderSide.none,
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: .9,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        // borderSide: BorderSide.none,
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: .9,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+
+                      hintText: widget.hintText,
+
+                      hintStyle:
+                          !widget.isInputField
+                              ? null
+                              : bodyMedium?.copyWith(color: Colors.black45),
+                      prefixIcon:
+                          widget.icon == null
+                              ? null
+                              : Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  widget.icon!,
+                                  height: 17,
+                                  width: 17,
+                                  color: widget.iconColor,
+                                ),
+                              ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 2.h,
+                        horizontal: 10.w,
+                      ),
+                    )
+                    : InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: .9,
+            // padding: ,
+            icon: SvgPicture.asset(AppAssets.dropdownArrow),
+            // isExpanded: true,
+            // borderRadius: BorderRadius.circular(15),
+            value: selectedItem,
+            onChanged: widget.onChanged,
+            items:
+                widget.items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style:
+                          widget.isInputField
+                              ? bodyMedium
+                              : const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.lightBlack,
+                              ),
+                      // style: const TextStyle(
+                      //   fontSize: 16,
+                      //   fontWeight: FontWeight.w400,
+                      //   color: AppColors.lightBlack,
+                      // ),
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: .9,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-
-                  hintText: widget.hintText,
-
-                  hintStyle:
-                      !widget.isInputField
-                          ? null
-                          : bodyMedium?.copyWith(color: Colors.black45),
-                  prefixIcon:
-                      widget.icon == null
-                          ? null
-                          : Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              widget.icon!,
-                              height: 17,
-                              width: 17,
-                              color: widget.iconColor,
-                            ),
-                          ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 2.h,
-                    horizontal: 10.w,
-                  ),
-                )
-                : InputDecoration(
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-        // padding: ,
-        icon: SvgPicture.asset(AppAssets.dropdownArrow),
-        // isExpanded: true,
-        // borderRadius: BorderRadius.circular(15),
-        value: selectedItem,
-        onChanged: widget.onChanged,
-        items:
-            widget.items.map((String item) {
-              return DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style:
-                      widget.isInputField
-                          ? bodyMedium
-                          : const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.lightBlack,
-                          ),
-                  // style: const TextStyle(
-                  //   fontSize: 16,
-                  //   fontWeight: FontWeight.w400,
-                  //   color: AppColors.lightBlack,
-                  // ),
-                ),
-              );
-            }).toList(),
-      ),
+                  );
+                }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

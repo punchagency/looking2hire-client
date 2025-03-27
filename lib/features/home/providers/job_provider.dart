@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/extensions/double_extensitons.dart';
 import 'package:looking2hire/extensions/response_extension.dart';
+import 'package:looking2hire/extensions/special_extensions.dart';
 import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/home/models/popular_jobs.dart' as popular;
@@ -431,7 +433,7 @@ class JobProvider extends ChangeNotifier {
       // return response.data['jobs'];
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
-      return null;
+      return;
     } finally {
       // currentContext?.pop();
     }
@@ -470,10 +472,13 @@ class JobProvider extends ChangeNotifier {
       setLoading();
 
       final response = await apiService.searchJob(title: title);
-      searchedJobs =
-          (response.data['jobs'] as List<dynamic>)
-              .map((e) => Job.fromMap(e as Map<String, dynamic>))
-              .toList();
+      searchedJobs = response.data['jobs'].castToList(
+        (map) => Job.fromMap(map),
+      );
+      // searchedJobs =
+      //     (response.data['jobs'] as List<dynamic>)
+      //         .map((e) => Job.fromMap(e as Map<String, dynamic>))
+      //         .toList();
       // setLoaded();
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
@@ -486,7 +491,7 @@ class JobProvider extends ChangeNotifier {
   Future<void> getJobsInDistance({
     required double latitude,
     required double longitude,
-    required int maxDistance,
+    required double maxDistance,
   }) async {
     errorMessage = "";
     try {
@@ -495,7 +500,7 @@ class JobProvider extends ChangeNotifier {
       final response = await apiService.getJobsInDistance(
         latitude: latitude,
         longitude: longitude,
-        maxDistance: maxDistance,
+        maxDistance: maxDistance.toDouble().milesToMeters,
       );
       jobsInDistance =
           (response.data['jobs'] as List<dynamic>)

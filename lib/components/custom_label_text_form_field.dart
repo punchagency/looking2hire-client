@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/constants/app_color.dart';
 
 import 'custom_text.dart';
@@ -381,6 +379,7 @@ class CustomIconTextField extends StatefulWidget {
     super.key,
     required this.textEditingController,
     this.textHint,
+    this.label,
     this.icon,
     this.isPassword = false,
     this.suffixIcon,
@@ -397,6 +396,7 @@ class CustomIconTextField extends StatefulWidget {
 
   final TextEditingController textEditingController;
   final String? textHint;
+  final String? label;
   final Function(String)? onChanged;
   final String? icon;
   final Color? iconColor;
@@ -430,73 +430,93 @@ class _CustomIconTextFieldState extends State<CustomIconTextField> {
   @override
   Widget build(BuildContext context) {
     var bodyMedium = Theme.of(context).textTheme.bodyMedium;
+    final labelText = widget.label ?? widget.textHint ?? "";
 
-    return TextFormField(
-      controller: widget.textEditingController,
-      focusNode: widget.focusNode,
-      style: bodyMedium,
-      validator: widget.validate,
-      cursorColor: AppColor.black,
-      onChanged: widget.onChanged,
-      inputFormatters: widget.inputFormatters,
-      minLines: widget.minLines,
-      maxLines: widget.maxLines,
-      keyboardType: widget.keyboardType,
-      textInputAction: widget.inputAction,
-      // textAlignVertical: TextAlignVertical.bottom,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColor.grey[100]?.withOpacity(.05),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (labelText.isNotEmpty) ...[
+          CustomRobotoText(
+            text: labelText,
+            textColor: Colors.black,
+            textSize: 14.sp,
+            fontWeight: FontWeight.w400,
+          ),
+          const SizedBox(height: 4),
+        ],
 
-        border: OutlineInputBorder(
-          // borderSide: BorderSide.none,
-          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        enabledBorder: OutlineInputBorder(
-          // borderSide: BorderSide.none,
-          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // borderSide: BorderSide.none,
-          borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        TextFormField(
+          controller: widget.textEditingController,
+          focusNode: widget.focusNode,
+          style: bodyMedium,
+          validator: widget.validate,
+          cursorColor: AppColor.black,
+          onChanged: widget.onChanged,
+          inputFormatters: widget.inputFormatters,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          keyboardType: widget.keyboardType,
+          textInputAction: widget.inputAction,
+          // textAlignVertical: TextAlignVertical.bottom,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: AppColor.grey[100]?.withOpacity(.05),
 
-        hintText: widget.textHint,
-        suffixIcon:
-            !widget.isPassword
-                ? widget.suffixIcon
-                : Visibility(
-                  visible: !widget.textHint!.contains('jk'),
-                  child: IconButton(
-                    onPressed: toggleObscure,
-                    color: Colors.grey,
-                    splashColor: Colors.transparent,
-                    icon: Icon(
-                      !isObscure
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      size: 18,
+            border: OutlineInputBorder(
+              // borderSide: BorderSide.none,
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              // borderSide: BorderSide.none,
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              // borderSide: BorderSide.none,
+              borderSide: BorderSide(color: Colors.grey.shade300, width: .9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+
+            hintText: widget.textHint,
+            suffixIcon:
+                !widget.isPassword
+                    ? widget.suffixIcon
+                    : Visibility(
+                      visible: !widget.textHint!.contains('jk'),
+                      child: IconButton(
+                        onPressed: toggleObscure,
+                        color: Colors.grey,
+                        splashColor: Colors.transparent,
+                        icon: Icon(
+                          !isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 18,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-        hintStyle: bodyMedium?.copyWith(color: Colors.black45),
-        prefixIcon:
-            widget.icon == null
-                ? null
-                : Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SvgPicture.asset(
-                    widget.icon!,
-                    height: 17,
-                    width: 17,
-                    color: widget.iconColor,
-                  ),
-                ),
-        contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-      ),
+            hintStyle: bodyMedium?.copyWith(color: Colors.black45),
+            prefixIcon:
+                widget.icon == null
+                    ? null
+                    : Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(
+                        widget.icon!,
+                        height: 17,
+                        width: 17,
+                        color: widget.iconColor,
+                      ),
+                    ),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 2.h,
+              horizontal: 5.w,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -569,28 +589,38 @@ class CustomGoogleLabelInputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bodyMedium = Theme.of(context).textTheme.bodyMedium;
+    final labelText = label ?? hintText ?? "";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label != null)
-          Row(
-            children: [
-              CustomOpenSansText(
-                text: label!,
-                textColor: labelColor ?? Colors.black,
-                textSize: 12.sp,
-                fontStyle: fontStyle,
-                fontWeight: fontWeight,
-              ),
-              if (required)
-                CustomOpenSansText(
-                  text: "*",
-                  textColor: AppColor.primaryColor,
-                  textSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-            ],
+        // if (label != null)
+        //   Row(
+        //     children: [
+        //       CustomOpenSansText(
+        //         text: label!,
+        //         textColor: labelColor ?? Colors.black,
+        //         textSize: 12.sp,
+        //         fontStyle: fontStyle,
+        //         fontWeight: fontWeight,
+        //       ),
+        //       if (required)
+        //         CustomOpenSansText(
+        //           text: "*",
+        //           textColor: AppColor.primaryColor,
+        //           textSize: 12.sp,
+        //           fontWeight: FontWeight.w500,
+        //         ),
+        //     ],
+        //   ),
+        if (labelText.isNotEmpty) ...[
+          CustomRobotoText(
+            text: labelText,
+            textColor: Colors.black,
+            textSize: 14.sp,
+            fontWeight: FontWeight.w400,
           ),
+          const SizedBox(height: 4),
+        ],
         GooglePlaceAutoCompleteTextField(
           boxDecoration: BoxDecoration(
             border: Border.all(color: Colors.transparent),

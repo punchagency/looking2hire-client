@@ -7,10 +7,7 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/file_picker.dart';
-import 'package:nfc_manager/nfc_manager.dart';
-import 'package:provider/provider.dart';
 
 class UploadCvScreen extends StatefulWidget {
   const UploadCvScreen({super.key});

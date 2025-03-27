@@ -74,6 +74,9 @@ class AppAssets {
   static const notepad = "assets/svgs/notepad.svg";
   static const users = "assets/svgs/users.svg";
   static const calender = "assets/svgs/calender.svg";
+  static const calender2 = "assets/svgs/calender2.svg";
+  static const dollars = "assets/svgs/dollars.svg";
+
   static const graphLine = "assets/svgs/graph_line.svg";
 
   static const handshake = "assets/svgs/handshake.svg";

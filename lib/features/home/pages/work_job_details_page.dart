@@ -10,7 +10,6 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/pages/job_display_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
-import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 import 'package:looking2hire/utils/location.dart';

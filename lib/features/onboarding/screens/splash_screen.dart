@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';

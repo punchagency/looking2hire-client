@@ -8,7 +8,6 @@ import 'package:looking2hire/features/create_job/provider/create_job_provider.da
 import 'package:looking2hire/features/home/providers/employment_history_provider.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/splash_screen.dart';
-import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';

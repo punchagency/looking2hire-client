@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:looking2hire/components/app_dropdown.dart';
-import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/hire_container.dart';
 import 'package:looking2hire/components/stat_card.dart';
 import 'package:looking2hire/constants/app_assets.dart';
@@ -8,9 +6,7 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/applicant_card.dart';
-import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/features/profile/hire_user_profile_page.dart';
-import 'package:looking2hire/views/app_drawer.dart';
 import 'package:looking2hire/views/stats_cards.dart';
 import 'package:provider/provider.dart';
 

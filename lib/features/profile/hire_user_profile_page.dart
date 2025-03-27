@@ -84,12 +84,12 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image:
-                              (applicant?.profilePic ?? "").isEmpty
+                              (applicant.profilePic ?? "").isEmpty
                                   ? null
                                   : DecorationImage(
                                     fit: BoxFit.cover,
                                     image: CachedNetworkImageProvider(
-                                      applicant?.profilePic ?? "",
+                                      applicant.profilePic ?? "",
                                     ),
                                     // image: AssetImage(AppAssets.profilePicture3),
                                   ),
@@ -102,7 +102,7 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              applicant?.name ?? "",
+                              applicant.name ?? "",
                               style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
@@ -111,7 +111,7 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              applicant?.heading ?? "",
+                              applicant.heading ?? "",
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -128,7 +128,7 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "About ${applicant?.name?.firstName ?? ""}",
+                    "About ${applicant.name?.firstName ?? ""}",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -138,7 +138,7 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                   const SizedBox(height: 4),
 
                   Text(
-                    applicant?.description ?? "",
+                    applicant.description ?? "",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -160,13 +160,13 @@ class _HireUserProfilePageState extends State<HireUserProfilePage> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: applicant?.employmentHistory?.length ?? 0,
+                    itemCount: applicant.employmentHistory?.length ?? 0,
                     // separatorBuilder: (context, index) {
                     //   return const SizedBox(height: 14);
                     // },
                     itemBuilder: (context, index) {
                       final employmentHistory =
-                          applicant!.employmentHistory![index];
+                          applicant.employmentHistory![index];
                       return EmploymentHistoryItem(
                         employmentHistory: employmentHistory,
                       );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:looking2hire/constants/app_routes.dart';
 import 'package:looking2hire/network/dio_client.dart';

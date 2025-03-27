@@ -210,13 +210,13 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
               CustomIconTextField(
                 textEditingController: userProvider.jobStartDateController,
                 textHint: "Date of Joining",
-                icon: AppAssets.time,
+                icon: AppAssets.calender2,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: userProvider.jobEndDateController,
                 textHint: "Date of Leaving",
-                icon: AppAssets.time,
+                icon: AppAssets.calender2,
               ),
             ],
           ),
