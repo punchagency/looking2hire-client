@@ -47,7 +47,12 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> init() async {
     uType = await SecureStorage().retrieveUserType();
-    print(uType);
+    currentContext?.read<JobProvider>().getRecentSearches();
+    currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    currentContext?.read<JobProvider>().getPopularJobs();
+    currentContext?.read<UserProvider>().getApplicantProfile();
+    currentContext?.read<JobProvider>().getSavedJobs();
+    currentContext?.read<JobProvider>().getViewedJobs();
     setState(() {});
   }
 
@@ -56,12 +61,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     //selectedSearch = recentSearches.firstOrNull ?? "";
     // context.read<JobProvider>().getRecentJobs();
-    currentContext?.read<JobProvider>().getRecentSearches();
-    currentContext?.read<JobProvider>().getRecommendedJobPosts();
-    currentContext?.read<JobProvider>().getPopularJobs();
-    currentContext?.read<UserProvider>().getApplicantProfile();
-    currentContext?.read<JobProvider>().getSavedJobs();
-    currentContext?.read<JobProvider>().getViewedJobs();
+
     init();
   }
 
@@ -236,17 +236,7 @@ class _HomePageState extends State<HomePage> {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         await Future.delayed(const Duration(seconds: 2));
-
-                        currentContext
-                            ?.read<JobProvider>()
-                            .getRecommendedJobPosts();
-                        currentContext
-                            ?.read<UserProvider>()
-                            .getApplicantProfile();
                         init();
-                        currentContext?.read<JobProvider>().getPopularJobs();
-                        currentContext?.read<JobProvider>().getSavedJobs();
-                        currentContext?.read<JobProvider>().getViewedJobs();
                       },
                       child: ListView(
                         children: [

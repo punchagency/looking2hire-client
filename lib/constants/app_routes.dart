@@ -74,6 +74,11 @@ class ApiRoutes {
   static const getSavedJobs = "api/job/applicant/saved";
   static const addViewedJob = "api/job/applicant/view";
 
+  // Decal
+  static const createDecal = "api/decal/create";
+  static const getDecal = "api/decal/67e40c59c5f3f23699706943/scans";
+  static const scanDecal = "api/decal/scan";
+
   // get viewed jobs
   static const getViewedJobs = "api/job/applicant/viewed";
 

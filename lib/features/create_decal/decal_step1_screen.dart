@@ -19,38 +19,16 @@ class DecalStep1Screen extends StatefulWidget {
 }
 
 class _DecalStep1ScreenState extends State<DecalStep1Screen> {
-  Future<void> nfcSection() async {
-    // Check availability
-    bool isAvailable = await NfcManager.instance.isAvailable();
-    if (isAvailable) {
-      print("NFC is available");
-    } else {
-      print("NFC is not available");
-    }
-
-    // Start Session
-    NfcManager.instance.startSession(
-      onDiscovered: (NfcTag tag) async {
-        // Do something with an NfcTag instance.
-        print(tag.data.values);
-      },
-    );
-
-    // Stop Session
-    //     NfcManager.instance.stopSession();
-  }
-
   @override
   void initState() {
     super.initState();
     // nfcSection();
-    currentContext!.read<NFCProvider>().checkNfcAvailability();
-  }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
+    currentContext!.read<NFCProvider>().checkNfcAvailability();
+    currentContext!.read<NFCProvider>().startNFCOperation(
+      operation: NFCOperation.read,
+      pageController: widget.pageController,
+    );
   }
 
   @override
@@ -102,25 +80,23 @@ class _DecalStep1ScreenState extends State<DecalStep1Screen> {
                       SizedBox(height: 52.h),
                       Image.asset(AppAssets.nfcScan),
                       SizedBox(height: 67.h),
-                      Button(
-                        onPressed: () {
-                          // nextScreen(context, DecalStep2Screen());
-                          // widget.pageController.nextPage(
-                          //   duration: const Duration(milliseconds: 300),
-                          //   curve: Curves.easeIn,
-                          // );
-                          provider.startNFCOperation(
-                            operation: NFCOperation.read,
-                          );
-                        },
-                        text: "Next Step",
-                        color: AppColor.black,
-                        suffix: true,
-                        suffixIcon: SvgPicture.asset(
-                          AppAssets.arrowRight,
-                          color: AppColor.white,
+                      if (provider.isActive)
+                        Button(
+                          onPressed: () {
+                            // nextScreen(context, DecalStep2Screen());
+                            widget.pageController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                            );
+                          },
+                          text: "Next Step",
+                          color: AppColor.black,
+                          suffix: true,
+                          suffixIcon: SvgPicture.asset(
+                            AppAssets.arrowRight,
+                            color: AppColor.white,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ],

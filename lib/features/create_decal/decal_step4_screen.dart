@@ -8,6 +8,10 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 
 import 'package:looking2hire/utils/button.dart';
+import 'package:looking2hire/provider/nfc_provider.dart';
+
+import 'package:looking2hire/utils/button.dart';
+import 'package:provider/provider.dart';
 
 class DecalStep4Screen extends StatefulWidget {
   const DecalStep4Screen({super.key});
@@ -132,6 +136,7 @@ class _DecalStep4ScreenState extends State<DecalStep4Screen> {
 
                   Button(
                     onPressed: () {
+                      context.read<NFCProvider>().isActive = false;
                       // nextScreen(context, HomePage());
                       //nextScreen(context, CompanyProfilePage());
                       context.pop();

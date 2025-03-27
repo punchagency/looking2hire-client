@@ -15,6 +15,7 @@ import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
+import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
 import 'package:looking2hire/features/settings/pages/employer_settings_page.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
@@ -51,13 +52,13 @@ class _AppDrawerState extends State<AppDrawer> {
     if (isHire) {
       return;
     }
-    // context.pushTo(LookingToHireProfile());
-    context.pushTo(InitialUserProfilePage());
+    context.pushTo(LookingToHireProfile());
+    // context.pushTo(InitialUserProfilePage());
   }
 
   void gotoScan() {
-    // context.pushTo(ScanNfcPage());
-    context.pushTo(LookingToHireProfile());
+    context.pushTo(ScanNfcPage());
+    // context.pushTo(LookingToHireProfile());
   }
 
   void gotoCreateDecal() {
