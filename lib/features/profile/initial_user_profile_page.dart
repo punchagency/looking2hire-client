@@ -6,7 +6,7 @@ import 'package:looking2hire/features/create_job/get_related_jobs.dart';
 import 'package:looking2hire/features/create_job/manually_create_job.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
-import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
+import 'package:looking2hire/reuseable/widgets/round_image.dart';
 import 'package:provider/provider.dart';
 
 class InitialUserProfilePage extends StatefulWidget {
@@ -43,7 +43,7 @@ class _InitialUserProfilePageState extends State<InitialUserProfilePage> {
             child: Column(
               children: [
                 const SizedBox(height: 30),
-                ProfilePhoto(
+                RoundedImage(
                   size: 200,
                   imageUrl: provider.applicantProfile.user?.profilePic ?? "",
                   // isNetwork: true,

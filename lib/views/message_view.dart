@@ -7,8 +7,12 @@ class MessageView extends StatelessWidget {
   final String message;
   final double? height;
   final double? width;
-  const MessageView({Key? key, required this.message, this.height, this.width})
-    : super(key: key);
+  const MessageView({
+    super.key,
+    required this.message,
+    this.height,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {

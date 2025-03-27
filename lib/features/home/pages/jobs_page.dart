@@ -31,8 +31,14 @@ class _JobsPageState extends State<JobsPage> {
     if (widget.jobType == JobType.viewed) {
       selectedTab = 1;
     }
-    currentContext?.read<JobProvider>().getSavedJobs();
-    currentContext?.read<JobProvider>().getViewedJobs();
+    if (widget.jobType == JobType.popular) {
+      currentContext?.read<JobProvider>().getPopularJobs();
+    } else if (widget.jobType == JobType.recommended) {
+      currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    } else {
+      currentContext?.read<JobProvider>().getSavedJobs();
+      currentContext?.read<JobProvider>().getViewedJobs();
+    }
   }
 
   void toggleTab(int tab) {
@@ -92,7 +98,7 @@ class _JobsPageState extends State<JobsPage> {
                           // padding: const EdgeInsets.only(top: 30),
                           shrinkWrap: true,
                           // physics: const NeverScrollableScrollPhysics(),
-                          itemCount: provider.savedJobs?.savedJobs?.length ?? 0,
+                          itemCount: provider.savedJobs.savedJobs?.length ?? 0,
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 26);
                           },
@@ -113,7 +119,7 @@ class _JobsPageState extends State<JobsPage> {
                           shrinkWrap: true,
                           // physics: const NeverScrollableScrollPhysics(),
                           itemCount:
-                              provider.viewedJobs?.viewedJobs?.length ?? 0,
+                              provider.viewedJobs.viewedJobs?.length ?? 0,
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 26);
                           },

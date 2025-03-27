@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
-import 'package:looking2hire/features/home/models/job_application.dart';
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/features/onboarding/models/employer_signin.dart';
 import 'package:looking2hire/features/onboarding/service/auth_service.dart';

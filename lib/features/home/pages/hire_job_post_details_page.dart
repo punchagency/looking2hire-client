@@ -35,7 +35,7 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
     jobProvider.jobLocationController.text =
         "${widget.job.location[0]},${widget.job.location[1]}";
     jobProvider.jobQualificationsController.text =
-        widget.job.qualifications?.firstOrNull ?? "";
+        widget.job.qualifications.firstOrNull ?? "";
 
     showDialog(
       context: context,

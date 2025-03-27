@@ -5,7 +5,6 @@ import 'package:looking2hire/components/app_dropdown.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
-import 'package:looking2hire/features/home/widgets/bullet_formatter.dart';
 import 'package:looking2hire/utils/validators.dart';
 import 'package:provider/provider.dart';
 
@@ -85,7 +84,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             focusNode: _locationFocus,
             getPlaceDetailWithLatLng: (prediction) {
               provider.jobLocationController.text =
-                  "${prediction.lat},${prediction.lng}";
+                  "${prediction.lng},${prediction.lat}";
               provider.jobAddressController.text = prediction.description ?? "";
               provider
                   .jobAddressController
@@ -95,7 +94,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             },
             itemClick: (prediction) {
               provider.jobLocationController.text =
-                  "${prediction.lat},${prediction.lng}";
+                  "${prediction.lng},${prediction.lat}";
               provider.jobAddressController.text = prediction.description ?? "";
               provider
                   .jobAddressController
@@ -124,8 +123,8 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             textEditingController: provider.jobSalaryMinController,
             keyboardType: TextInputType.number,
             textHint: "Salary Min in USD",
-            icon: AppAssets.money,
-            iconColor: AppColors.lightBlack.withOpacity(0.5),
+            icon: AppAssets.dollars,
+            // iconColor: AppColors.lightBlack.withOpacity(0.5),
             focusNode: _jobSalaryMinFocus,
             validate: (value) {
               return Validator.validateIsNotEmpty(value);
@@ -137,8 +136,8 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             textEditingController: provider.jobSalaryMaxController,
             keyboardType: TextInputType.number,
             textHint: "Salary Max in USD",
-            icon: AppAssets.money,
-            iconColor: AppColors.lightBlack.withOpacity(0.5),
+            icon: AppAssets.dollars,
+            // iconColor: AppColors.lightBlack.withOpacity(0.5),
             focusNode: _jobSalaryMaxFocus,
             validate: (value) {
               return Validator.validateIsNotEmpty(value);
@@ -155,8 +154,9 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
 
           AppDropdown(
             isInputField: true,
+            label: "Salary Period",
             icon: AppAssets.time,
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             items: provider.jobSalaryPeriods,
             selectedItem: provider.jobSalaryPeriodController.text,
             onChanged: (value) {
@@ -169,9 +169,10 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
 
           AppDropdown(
             isInputField: true,
+            label: "Work Type",
             icon: AppAssets.location,
             items: provider.jobWorkTypes,
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             selectedItem: provider.jobWorkTypeController.text,
             onChanged: (value) {
               provider.jobWorkTypeController.text = value ?? "";
@@ -183,7 +184,8 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
           AppDropdown(
             isInputField: true,
             icon: AppAssets.time,
-            iconColor: AppColors.lightBlack.withOpacity(0.4),
+            label: "Employment Type",
+            iconColor: AppColors.lightBlack.withOpacity(0.5),
             items: provider.jobEmploymentTypes,
             selectedItem: provider.jobEmploymentTypeController.text,
             onChanged: (value) {
@@ -197,6 +199,7 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
           AppDropdown(
             isInputField: true,
             icon: AppAssets.briefcase,
+            label: "Seniority",
             // iconColor: AppColors.lightBlack.withOpacity(0.5),
             items: provider.jobSeniorities,
             selectedItem: provider.jobSeniorityController.text,

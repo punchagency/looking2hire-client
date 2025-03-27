@@ -10,12 +10,13 @@ import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/home/pages/job_display_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/action_button.dart';
-import 'package:looking2hire/features/home/widgets/active_job_item.dart';
 import 'package:looking2hire/features/home/widgets/job_details_tabbar.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
+import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:looking2hire/views/message_view.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class WorkJobDetailsPage extends StatefulWidget {
   const WorkJobDetailsPage({super.key});
@@ -40,12 +41,28 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
     final jobProvider = context.read<JobProvider>();
     final job = jobProvider.job;
     if (job == null) return;
-    if (option == "Save") {
-      jobProvider.saveJob(jobId: job.id);
-    } else if (option == "Share") {}
+    if (option == "Save" || option == "Unsave") {
+      jobProvider.toggleSaveJob(jobId: job.id);
+    } else if (option == "Share") {
+      final url = "https://looking2hire.com/job/${job.id}";
+      Share.share(url, subject: job.job_title);
+    }
   }
 
-  void apply() {}
+  void apply() {
+    final jobProvider = context.read<JobProvider>();
+    final job = jobProvider.job;
+    if (job == null) return;
+    if (job.isApplied == true) {
+      // setSnackBar(
+      //   context: context,
+      //   title: "Already Applied",
+      //   message: "You have already applied for this job",
+      // );
+      return;
+    }
+    jobProvider.applyForJob(jobId: job.id);
+  }
 
   void viewJob() {
     context.pushTo(JobDisplayPage());
@@ -64,6 +81,8 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
     final job = jobProvider.job;
     if (job == null) return;
     jobProvider.getJobPost(jobId: job.id);
+
+    // setState(() {});
   }
 
   void getMiles() async {
@@ -73,12 +92,14 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
     Position? currentPosition = jobProvider.currentPosition;
     currentPosition ??= await getCurrentLocation();
     if (currentPosition == null || job == null || job.employer == null) return;
+
     miles = getMilesBetweenTwoPoints(
       currentPosition.latitude,
       currentPosition.longitude,
       job.employer!.location![0],
       job.employer!.location![1],
     );
+
     setState(() {});
   }
 
@@ -87,6 +108,12 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
     const tabs = ["Job Details", "Company"];
     final jobProvider = context.watch<JobProvider>();
     final job = jobProvider.job;
+
+    if (job?.isSaved == true) {
+      menuOptions[0] = "Unsave";
+    } else {
+      menuOptions[0] = "Save";
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -313,8 +340,11 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                     left: 15,
                     right: 15,
                     child: ActionButton(
-                      title: "Apply Now",
-                      color: AppColors.lighterBlack,
+                      title: job.isApplied == true ? "Applied" : "Apply Now",
+                      color:
+                          job.isApplied == true
+                              ? AppColors.darkGrey
+                              : AppColors.lighterBlack,
                       onPressed: apply,
                     ),
                   ),

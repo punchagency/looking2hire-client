@@ -4,7 +4,6 @@ import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
-import 'package:looking2hire/features/onboarding/screens/otp_verification_screen.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/next_screen.dart';
 

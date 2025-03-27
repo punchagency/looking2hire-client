@@ -6,7 +6,7 @@ import 'package:looking2hire/constants/app_assets.dart';
 
 class RoundedImage extends StatelessWidget {
   final String? imageUrl;
-  final String? defaultAssetImage;
+  final String? assetPath;
   final double width;
   final double height;
   final double radius;
@@ -16,7 +16,7 @@ class RoundedImage extends StatelessWidget {
     required this.imageUrl,
     this.width = 100,
     this.height = 100,
-    this.defaultAssetImage,
+    this.assetPath,
     this.radius = 24,
     this.isFileImage = false,
   });
@@ -34,7 +34,7 @@ class RoundedImage extends StatelessWidget {
                   ? isFileImage
                       ? FileImage(File(imageUrl!))
                       : CachedNetworkImageProvider(imageUrl!)
-                  : AssetImage(defaultAssetImage ?? AppAssets.defaultProfilePic)
+                  : AssetImage(assetPath ?? AppAssets.defaultProfilePic)
                       as ImageProvider,
           fit: BoxFit.cover,
         ),

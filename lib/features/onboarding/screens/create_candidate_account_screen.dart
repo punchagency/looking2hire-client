@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_label_text_form_field.dart';

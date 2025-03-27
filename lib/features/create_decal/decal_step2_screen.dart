@@ -7,6 +7,8 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+
+import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/features/create_decal/decal_step3_screen.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/utils/button.dart';

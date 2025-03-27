@@ -27,6 +27,8 @@ class Job {
   Employer? employer;
   ApplicationStats? applicationStats;
   List<JobApplication>? applications;
+  bool? isSaved;
+  bool? isApplied;
   Job({
     required this.id,
     this.company_name,
@@ -49,6 +51,8 @@ class Job {
     this.employer,
     this.applicationStats,
     this.applications,
+    this.isSaved,
+    this.isApplied,
   });
 
   Job copyWith({
@@ -73,6 +77,8 @@ class Job {
     Employer? employer,
     ApplicationStats? applicationStats,
     List<JobApplication>? applications,
+    bool? isSaved,
+    bool? isApplied,
   }) {
     return Job(
       id: id ?? this.id,
@@ -96,6 +102,8 @@ class Job {
       employer: employer ?? this.employer,
       applicationStats: applicationStats ?? this.applicationStats,
       applications: applications ?? this.applications,
+      isSaved: isSaved ?? this.isSaved,
+      isApplied: isApplied ?? this.isApplied,
     );
   }
 
@@ -121,7 +129,9 @@ class Job {
       'updatedAt': updatedAt,
       'employer': employer?.toMap(),
       'applicationStats': applicationStats?.toMap(),
-      'applications': applications?.map((x) => x?.toMap()).toList(),
+      'applications': applications?.map((x) => x.toMap()).toList(),
+      'isSaved': isSaved,
+      'isApplied': isApplied,
     };
   }
 
@@ -176,6 +186,8 @@ class Job {
                 ),
               )
               : null,
+      isSaved: map['isSaved'] != null ? map['isSaved'] as bool : null,
+      isApplied: map['isApplied'] != null ? map['isApplied'] as bool : null,
     );
   }
 
@@ -213,7 +225,9 @@ class Job {
         other.updatedAt == updatedAt &&
         other.employer == employer &&
         other.applicationStats == applicationStats &&
-        listEquals(other.applications, applications);
+        listEquals(other.applications, applications) &&
+        other.isSaved == isSaved &&
+        other.isApplied == isApplied;
   }
 
   @override
@@ -238,7 +252,9 @@ class Job {
         updatedAt.hashCode ^
         employer.hashCode ^
         applicationStats.hashCode ^
-        applications.hashCode;
+        applications.hashCode ^
+        isSaved.hashCode ^
+        isApplied.hashCode;
   }
 }
 

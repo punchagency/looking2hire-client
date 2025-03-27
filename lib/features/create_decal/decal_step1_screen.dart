@@ -7,6 +7,7 @@ import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/utils/button.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 import 'package:provider/provider.dart';
 
 class DecalStep1Screen extends StatefulWidget {

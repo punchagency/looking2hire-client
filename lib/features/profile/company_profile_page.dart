@@ -3,7 +3,6 @@ import 'package:looking2hire/app_colors.dart';
 import 'package:looking2hire/components/action_button_with_icon.dart';
 import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
-import 'package:looking2hire/components/custom_label_text_form_field.dart';
 import 'package:looking2hire/components/dialog_container.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
@@ -74,41 +73,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             ),
           ],
           child: EditEmployerProfileFields(),
-          // child: Column(
-          //   // mainAxisSize: MainAxisSize.min,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     CustomIconTextField(
-          //       textEditingController: TextEditingController(),
-          //       textHint: "Upload Picture",
-          //       icon: AppAssets.upload,
-          //     ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.companyNameController,
-          //       textHint: "Company Name",
-          //       icon: AppAssets.user,
-          //     ),
-          //     // SizedBox(height: 16),
-          //     // CustomIconTextField(
-          //     //   textEditingController: userProvider.headingController,
-          //     //   textHint: "Email",
-          //     //   icon: AppAssets.briefcase,
-          //     // ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.headingController,
-          //       textHint: "Heading",
-          //       icon: AppAssets.description,
-          //     ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.descriptionController,
-          //       textHint: "Body",
-          //       icon: AppAssets.description,
-          //     ),
-          //   ],
-          // ),
         );
       },
     );

@@ -12,9 +12,10 @@ import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/profile/components/profile_job_history_card.dart';
 import 'package:looking2hire/features/profile/model/applicant_profile.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
-import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
+import 'package:looking2hire/reuseable/widgets/round_image.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/date_formart.dart';
+import 'package:looking2hire/views/profile_upload_view.dart';
 import 'package:provider/provider.dart';
 
 import '../home/widgets/job_information_item.dart';
@@ -31,6 +32,7 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController2 = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
+
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -79,6 +81,15 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
       endDate: "Jan 2023",
     ),
   ];
+  void selectImage(String filePath) {
+    final userProvider = context.read<UserProvider>();
+    userProvider.filePathController.text = filePath;
+  }
+
+  void removeImage() {
+    final userProvider = context.read<UserProvider>();
+    userProvider.companyLogoController.text = "";
+  }
 
   void gotoEditProfile(UserProvider userProvider) {
     showDialog(
@@ -86,7 +97,7 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
       builder: (context) {
         return DialogContainer(
           title: "Edit Profile",
-          hint: "Update the job details and save changes.",
+          hint: "Update your profile details and save changes.",
           actions: [
             ActionButtonWithIcon(
               title: "Save Changes",
@@ -116,11 +127,16 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
             // mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomIconTextField(
-                textEditingController: TextEditingController(),
-                textHint: "Upload Picture",
-                icon: AppAssets.upload,
+              ProfileUploadView(
+                imageUrl: userProvider.profilePicController.text,
+                onRemove: removeImage,
+                onSelect: selectImage,
               ),
+              // CustomIconTextField(
+              //   textEditingController: TextEditingController(),
+              //   textHint: "Upload Picture",
+              //   icon: AppAssets.upload,
+              // ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: userProvider.fullNameController,
@@ -182,11 +198,16 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
             // mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomIconTextField(
-                textEditingController: TextEditingController(),
-                textHint: "Upload Picture",
-                icon: AppAssets.upload,
+              ProfileUploadView(
+                imageUrl: userProvider.companyLogoController.text,
+                onRemove: removeImage,
+                onSelect: selectImage,
               ),
+              // CustomIconTextField(
+              //   textEditingController: TextEditingController(),
+              //   textHint: "Upload Picture",
+              //   icon: AppAssets.upload,
+              // ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: userProvider.jobTitleController,
@@ -210,13 +231,13 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
               CustomIconTextField(
                 textEditingController: userProvider.jobStartDateController,
                 textHint: "Date of Joining",
-                icon: AppAssets.time,
+                icon: AppAssets.calender2,
               ),
               SizedBox(height: 16),
               CustomIconTextField(
                 textEditingController: userProvider.jobEndDateController,
                 textHint: "Date of Leaving",
-                icon: AppAssets.time,
+                icon: AppAssets.calender2,
               ),
             ],
           ),
@@ -232,7 +253,8 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
   }
 
   Future<void> init() async {
-    final provider = Provider.of<UserProvider>(context, listen: false);
+    final provider = context.read<UserProvider>();
+    provider.getApplicantProfile();
     provider.descriptionController.text =
         provider.applicantProfile.user?.description ?? "";
     provider.headingController.text =
@@ -286,11 +308,10 @@ class _LookingToHireProfileState extends State<LookingToHireProfile> {
                 // ),
                 Row(
                   children: [
-                    ProfilePhoto(
+                    RoundedImage(
                       imageUrl:
                           provider.applicantProfile.user?.profilePic ?? "",
                       size: 80,
-                      isNetwork: true,
                     ),
                     const SizedBox(width: 20),
                     Expanded(

@@ -11,6 +11,7 @@ class LoadingOrMessageView extends StatefulWidget {
   final double? height;
   final double? width;
   final Widget? child;
+  final Widget? extraChild;
   final bool showChild;
 
   const LoadingOrMessageView({
@@ -22,6 +23,7 @@ class LoadingOrMessageView extends StatefulWidget {
     this.width,
     this.child,
     this.showChild = true,
+    this.extraChild,
   });
 
   @override

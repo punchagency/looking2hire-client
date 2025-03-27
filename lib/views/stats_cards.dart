@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:looking2hire/components/stat_card.dart';
 
 class StatsCards extends StatelessWidget {
   final List<Widget> cards;

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:looking2hire/constants/app_colors.dart';
@@ -5,10 +7,14 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
 import 'package:looking2hire/features/create_job/create_job_post.dart';
+import 'package:looking2hire/features/home/enums/enums.dart';
+import 'package:looking2hire/features/home/models/job.dart';
 import 'package:looking2hire/features/home/models/recomended_jobs.dart';
 import 'package:looking2hire/features/home/pages/active_jobs_page.dart';
 import 'package:looking2hire/features/home/pages/hire_job_details_page.dart';
 import 'package:looking2hire/features/home/pages/job_search_page.dart';
+import 'package:looking2hire/features/home/pages/jobs_page.dart';
+import 'package:looking2hire/features/home/pages/locate_job_page.dart';
 import 'package:looking2hire/features/home/pages/work_job_details_page.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/utils/utils.dart';
@@ -20,6 +26,7 @@ import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/views/app_drawer.dart';
+import 'package:looking2hire/views/loading_or_message_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../reuseable/widgets/outlined_container.dart';
@@ -41,6 +48,34 @@ class _HomePageState extends State<HomePage> {
   //   "Artist",
   //   "Musician",
   // ];
+
+  List<Color> bgColors = [
+    Colors.white,
+    Color(0xFF2196F3), // Vibrant Blue
+    Color(0xFFE91E63), // Pink
+    Color(0xFF4CAF50), // Green
+    Color(0xFFFF9800), // Orange
+    Color(0xFF9C27B0), // Purple
+    Color(0xFF00BCD4), // Cyan
+    Color(0xFF3F51B5), // Indigo
+    Color(0xFF009688), // Teal
+    Color(0xFFF44336), // Red
+    Color(0xFF8BC34A), // Light Green
+    Color(0xFF795548), // Brown
+    Color(0xFF607D8B), // Blue Grey
+    Color(0xFF673AB7), // Deep Purple
+    Color(0xFF00BCD4), // Cyan
+    Color(0xFFFF5722), // Deep Orange
+    Color(0xFFE91E63), // Pink
+    Color(0xFF009688), // Teal
+    Color(0xFF2196F3), // Blue
+    Color(0xFF9C27B0), // Purple
+    Color(0xFF4CAF50), // Green
+    Colors.white,
+  ];
+
+  Map<int, Color> popularJobColors = {};
+
   String selectedSearch = "";
   bool firstTime = true;
   String? uType;
@@ -72,22 +107,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateSearch(String search) {
+    context.pushTo(JobSearchPage(search: search));
     selectedSearch = search;
     setState(() {});
   }
 
-  void viewAllJobs() {}
+  void viewPopularJobs() {
+    context.pushTo(JobsPage(jobType: JobType.popular));
+  }
+
+  void viewRecommendedJobs() {
+    context.pushTo(JobsPage(jobType: JobType.recommended));
+  }
 
   void gotoJobSearch() {
     context.pushTo(JobSearchPage());
   }
 
-  void gotoJobDetails() {
-    if (isWork) {
-      context.pushTo(WorkJobDetailsPage());
-      return;
-    }
-    context.pushTo(HireJobDetailsPage());
+  void gotoJobDetails(String? jobId) {
+    context.pushTo(WorkJobDetailsPage());
+    // if (isWork) {
+    //   context.pushTo(WorkJobDetailsPage());
+    //   return;
+    // }
+    // context.pushTo(HireJobDetailsPage());
   }
 
   void gotoJobActiveJobs() {
@@ -95,17 +138,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   void gotoProfile() {
-    if (isWork) {
-      if (firstTime) {
-        context.pushTo(InitialUserProfilePage());
-      } else {
-        context.pushTo(InitialUserProfilePage());
-        // context.pushTo(LookingToHireProfile());
-      }
-      return;
-    }
+    // if (isWork) {
+    //   if (firstTime) {
+    //     context.pushTo(InitialUserProfilePage());
+    //   } else {
+    //     context.pushTo(InitialUserProfilePage());
+    //     // context.pushTo(LookingToHireProfile());
+    //   }
+    //   return;
+    // }
     context.pushTo(InitialUserProfilePage());
     // context.pushTo(LookingToHireProfile());
+  }
+
+  void gotoMap() {
+    context.pushTo(LocateJobPage());
   }
 
   @override
@@ -186,7 +233,7 @@ class _HomePageState extends State<HomePage> {
             centeredTitle: false,
             canNotGoBack: true,
             needsDrawer: true,
-            // rightChild: ProfilePhoto(
+            // rightChild: RoundedImage(
             //   imageUrl: AppAssets.profilePicture,
             //   onPressed: gotoProfile,
             // ),
@@ -199,11 +246,13 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedContainer(
+                          padding: const EdgeInsets.only(left: 10),
+
                           child: Row(
                             children: [
                               SvgPicture.asset(AppAssets.search),
@@ -220,16 +269,21 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
+
                               const SizedBox(width: 8),
-                              SvgPicture.asset(AppAssets.share),
+                              IconButton(
+                                onPressed: gotoMap,
+                                icon: SvgPicture.asset(AppAssets.share),
+                                padding: EdgeInsets.zero,
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 8),
-                      OutlinedContainer(
-                        child: SvgPicture.asset(AppAssets.filter),
-                      ),
+                      // SizedBox(width: 8),
+                      // OutlinedContainer(
+                      //   child: SvgPicture.asset(AppAssets.filter),
+                      // ),
                     ],
                   ),
                   Expanded(
@@ -291,7 +345,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               const SizedBox(width: 10),
                               GestureDetector(
-                                onTap: viewAllJobs,
+                                onTap: viewPopularJobs,
                                 child: Text(
                                   "View all",
                                   style: const TextStyle(
@@ -328,6 +382,12 @@ class _HomePageState extends State<HomePage> {
 
                               itemBuilder: (context, index) {
                                 final data = provider.popularJobs.jobs?[index];
+                                final color =
+                                    popularJobColors[index] ??
+                                    bgColors[Random().nextInt(bgColors.length)];
+                                if (popularJobColors[index] == null) {
+                                  popularJobColors[index] = color;
+                                }
                                 return JobCard(
                                   logoUrl: AppAssets.jobLogo1,
                                   price: "\$50 - \$75 / Mo",
@@ -339,11 +399,14 @@ class _HomePageState extends State<HomePage> {
                                   isFullTime: false,
                                   isRemote: true,
                                   isSenior: true,
-                                  bgColor:
-                                      index == 0
-                                          ? AppColors.bluishGrey
-                                          : Colors.white,
-                                  onPressed: gotoJobDetails,
+                                  bgColor: color,
+                                  // bgColor:
+                                  //     index == 0
+                                  //         ? AppColors.bluishGrey
+                                  //         : Colors.white,
+                                  onPressed:
+                                      () =>
+                                          gotoJobDetails(data?.jobDetails?.id),
                                 );
                               },
                             ),
@@ -358,37 +421,49 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           const SizedBox(height: 14),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount:
-                                provider
-                                    .recommendedJobs
-                                    .recommendedJobs
-                                    ?.length ??
-                                0,
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 15);
-                            },
-                            itemBuilder: (context, index) {
-                              final data =
+                          LoadingOrMessageView(
+                            isLoading: false,
+                            showChild:
+                                (provider.recommendedJobs.recommendedJobs ?? [])
+                                    .isNotEmpty,
+                            message:
+                                (provider.recommendedJobs.recommendedJobs ?? [])
+                                        .isEmpty
+                                    ? "No recommended jobs found"
+                                    : "",
+                            height: 200,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
                                   provider
                                       .recommendedJobs
-                                      .recommendedJobs?[index];
-                              return JobHistoryItem(
-                                imageUrl: AppAssets.gap,
-                                title: data?.jobTitle ?? "",
-                                description: data?.summary ?? '',
-                                location: data?.jobAddress ?? "",
-                                startDate: "Jan 2020",
-                                endDate: "Feb 2023",
-                                onPressed: () {
-                                  provider.recommendedJob =
-                                      data ?? RecommendedJob();
-                                  context.pushTo(HireJobDetailsPage());
-                                },
-                              );
-                            },
+                                      .recommendedJobs
+                                      ?.length ??
+                                  0,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 15);
+                              },
+                              itemBuilder: (context, index) {
+                                final data =
+                                    provider
+                                        .recommendedJobs
+                                        .recommendedJobs?[index];
+                                return JobHistoryItem(
+                                  imageUrl: AppAssets.gap,
+                                  title: data?.jobTitle ?? "",
+                                  description: data?.summary ?? '',
+                                  location: data?.jobAddress ?? "",
+                                  startDate: "Jan 2020",
+                                  endDate: "Feb 2023",
+                                  onPressed: () {
+                                    provider.recommendedJob =
+                                        data ?? RecommendedJob();
+                                    context.pushTo(HireJobDetailsPage());
+                                  },
+                                );
+                              },
+                            ),
                           ),
                           const SizedBox(height: 50),
                         ],

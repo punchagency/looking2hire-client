@@ -17,7 +17,6 @@ import 'package:looking2hire/features/profile/initial_user_profile_page.dart';
 import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/features/scan/screens/scan_nfc_page.dart';
 import 'package:looking2hire/features/settings/pages/employer_settings_page.dart';
-import 'package:looking2hire/service/navigation_service.dart';
 import 'package:looking2hire/service/secure_storage/secure_storage.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/next_screen.dart';

@@ -10,7 +10,6 @@ import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/provider/auth_provider.dart';
 import 'package:looking2hire/features/onboarding/screens/create_candidate_account_screen.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';
-import 'package:looking2hire/features/profile/looking_to_hire_profile.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/next_screen.dart';
