@@ -20,6 +20,7 @@ class UserProvider extends ChangeNotifier {
   TextEditingController companyNameController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController profilePicController = TextEditingController();
   TextEditingController headingController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -49,9 +50,8 @@ class UserProvider extends ChangeNotifier {
       final response = await apiService.updateApplicantDetails(
         description: descriptionController.text,
         heading: headingController.text,
-        name: fullNameController.text,
-        profilePic:
-            "https://media.istockphoto.com/id/615422436/photo/demo-sign-cubes.jpg?s=2048x2048&w=is&k=20&c=ytN9tDsTJjScOZs9lwZDGORezN2P36OdlN-_6syvAqU=",
+        full_name: fullNameController.text,
+        profilePic: filePathController.text,
       );
       if (response.data["applicant"] != null) {
         final applicant = Applicant.fromJson(response.data["applicant"]);
@@ -85,7 +85,7 @@ class UserProvider extends ChangeNotifier {
         jobEndDate: jobEndDateController.text,
         companyName: companyNameController.text,
         employmentType: employmentTypeController.text,
-        filePath: filePathController.text,
+        companyLogo: filePathController.text,
       );
 
       print(response.data);
@@ -146,7 +146,7 @@ class UserProvider extends ChangeNotifier {
       setProgressDialog();
 
       final response = await apiService.updateEmployerDetails(
-        companyLogo: companyLogoController.text,
+        companyLogo: filePathController.text,
         companyName: companyNameController.text,
         heading: headingController.text,
         // email: emailController.text,

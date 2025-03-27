@@ -72,41 +72,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             ),
           ],
           child: EditEmployerProfileFields(),
-          // child: Column(
-          //   // mainAxisSize: MainAxisSize.min,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     CustomIconTextField(
-          //       textEditingController: TextEditingController(),
-          //       textHint: "Upload Picture",
-          //       icon: AppAssets.upload,
-          //     ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.companyNameController,
-          //       textHint: "Company Name",
-          //       icon: AppAssets.user,
-          //     ),
-          //     // SizedBox(height: 16),
-          //     // CustomIconTextField(
-          //     //   textEditingController: userProvider.headingController,
-          //     //   textHint: "Email",
-          //     //   icon: AppAssets.briefcase,
-          //     // ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.headingController,
-          //       textHint: "Heading",
-          //       icon: AppAssets.description,
-          //     ),
-          //     SizedBox(height: 16),
-          //     CustomIconTextField(
-          //       textEditingController: userProvider.descriptionController,
-          //       textHint: "Body",
-          //       icon: AppAssets.description,
-          //     ),
-          //   ],
-          // ),
         );
       },
     );

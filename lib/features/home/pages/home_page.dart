@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
             centeredTitle: false,
             canNotGoBack: true,
             needsDrawer: true,
-            // rightChild: ProfilePhoto(
+            // rightChild: RoundedImage(
             //   imageUrl: AppAssets.profilePicture,
             //   onPressed: gotoProfile,
             // ),

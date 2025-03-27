@@ -229,7 +229,7 @@ class _LocateJobPageState extends State<LocateJobPage>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ProfilePhoto(imageUrl: user.imageUrl, size: 30),
+            // RoundedImage(imageUrl: user.imageUrl, size: 30),
             CircleAvatar(
               radius: 15,
               backgroundImage:

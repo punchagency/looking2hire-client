@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:looking2hire/features/home/models/user.dart';
-import 'package:looking2hire/reuseable/widgets/profile_photo.dart';
+import 'package:looking2hire/reuseable/widgets/round_image.dart';
 
 class MapUserMilesItem extends StatelessWidget {
   final User user;
@@ -34,7 +34,7 @@ class MapUserMilesItem extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ProfilePhoto(imageUrl: user.imageUrl, size: 30),
+          RoundedImage(imageUrl: user.imageUrl, size: 30),
           const SizedBox(width: 4),
           Text(
             "${user.miles} mile${user.miles == 1 ? "" : "s"}",
