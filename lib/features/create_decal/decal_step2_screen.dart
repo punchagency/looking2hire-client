@@ -168,7 +168,7 @@ class _DecalStep2ScreenState extends State<DecalStep2Screen> {
                           // setProgressDialog();
                           provider.activateNfc(
                             operation: NFCOperation.write,
-                            url: "http://ayomilotunde.github.io",
+                            url: "looking2hire://employerprofile",
                             pageController: widget.pageController,
                           );
                         },

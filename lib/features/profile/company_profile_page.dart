@@ -21,8 +21,8 @@ import 'package:looking2hire/views/app_drawer.dart';
 import 'package:provider/provider.dart';
 
 class CompanyProfilePage extends StatefulWidget {
-  final String? employerId;
-  const CompanyProfilePage({super.key, this.employerId});
+  static const String routeName = '/employerprofile';
+  const CompanyProfilePage({super.key});
 
   @override
   State<CompanyProfilePage> createState() => _CompanyProfilePageState();
