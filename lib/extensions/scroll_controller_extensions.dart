@@ -22,4 +22,20 @@ extension ScrollControllerExtensions on ScrollController {
     addListener(onScroll);
     return onScroll;
   }
+
+  void scrollToTop() {
+    animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void scrollToBottom() {
+    animateTo(
+      position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 }

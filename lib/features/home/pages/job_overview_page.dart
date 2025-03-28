@@ -6,11 +6,12 @@ import 'package:looking2hire/components/job_detail.dart';
 import 'package:looking2hire/components/rounded_icon_button.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
-import 'package:looking2hire/features/create_job/views/create_job_fields.dart';
+import 'package:looking2hire/features/create_job/views/create_or_edit_job_fields.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/features/home/widgets/job_information_item.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
 import 'package:looking2hire/utils/date_utils.dart';
+import 'package:looking2hire/views/edit_fields_view.dart';
 import 'package:provider/provider.dart';
 
 class JobOverviewPage extends StatefulWidget {
@@ -21,7 +22,89 @@ class JobOverviewPage extends StatefulWidget {
 }
 
 class _JobOverviewPageState extends State<JobOverviewPage> {
-  void applyForJob() {}
+  void showEditResponsibilitiesDialog() {
+    final jobProvider = context.read<JobProvider>();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EditFieldsView(
+          title: "Responsibilities",
+          options: jobProvider.job?.key_responsibilities ?? [],
+          onSave: (options) => saveResponsibilities(options, context),
+        );
+      },
+    );
+  }
+
+  void showEditQualificationsDialog() {
+    final jobProvider = context.read<JobProvider>();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EditFieldsView(
+          title: "Qualifications",
+          options: jobProvider.job?.qualifications ?? [],
+          onSave: (options) => saveQualifications(options, context),
+        );
+      },
+    );
+  }
+
+  void saveQualifications(List<String> qualifications, BuildContext context) {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider
+        .updateJobPost(
+          jobId: jobProvider.job?.id ?? "",
+          qualifications: qualifications,
+        )
+        .then((success) {
+          if (success) {
+            setSnackBar(
+              context: context,
+              title: "Success",
+              message: "Qualifications updated successfully",
+            );
+            context.pop();
+          } else {
+            setSnackBar(
+              context: context,
+              title: "Error",
+              message: "Failed to update qualifications",
+            );
+          }
+        });
+  }
+
+  void saveResponsibilities(
+    List<String> responsibilities,
+    BuildContext context,
+  ) {
+    final jobProvider = context.read<JobProvider>();
+    jobProvider
+        .updateJobPost(
+          jobId: jobProvider.job?.id ?? "",
+          key_responsibilities: responsibilities,
+        )
+        .then((success) {
+          print("success = $success");
+          if (success) {
+            setSnackBar(
+              context: context,
+              title: "Success",
+              message: "Responsibilities updated successfully",
+            );
+            context.pop();
+          } else {
+            setSnackBar(
+              context: context,
+              title: "Error",
+              message: "Failed to update responsibilities",
+            );
+          }
+        });
+  }
+
+  // void showEditClosingStatementDialog() {}
 
   void showEditJobPostDialog() {
     final jobProvider = context.read<JobProvider>();
@@ -30,8 +113,8 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
     jobProvider.jobAddressController.text = jobProvider.job?.job_address ?? "";
     jobProvider.jobLocationController.text =
         "${jobProvider.job?.location[0]},${jobProvider.job?.location[1]}";
-    jobProvider.jobQualificationsController.text =
-        jobProvider.job?.qualifications.firstOrNull ?? "";
+    // jobProvider.jobQualificationsController.text =
+    //     jobProvider.job?.qualifications.firstOrNull ?? "";
     jobProvider.jobSalaryCurrencyController.text =
         jobProvider.job?.salary_currency ?? "USD";
     jobProvider.jobSalaryMinController.text =
@@ -45,6 +128,10 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
     jobProvider.jobSalaryPeriodController.text =
         jobProvider.job?.salary_period ?? "";
 
+    jobProvider.jobSummaryController.text = jobProvider.job?.summary ?? "";
+    jobProvider.jobClosingStatementController.text =
+        jobProvider.job?.closing_statement ?? "";
+
     showDialog(
       context: context,
       builder: (context) {
@@ -52,9 +139,13 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
           title: "Edit Job Post",
           hint: "Update the job details and save changes.",
           actions: [
-            ActionButtonWithIcon(title: "Save Changes", onPressed: saveJobPost),
+            ActionButtonWithIcon(
+              title: "Save Changes",
+              onPressed: () => saveJobPost(context),
+            ),
           ],
-          child: SingleChildScrollView(child: CreateJobFields()),
+          isScrollable: true,
+          child: CreateOrEditJobFields(isEdit: true),
         );
       },
     );
@@ -86,7 +177,7 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
     );
   }
 
-  void saveJobPost() {
+  void saveJobPost(BuildContext context) {
     final jobProvider = context.read<JobProvider>();
     jobProvider.updateJobPost(jobId: jobProvider.job?.id ?? "").then((success) {
       if (success) {
@@ -228,24 +319,19 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
                             JobInformationItem(
                               title: "Key Responsibilities:",
                               options: job.key_responsibilities,
-                              // options: [
-                              //   "Assist customers with product inquires, selections and purchases.",
-                              //   "Maintain product knowledge of furniture, home decor and seasonal collections.",
-                              //   "Collaborate with team members to meet store sales goals.",
-                              //   "Ensure display and merchandise are well-organized and visually appealing.",
-                              //   "Process transactions, returns and exchanges efficiently.",
-                              // ],
+                              rightChild: RoundedIconButton(
+                                onPressed: showEditResponsibilitiesDialog,
+                                icon: AppAssets.editOutline,
+                              ),
                             ),
                             const SizedBox(height: 11),
                             JobInformationItem(
                               title: "Qualifications:",
                               options: job.qualifications,
-                              // options: [
-                              //   "Strong communication and customer service skills.",
-                              //   "Ability to work in a fast-paces, team-oriented environment.",
-                              //   "Prior retail or sales experience (preferred).",
-                              //   "Passion for interior design and home furnishings.",
-                              // ],
+                              rightChild: RoundedIconButton(
+                                onPressed: showEditQualificationsDialog,
+                                icon: AppAssets.editOutline,
+                              ),
                             ),
                             const SizedBox(height: 11),
                             Text(

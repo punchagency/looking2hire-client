@@ -15,6 +15,7 @@ import 'package:looking2hire/features/home/widgets/mile_item.dart';
 import 'package:looking2hire/features/home/widgets/set_distance_item.dart';
 import 'package:looking2hire/utils/location.dart';
 import 'package:looking2hire/utils/platform.dart';
+import 'package:looking2hire/views/loading_or_message_view.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
@@ -39,7 +40,7 @@ class _LocateJobPageState extends State<LocateJobPage>
   int selectedMileIndex = 0;
   String time = "23 min";
 
-  bool isLoading = false;
+  bool isLoading = true;
 
   int usersCountLimit = 10;
 
@@ -273,150 +274,156 @@ class _LocateJobPageState extends State<LocateJobPage>
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(title: ""),
-      body: Stack(
-        children: [
-          if (initialCameraPosition != null)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: showSheet ? 240 : 0,
-              child: GoogleMap(
-                initialCameraPosition: initialCameraPosition!,
-                markers: jobMarkers,
-                onMapCreated: (controller) {
-                  _mapController = controller;
-                },
-                mapType: MapType.normal,
-                myLocationEnabled: true,
-                zoomControlsEnabled: true,
-                padding: EdgeInsets.only(
-                  bottom: showSheet ? 40 : 70,
-                  right: 13,
+      body: LoadingOrMessageView(
+        expanded: true,
+        isLoading: isLoading,
+        dimBackgroundWhenLoading: true,
+        // message: "No jobs found",
+        child: Stack(
+          children: [
+            if (initialCameraPosition != null)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: showSheet ? 240 : 0,
+                child: GoogleMap(
+                  initialCameraPosition: initialCameraPosition!,
+                  markers: jobMarkers,
+                  onMapCreated: (controller) {
+                    _mapController = controller;
+                  },
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  zoomControlsEnabled: true,
+                  padding: EdgeInsets.only(
+                    bottom: showSheet ? 40 : 70,
+                    right: 13,
+                  ),
+                  onTap: updateLatLng,
                 ),
-                onTap: updateLatLng,
               ),
-            ),
-          if (showSheet)
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SizedBox(
-                height: 270,
-                child: BottomSheetContainer(
-                  onClose: closeSheet,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(AppAssets.share),
-                          const SizedBox(width: 10),
-                          Text(
-                            "Set Distance",
-                            style: const TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.lighterBlack,
+            if (showSheet)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                  height: 270,
+                  child: BottomSheetContainer(
+                    onClose: closeSheet,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(AppAssets.share),
+                            const SizedBox(width: 10),
+                            Text(
+                              "Set Distance",
+                              style: const TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.lighterBlack,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 18),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Set distance within 10 miles",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.lighterBlack,
+                          ],
+                        ),
+                        const SizedBox(height: 18),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Set distance within 10 miles",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.lighterBlack,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    SetDistanceItem(
-                                      image: AppAssets.clock,
-                                      title: time,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    SetDistanceItem(
-                                      image: AppAssets.miles,
-                                      title: "${mile.toInt()} miles",
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      SetDistanceItem(
+                                        image: AppAssets.clock,
+                                        title: time,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      SetDistanceItem(
+                                        image: AppAssets.miles,
+                                        title: "${mile.toInt()} miles",
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          MileActionItem(
-                            isIncrement: false,
-                            onPressed: decrementMile,
-                          ),
-                          const SizedBox(width: 10),
-                          MileActionItem(
-                            isIncrement: true,
-                            onPressed: incrementMile,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
+                            const SizedBox(width: 10),
+                            MileActionItem(
+                              isIncrement: false,
+                              onPressed: decrementMile,
+                            ),
+                            const SizedBox(width: 10),
+                            MileActionItem(
+                              isIncrement: true,
+                              onPressed: incrementMile,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
 
-                      SizedBox(
-                        height: 15,
-                        child: SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                            padding: const EdgeInsets.all(0),
-                            inactiveTrackColor: const Color(0xFFF2F2F2),
-                            activeTrackColor: const Color(0xFF2C58B8),
-                            thumbColor: const Color(0xFF2C58B8),
-                            thumbShape: RoundSliderThumbShape(
-                              enabledThumbRadius: 6.0,
-                            ), // Adjust size
-                          ),
-                          child: Slider.adaptive(
-                            min: 0,
-                            max: maxMiles,
-                            value: mile,
-                            onChanged: updateMile,
+                        SizedBox(
+                          height: 15,
+                          child: SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              padding: const EdgeInsets.all(0),
+                              inactiveTrackColor: const Color(0xFFF2F2F2),
+                              activeTrackColor: const Color(0xFF2C58B8),
+                              thumbColor: const Color(0xFF2C58B8),
+                              thumbShape: RoundSliderThumbShape(
+                                enabledThumbRadius: 6.0,
+                              ), // Adjust size
+                            ),
+                            child: Slider.adaptive(
+                              min: 0,
+                              max: maxMiles,
+                              value: mile,
+                              onChanged: updateMile,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(miles.length, (index) {
-                          final mile = miles[index];
-                          return MileItem(
-                            selected: selectedMileIndex == index,
-                            index: index,
-                            mile: mile,
-                            onChanged: updateSelectedMiles,
-                          );
-                        }),
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.generate(miles.length, (index) {
+                            final mile = miles[index];
+                            return MileItem(
+                              selected: selectedMileIndex == index,
+                              index: index,
+                              mile: mile,
+                              onChanged: updateSelectedMiles,
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          if (isLoading)
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: const Color.fromRGBO(0, 0, 0, 0.2),
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(color: AppColors.blue),
-            ),
-        ],
+            // if (isLoading)
+            //   Container(
+            //     height: double.infinity,
+            //     width: double.infinity,
+            //     color: const Color.fromRGBO(0, 0, 0, 0.2),
+            //     alignment: Alignment.center,
+            //     child: CircularProgressIndicator(color: AppColors.blue),
+            //   ),
+          ],
+        ),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton:

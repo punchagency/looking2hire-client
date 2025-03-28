@@ -29,6 +29,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: SafeArea(
           child: PageView(
             controller: pageController,
+            onPageChanged: (index) {
+              currentAppType = index == 0 ? AppType.hire : AppType.work;
+
+              // setState(() {
+              //   currentPage = index;
+              // });
+            },
             children: [
               CreateEmployerAccountScreen(pageController: pageController),
               SizedBox(

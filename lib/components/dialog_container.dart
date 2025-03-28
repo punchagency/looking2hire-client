@@ -13,6 +13,7 @@ class DialogContainer extends StatelessWidget {
   final List<Widget> actions;
   final double radius;
   final EdgeInsets? padding;
+  final bool isScrollable;
 
   const DialogContainer({
     super.key,
@@ -23,6 +24,7 @@ class DialogContainer extends StatelessWidget {
     this.hint,
     this.message,
     required this.actions,
+    this.isScrollable = true,
   });
 
   @override
@@ -71,7 +73,12 @@ class DialogContainer extends StatelessWidget {
                 ],
                 if (child != null) ...[
                   const SizedBox(height: 32),
-                  Flexible(child: SingleChildScrollView(child: child!)),
+                  Flexible(
+                    child:
+                        isScrollable
+                            ? SingleChildScrollView(child: child!)
+                            : child!,
+                  ),
                 ],
                 const SizedBox(height: 40),
                 SizedBox(
