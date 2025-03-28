@@ -85,6 +85,8 @@ class ApiRoutes {
   // get viewed jobs
   static const getViewedJobs = "api/job/applicant/viewed";
 
+  static const getNFCEmployerProfile = "api/auth/employer/get/";
+
   // resume
   static const uploadResume = "api/resume/upload";
 }

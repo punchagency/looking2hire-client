@@ -64,6 +64,10 @@ class UserService {
     return await dioClient.get(ApiRoutes.employerProfile);
   }
 
+  Future<Response> getNFCEmployerProfile({required String id}) async {
+    return await dioClient.get(ApiRoutes.getNFCEmployerProfile + id);
+  }
+
   Future<Response> updateEmployerDetails({
     String? companyLogo,
     String? companyName,

@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
+import 'package:looking2hire/features/home/models/employer_profile.dart';
 import 'package:looking2hire/features/home/models/job.dart';
+import 'package:looking2hire/features/home/models/nfc_employer_profile.dart'
+    as NfcEmployerProfile;
 import 'package:looking2hire/features/onboarding/models/applicant_signin.dart';
 import 'package:looking2hire/features/profile/model/applicant_profile.dart'
     as UserProfile;
@@ -39,6 +42,9 @@ class UserProvider extends ChangeNotifier {
   Applicant? applicant;
   UserProfile.EmploymentHistory employmentHistory =
       UserProfile.EmploymentHistory();
+  EmployerProfile employerProfile = EmployerProfile();
+  NfcEmployerProfile.NfcEmployerProfile nfcEmployerProfile =
+      NfcEmployerProfile.NfcEmployerProfile();
 
   // TextEditingController fullNameController = TextEditingController();
 
@@ -131,7 +137,22 @@ class UserProvider extends ChangeNotifier {
     errorMessage = "";
     try {
       final response = await apiService.employerProfileApi();
+      employerProfile = EmployerProfile.fromJson(response.data);
       employer = Employer.fromMap(response.data["user"]);
+    } on DioException catch (e) {
+      errorMessage = DioExceptions.fromDioError(e).toString();
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> getNFCEmployerProfile({required String id}) async {
+    errorMessage = "";
+    try {
+      final response = await apiService.getNFCEmployerProfile(id: id);
+      nfcEmployerProfile = NfcEmployerProfile.NfcEmployerProfile.fromJson(
+        response.data,
+      );
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
     } finally {

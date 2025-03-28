@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:looking2hire/enums/app_type.dart';
+import 'package:looking2hire/features/create_decal/model/write_nfc.dart';
 import 'package:looking2hire/features/home/pages/home_page.dart';
-import 'package:looking2hire/features/home/utils/utils.dart';
 import 'package:looking2hire/features/onboarding/screens/welcome_screen.dart';
 import 'package:looking2hire/features/profile/company_profile_page.dart';
 import 'package:looking2hire/main.dart';
@@ -22,7 +23,40 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
       // nextScreenReplace(context, WelcomeScreen());
-      checkLoggedIn();
+      handleDeepLink();
+    });
+  }
+
+  Future<NfcTagData?> handleNfcIntent() async {
+    try {
+      final jsonString = await platform.invokeMethod<String>(
+        'getInitialIntent',
+      );
+      print('Received NFC data: $jsonString'); // Debug print
+      if (jsonString != null && jsonString.isNotEmpty) {
+        return NfcTagData.fromJson(jsonString);
+      }
+    } on PlatformException catch (e) {
+      print('NFC Intent Error: ${e.message}'); // Debug print
+    }
+    return null;
+  }
+
+  Future<void> handleDeepLink() async {
+    handleNfcIntent().then((tagData) {
+      if (tagData != null) {
+        Navigator.pushNamed(
+          context,
+          tagData.route,
+          arguments: {
+            'id': tagData.id,
+            'name': tagData.name,
+            'extra': tagData.extraData,
+          },
+        );
+      } else {
+        checkLoggedIn();
+      }
     });
   }
 
