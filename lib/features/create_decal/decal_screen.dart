@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,19 @@ class DecalScreen extends StatefulWidget {
 class _DecalScreenState extends State<DecalScreen> {
   int currentPage = 0;
   final PageController pageController = PageController();
+
+  void getEmployer() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    final userProvider = context.read<UserProvider>();
+    await userProvider.getEmployerProfile();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getEmployer();
+  }
 
   @override
   Widget build(BuildContext context) {

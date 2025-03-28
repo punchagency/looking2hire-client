@@ -25,23 +25,19 @@ class MainActivity: FlutterActivity() {
     }
 
     private fun handleInitialIntent(result: MethodChannel.Result) {
-        try {
-            val intent = this.intent
-            if (intent?.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
-                val ndefMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-                if (ndefMessages?.isNotEmpty() == true) {
-                    val ndefMessage = ndefMessages[0] as android.nfc.NdefMessage
-                    val record = ndefMessage.records[0]
-                    val payload = record.payload
-                    // Skip the first 3 bytes (MIME type prefix) and convert to string
-                    val route = String(payload, 3, payload.size - 3, Charsets.UTF_8)
-                    result.success(route)
-                    return
-                }
-            }
-            result.success(null)
-        } catch (e: Exception) {
-            result.error("ERROR", "Failed to get initial intent", e.toString())
+    val intent = this.intent
+    if (intent?.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
+        val ndefMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+        if (ndefMessages != null && ndefMessages.isNotEmpty()) {
+            val ndefMessage = ndefMessages[0] as android.nfc.NdefMessage
+            val record = ndefMessage.records[0]
+            val payload = record.payload
+            // Convert entire payload to string (skip MIME type bytes)
+            val jsonString = String(payload, 0, payload.size - 0, Charsets.UTF_8)
+            result.success(jsonString)
+            return
         }
     }
+    result.success(null)
+}
 }

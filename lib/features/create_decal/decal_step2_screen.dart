@@ -7,12 +7,11 @@ import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/constants/app_assets.dart';
 import 'package:looking2hire/constants/app_color.dart';
+import 'package:looking2hire/features/create_decal/model/write_nfc.dart';
+import 'package:looking2hire/features/profile/provider/user_provider.dart';
 
 import 'package:looking2hire/utils/button.dart';
-import 'package:looking2hire/features/create_decal/decal_step3_screen.dart';
 import 'package:looking2hire/provider/nfc_provider.dart';
-import 'package:looking2hire/utils/button.dart';
-import 'package:looking2hire/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 
 class DecalStep2Screen extends StatefulWidget {
@@ -159,18 +158,42 @@ class _DecalStep2ScreenState extends State<DecalStep2Screen> {
 
                       SizedBox(height: 40.h),
                       Button(
-                        onPressed: () {
+                        onPressed: () async {
                           // nextScreen(context, DecalStep3Screen());
                           // widget.pageController.nextPage(
                           //   duration: const Duration(milliseconds: 300),
                           //   curve: Curves.easeIn,
                           // );
-                          // setProgressDialog();
-                          provider.activateNfc(
+                          // print(
+                          //   context
+                          //       .read<UserProvider>()
+                          //       .employerProfile
+                          //       .user
+                          //       ?.id,
+                          // );
+                          setProgressDialog();
+                          await provider.activateNfc(
                             operation: NFCOperation.write,
-                            url: "looking2hire://employerprofile",
+                            tagData: NfcTagData(
+                              route: "/employerprofile",
+                              id:
+                                  context
+                                      .read<UserProvider>()
+                                      .employerProfile
+                                      .user
+                                      ?.id ??
+                                  "",
+                              name:
+                                  context
+                                      .read<UserProvider>()
+                                      .employerProfile
+                                      .user
+                                      ?.fullName ??
+                                  "",
+                            ),
                             pageController: widget.pageController,
                           );
+                          // Navigator.pop(context);
                         },
                         text: "Activate",
                         color: AppColor.black,

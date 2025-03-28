@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:looking2hire/features/create_decal/model/write_nfc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
@@ -93,12 +95,16 @@ class NFCProvider extends ChangeNotifier {
             },
           );
         } else {
-          activateNfc(
-            operation: operation,
-            url: "http://ayomilotunde.github.io",
-            pageController: pageController!,
-            isProvider: true,
-          );
+          // activateNfc(
+          //   operation: operation,
+          //   tagData: NfcTagData(
+          //     route: "http://ayomilotunde.github.io",
+          //     id: "1",
+          //     name: "Ayomide",
+          //   ),
+          //   pageController: pageController!,
+          //   isProvider: true,
+          // );
         }
       }
       // setSnackBar(context: currentContext!, title: "Success", message: message);
@@ -112,7 +118,7 @@ class NFCProvider extends ChangeNotifier {
 
   Future<void> activateNfc({
     required NFCOperation operation,
-    required String url,
+    required NfcTagData tagData,
     required PageController pageController,
     bool? isProvider,
   }) async {
@@ -144,11 +150,12 @@ class NFCProvider extends ChangeNotifier {
               if (operation == NFCOperation.read) {
                 readNewFromTag(tag);
               } else {
-                writeNewToTag(tag, url);
+                await writeNewToTag(tag, tagData);
                 pageController.nextPage(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeIn,
                 );
+                currentContext?.pop();
               }
             }
             isProcessing = false;
@@ -272,7 +279,7 @@ class NFCProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> writeNewToTag(NfcTag tag, String text) async {
+  Future<void> writeNewToTag(NfcTag tag, NfcTagData tagData) async {
     try {
       var ndef = Ndef.from(tag);
 
@@ -287,20 +294,25 @@ class NFCProvider extends ChangeNotifier {
         notifyListeners();
         return;
       }
-      NdefRecord record = NdefRecord.createUri(Uri.parse(text));
+      // NdefRecord record = NdefRecord.createUri(Uri.parse(text));
+      // Convert all data to JSON string
+      String jsonData = tagData.toJson();
       NdefMessage ndefMessage = NdefMessage([
         // record,
         NdefRecord.createMime(
           'application/com.punch.looking2hire',
-          Uint8List.fromList("/employerprofile".codeUnits),
+          // Uint8List.fromList("/employerprofile".codeUnits),
+          Uint8List.fromList(utf8.encode(jsonData)),
         ),
       ]);
 
       try {
         await ndef.write(ndefMessage);
         message = 'Write successful';
+        print("Successfully wrote to NFC tag: $jsonData");
       } catch (e) {
         message = 'Write failed: $e';
+        print(message);
       }
 
       notifyListeners();
