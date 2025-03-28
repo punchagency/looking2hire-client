@@ -126,11 +126,6 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
     super.dispose();
   }
 
-  // void _onScroll() {
-  //   if (_scrollController.position.pixels >=
-  //       _scrollController.position.maxScrollExtent - 200) {}
-  // }
-
   @override
   Widget build(BuildContext context) {
     final jobProvider = context.watch<JobProvider>();

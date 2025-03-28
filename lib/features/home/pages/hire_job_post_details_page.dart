@@ -30,12 +30,12 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
 
   void showEditJobPostDialog() {
     final jobProvider = context.read<JobProvider>();
-    jobProvider.jobTitleController.text = widget.job.job_title;
-    jobProvider.jobAddressController.text = widget.job.job_address;
+    jobProvider.jobTitleController.text = widget.job.job_title ?? "";
+    jobProvider.jobAddressController.text = widget.job.job_address ?? "";
     jobProvider.jobLocationController.text =
-        "${widget.job.location[0]},${widget.job.location[1]}";
-    jobProvider.jobQualificationsController.text =
-        widget.job.qualifications.firstOrNull ?? "";
+        "${widget.job.location?[0]},${widget.job.location?[1]}";
+    // jobProvider.jobQualificationsController.text =
+    //     widget.job.qualifications.firstOrNull ?? "";
 
     showDialog(
       context: context,
@@ -61,13 +61,12 @@ class _HireJobPostDetailsPageState extends State<HireJobPostDetailsPage> {
                 textHint: "Location",
                 icon: AppAssets.location3,
               ),
-              SizedBox(height: 16),
-              CustomIconTextField(
-                textEditingController: TextEditingController(),
-                // textEditingController: jobProvider.jobQualificationController,
-                textHint: "Qualification need for the job",
-                icon: AppAssets.graduation,
-              ),
+              // SizedBox(height: 16),
+              // CustomIconTextField(
+              //    textEditingController: jobProvider.jobQualificationsController,
+              //   textHint: "Qualification need for the job",
+              //   icon: AppAssets.graduation,
+              // ),
             ],
           ),
         );

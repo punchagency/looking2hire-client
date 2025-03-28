@@ -55,7 +55,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
   void viewJob(Job job) {
     final jobProvider = context.read<JobProvider>();
     jobProvider.job = job;
-    jobProvider.searchJob(title: job.job_title, isFinalSearch: true);
+    jobProvider.searchJob(title: job.job_title ?? "", isFinalSearch: true);
     context.pushTo(WorkJobDetailsPage());
   }
 

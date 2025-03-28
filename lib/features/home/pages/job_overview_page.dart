@@ -112,7 +112,7 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
     jobProvider.jobTitleController.text = jobProvider.job?.job_title ?? "";
     jobProvider.jobAddressController.text = jobProvider.job?.job_address ?? "";
     jobProvider.jobLocationController.text =
-        "${jobProvider.job?.location[0]},${jobProvider.job?.location[1]}";
+        "${jobProvider.job?.location?[0] ?? "0"},${jobProvider.job?.location?[1] ?? "0"}";
     // jobProvider.jobQualificationsController.text =
     //     jobProvider.job?.qualifications.firstOrNull ?? "";
     jobProvider.jobSalaryCurrencyController.text =
@@ -291,16 +291,22 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        JobDetail(title: "Job Title", value: job.job_title),
+                        JobDetail(
+                          title: "Job Title",
+                          value: job.job_title ?? "",
+                        ),
                         JobDetail(
                           title: "Company Name",
                           value: job.company_name ?? "",
                         ),
-                        JobDetail(title: "Description", value: job.summary),
+                        JobDetail(
+                          title: "Description",
+                          value: job.summary ?? "",
+                        ),
                         JobDetail(
                           title: "Posted Time",
                           value:
-                              "${job.createdAt.formatDateToReadable()} • ${job.createdAt.toTimeAgo}",
+                              "${job.createdAt?.formatDateToReadable()} • ${job.createdAt?.toTimeAgo}",
                         ),
                         const SizedBox(height: 32),
 
@@ -335,7 +341,7 @@ class _JobOverviewPageState extends State<JobOverviewPage> {
                             ),
                             const SizedBox(height: 11),
                             Text(
-                              job.closing_statement,
+                              job.closing_statement ?? "",
                               // """Join us at Crate & Barrel and inspire customers to deign beautiful, functional spaces!""",
                               style: const TextStyle(
                                 fontSize: 14,

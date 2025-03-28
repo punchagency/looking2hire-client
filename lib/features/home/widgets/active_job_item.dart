@@ -47,7 +47,7 @@ class ActiveJobItem extends StatelessWidget {
 
           children: [
             Text(
-              job.job_title,
+              job.job_title ?? "",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -56,7 +56,7 @@ class ActiveJobItem extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              job.job_address,
+              job.job_address ?? "",
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -108,7 +108,7 @@ class ActiveJobItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "${job.createdAt.formatDateToReadable()} • ${job.createdAt.toTimeAgo}",
+                    "${job.createdAt?.formatDateToReadable()} • ${job.createdAt?.toTimeAgo}",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

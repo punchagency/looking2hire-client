@@ -7,14 +7,16 @@ import 'package:looking2hire/features/home/models/job_application.dart';
 
 class Job {
   String id;
+  String? employerId;
   String? company_name;
-  String job_title;
-  String job_address;
-  List<double> location;
-  String summary;
-  List<String> key_responsibilities;
-  List<String> qualifications;
-  String closing_statement;
+  String? company_logo;
+  String? job_title;
+  String? job_address;
+  List<double>? location;
+  String? summary;
+  List<String>? key_responsibilities;
+  List<String>? qualifications;
+  String? closing_statement;
   int? salary_min;
   int? salary_max;
   String? salary_currency;
@@ -22,16 +24,19 @@ class Job {
   String? work_type;
   String? employment_type;
   String? seniority;
-  String createdAt;
-  String updatedAt;
+  String? createdAt;
+  String? updatedAt;
   Employer? employer;
   ApplicationStats? applicationStats;
   List<JobApplication>? applications;
   bool? isSaved;
   bool? isApplied;
+
   Job({
     required this.id,
+    this.employerId,
     this.company_name,
+    this.company_logo,
     required this.job_title,
     required this.job_address,
     required this.location,
@@ -57,7 +62,9 @@ class Job {
 
   Job copyWith({
     String? id,
+    String? employerId,
     String? company_name,
+    String? company_logo,
     String? job_title,
     String? job_address,
     List<double>? location,
@@ -82,7 +89,9 @@ class Job {
   }) {
     return Job(
       id: id ?? this.id,
+      employerId: employerId ?? this.employerId,
       company_name: company_name ?? this.company_name,
+      company_logo: company_logo ?? this.company_logo,
       job_title: job_title ?? this.job_title,
       job_address: job_address ?? this.job_address,
       location: location ?? this.location,
@@ -110,7 +119,9 @@ class Job {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       '_id': id,
+      'employerId': employerId,
       'company_name': company_name,
+      'company_logo': company_logo,
       'job_title': job_title,
       'job_address': job_address,
       'location': location,
@@ -138,7 +149,9 @@ class Job {
   factory Job.fromMap(Map<String, dynamic> map) {
     return Job(
       id: map['_id'] as String,
+      employerId: map['employerId'] as String?,
       company_name: map['company_name'] as String?,
+      company_logo: map['company_logo'] as String?,
       job_title: map['job_title'] as String,
       job_address: map['job_address'] as String,
       location: List<double>.from(
@@ -206,7 +219,9 @@ class Job {
     if (identical(this, other)) return true;
 
     return other.id == id &&
+        other.employerId == employerId &&
         other.company_name == company_name &&
+        other.company_logo == company_logo &&
         other.job_title == job_title &&
         other.job_address == job_address &&
         listEquals(other.location, location) &&
@@ -233,7 +248,9 @@ class Job {
   @override
   int get hashCode {
     return id.hashCode ^
+        employerId.hashCode ^
         company_name.hashCode ^
+        company_logo.hashCode ^
         job_title.hashCode ^
         job_address.hashCode ^
         location.hashCode ^
