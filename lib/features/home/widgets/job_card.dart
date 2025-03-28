@@ -14,6 +14,7 @@ class JobCard extends StatelessWidget {
   final bool isRemote;
   final bool isSenior;
   final Color bgColor;
+  final bool isWhite;
   final VoidCallback onPressed;
   const JobCard({
     super.key,
@@ -26,9 +27,10 @@ class JobCard extends StatelessWidget {
     required this.isSenior,
     required this.onPressed,
     required this.bgColor,
+    this.isWhite = false,
   });
 
-  bool get isWhite => bgColor == Colors.white;
+  // bool get isWhite => bgColor == Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +70,10 @@ class JobCard extends StatelessWidget {
                       JobLogo(logoUrl: logoUrl),
                       Text(
                         price,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white,
+                          color: isWhite ? Colors.white : AppColors.grey1,
                         ),
                       ),
                     ],
@@ -82,7 +84,7 @@ class JobCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: !isWhite ? Colors.white : AppColors.grey1,
+                      color: isWhite ? Colors.white : AppColors.grey1,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -93,7 +95,7 @@ class JobCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: !isWhite ? Colors.white : AppColors.grey3,
+                      color: isWhite ? Colors.white : AppColors.grey3,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -129,7 +131,10 @@ class JobCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SvgPicture.asset(AppAssets.save),
+                      SvgPicture.asset(
+                        AppAssets.save,
+                        color: isWhite ? Colors.white : AppColors.grey1,
+                      ),
                     ],
                   ),
                 ],

@@ -7,11 +7,14 @@ class JobInformationItem extends StatelessWidget {
   final String? value;
   final double? fontSize;
   final List<String>? options;
+  final Widget? rightChild;
   const JobInformationItem({
     super.key,
     required this.title,
     this.value,
-    this.options, this.fontSize,
+    this.options,
+    this.fontSize,
+    this.rightChild,
   });
 
   @override
@@ -20,13 +23,20 @@ class JobInformationItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style:  TextStyle(
-            fontSize: fontSize ?? 14,
-            fontWeight: FontWeight.w600,
-            color: AppColors.lighterBlack,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: fontSize ?? 14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.lighterBlack,
+                ),
+              ),
+            ),
+            if (rightChild != null) rightChild!,
+          ],
         ),
         const SizedBox(height: 11),
         if (value != null)

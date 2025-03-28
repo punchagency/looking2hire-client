@@ -8,14 +8,15 @@ import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/utils/validators.dart';
 import 'package:provider/provider.dart';
 
-class CreateJobFields extends StatefulWidget {
-  const CreateJobFields({super.key});
+class CreateOrEditJobFields extends StatefulWidget {
+  final bool isEdit;
+  const CreateOrEditJobFields({super.key, this.isEdit = false});
 
   @override
-  State<CreateJobFields> createState() => _CreateJobFieldsState();
+  State<CreateOrEditJobFields> createState() => _CreateOrEditJobFieldsState();
 }
 
-class _CreateJobFieldsState extends State<CreateJobFields> {
+class _CreateOrEditJobFieldsState extends State<CreateOrEditJobFields> {
   final FocusNode _jobTitleFocus = FocusNode();
 
   final FocusNode _locationFocus = FocusNode();
@@ -34,6 +35,10 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
 
   final FocusNode _jobSeniorityFocus = FocusNode();
 
+  final FocusNode _jobSummaryFocus = FocusNode();
+
+  final FocusNode _jobClosingStatementFocus = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +55,9 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
     _jobWorkTypeFocus.dispose();
     _jobEmploymentTypeFocus.dispose();
     _jobSeniorityFocus.dispose();
+    _jobSummaryFocus.dispose();
+    _jobClosingStatementFocus.dispose();
+
     super.dispose();
   }
 
@@ -73,6 +81,29 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             },
           ),
           SizedBox(height: 16),
+
+          if (widget.isEdit) ...[
+            CustomIconTextField(
+              textEditingController: provider.jobSummaryController,
+              textHint: "Summary",
+              icon: AppAssets.graduation,
+              focusNode: _jobSummaryFocus,
+              validate: (value) {
+                return Validator.validateIsNotEmpty(value);
+              },
+              // minLines: 2,
+              // maxLines: 5,
+            ),
+            SizedBox(height: 16),
+
+            CustomIconTextField(
+              textEditingController: provider.jobClosingStatementController,
+              textHint: "Closing Statement",
+              icon: AppAssets.graduation,
+              focusNode: _jobClosingStatementFocus,
+            ),
+            SizedBox(height: 16),
+          ],
 
           CustomGoogleLabelInputText(
             hintText: "Location",
@@ -107,18 +138,21 @@ class _CreateJobFieldsState extends State<CreateJobFields> {
             },
           ),
           SizedBox(height: 16),
-          CustomIconTextField(
-            textEditingController: provider.jobQualificationsController,
-            textHint: "Qualification need for the job",
-            icon: AppAssets.graduation,
-            focusNode: _qualificationsFocus,
-            validate: (value) {
-              return Validator.validateIsNotEmpty(value);
-            },
-            // minLines: 2,
-            // maxLines: 5,
-          ),
-          SizedBox(height: 16),
+
+          if (!widget.isEdit) ...[
+            CustomIconTextField(
+              textEditingController: provider.jobQualificationsController,
+              textHint: "Qualification need for the job",
+              icon: AppAssets.graduation,
+              focusNode: _qualificationsFocus,
+              validate: (value) {
+                return Validator.validateIsNotEmpty(value);
+              },
+              // minLines: 2,
+              // maxLines: 5,
+            ),
+            SizedBox(height: 16),
+          ],
           CustomIconTextField(
             textEditingController: provider.jobSalaryMinController,
             keyboardType: TextInputType.number,

@@ -3,7 +3,7 @@ import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/components/custom_text.dart';
 import 'package:looking2hire/constants/app_color.dart';
 import 'package:looking2hire/extensions/context_extensions.dart';
-import 'package:looking2hire/features/create_job/views/create_job_fields.dart';
+import 'package:looking2hire/features/create_job/views/create_or_edit_job_fields.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 import 'package:looking2hire/utils/button.dart';
 import 'package:looking2hire/utils/custom_snackbar.dart';
@@ -80,7 +80,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
                   textColor: AppColor.grey[500],
                 ),
                 SizedBox(height: 32),
-                CreateJobFields(),
+                CreateOrEditJobFields(),
                 SizedBox(height: 40),
                 Button(
                   onPressed: createJob,

@@ -49,28 +49,52 @@ class _HomePageState extends State<HomePage> {
   //   "Musician",
   // ];
 
+  // List<Color> bgColors = [
+  //   Colors.white,
+  //   Color(0xFF2196F3), // Vibrant Blue
+  //   Color(0xFFE91E63), // Pink
+  //   Color(0xFF4CAF50), // Green
+  //   Color(0xFFFF9800), // Orange
+  //   Color(0xFF9C27B0), // Purple
+  //   Color(0xFF00BCD4), // Cyan
+  //   Color(0xFF3F51B5), // Indigo
+  //   Color(0xFF009688), // Teal
+  //   Color(0xFFF44336), // Red
+  //   Color(0xFF8BC34A), // Light Green
+  //   Color(0xFF795548), // Brown
+  //   Color(0xFF607D8B), // Blue Grey
+  //   Color(0xFF673AB7), // Deep Purple
+  //   Color(0xFF00BCD4), // Cyan
+  //   Color(0xFFFF5722), // Deep Orange
+  //   Color(0xFFE91E63), // Pink
+  //   Color(0xFF009688), // Teal
+  //   Color(0xFF2196F3), // Blue
+  //   Color(0xFF9C27B0), // Purple
+  //   Color(0xFF4CAF50), // Green
+  //   Colors.white,
+  // ];
+
   List<Color> bgColors = [
+    const Color(0xFFD9D9D9),
+    const Color(0xFFFFFFFF),
+    const Color(0xFF1e1e1e),
+    const Color(0xFF1e1e1e).withOpacity(0.3),
+    const Color(0xFF0339A6),
+    const Color(0xFF011640),
+    const Color(0xFF0468BF),
+    const Color(0xFF05AFF2),
+    const Color(0xFF05C7F2),
+  ];
+
+  List<Color> textColors = [
+    Colors.black,
+    Colors.black,
     Colors.white,
-    Color(0xFF2196F3), // Vibrant Blue
-    Color(0xFFE91E63), // Pink
-    Color(0xFF4CAF50), // Green
-    Color(0xFFFF9800), // Orange
-    Color(0xFF9C27B0), // Purple
-    Color(0xFF00BCD4), // Cyan
-    Color(0xFF3F51B5), // Indigo
-    Color(0xFF009688), // Teal
-    Color(0xFFF44336), // Red
-    Color(0xFF8BC34A), // Light Green
-    Color(0xFF795548), // Brown
-    Color(0xFF607D8B), // Blue Grey
-    Color(0xFF673AB7), // Deep Purple
-    Color(0xFF00BCD4), // Cyan
-    Color(0xFFFF5722), // Deep Orange
-    Color(0xFFE91E63), // Pink
-    Color(0xFF009688), // Teal
-    Color(0xFF2196F3), // Blue
-    Color(0xFF9C27B0), // Purple
-    Color(0xFF4CAF50), // Green
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
     Colors.white,
   ];
 
@@ -252,7 +276,6 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: OutlinedContainer(
                           padding: const EdgeInsets.only(left: 10),
-
                           child: Row(
                             children: [
                               SvgPicture.asset(AppAssets.search),
@@ -382,12 +405,29 @@ class _HomePageState extends State<HomePage> {
 
                               itemBuilder: (context, index) {
                                 final data = provider.popularJobs.jobs?[index];
-                                final color =
-                                    popularJobColors[index] ??
-                                    bgColors[Random().nextInt(bgColors.length)];
-                                if (popularJobColors[index] == null) {
+                                Color? color = popularJobColors[index];
+                                int colorIndex = 0;
+
+                                if (color == null) {
+                                  colorIndex = Random().nextInt(
+                                    bgColors.length,
+                                  );
+                                  while (index > 0 &&
+                                      popularJobColors[index - 1] ==
+                                          bgColors[colorIndex]) {
+                                    colorIndex = Random().nextInt(
+                                      bgColors.length,
+                                    );
+                                  }
+
+                                  color = bgColors[colorIndex];
                                   popularJobColors[index] = color;
+                                } else {
+                                  colorIndex = bgColors.indexOf(color);
                                 }
+                                bool isWhite =
+                                    textColors[colorIndex] == Colors.white;
+
                                 return JobCard(
                                   logoUrl: AppAssets.jobLogo1,
                                   price: "\$50 - \$75 / Mo",
@@ -399,7 +439,8 @@ class _HomePageState extends State<HomePage> {
                                   isFullTime: false,
                                   isRemote: true,
                                   isSenior: true,
-                                  bgColor: color,
+                                  bgColor: color!,
+                                  isWhite: isWhite,
                                   // bgColor:
                                   //     index == 0
                                   //         ? AppColors.bluishGrey
@@ -431,7 +472,7 @@ class _HomePageState extends State<HomePage> {
                                         .isEmpty
                                     ? "No recommended jobs found"
                                     : "",
-                            height: 200,
+                            // height: 200,
                             child: ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),

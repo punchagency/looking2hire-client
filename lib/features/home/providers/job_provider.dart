@@ -42,6 +42,10 @@ class JobProvider extends ChangeNotifier {
   Job? job;
   JobApplication? jobApplication;
 
+  final TextEditingController jobSummaryController = TextEditingController();
+  final TextEditingController jobClosingStatementController =
+      TextEditingController();
+
   final TextEditingController jobTitleController = TextEditingController();
   final TextEditingController jobAddressController = TextEditingController();
   final TextEditingController jobLocationController = TextEditingController();
@@ -172,7 +176,12 @@ class JobProvider extends ChangeNotifier {
   }
 
   // Update job post
-  Future<bool> updateJobPost({required String jobId}) async {
+  Future<bool> updateJobPost({
+    required String jobId,
+    List<String>? qualifications,
+    List<String>? key_responsibilities,
+  }) async {
+    print("key_responsibilities = $key_responsibilities");
     errorMessage = "";
     successMessage = "";
     isLoading = true;
@@ -180,36 +189,45 @@ class JobProvider extends ChangeNotifier {
     try {
       setProgressDialog();
 
-      final response = await apiService.updateJobPost(
-        job_id: jobId,
-        job_title: jobTitleController.text,
-        job_address: jobAddressController.text,
-        location:
-            jobLocationController.text.contains(",")
-                ? [
-                  double.tryParse(jobLocationController.text.split(",")[0]) ??
-                      0.0,
-                  double.tryParse(jobLocationController.text.split(",")[1]) ??
-                      0.0,
-                ]
-                : [0.0, 0.0],
-        qualifications: jobQualificationsController.text,
-        salary_min: int.tryParse(jobSalaryMinController.text),
-        salary_max: int.tryParse(jobSalaryMaxController.text),
-        salary_currency: jobSalaryCurrencyController.text,
-        salary_period: jobSalaryPeriodController.text,
-        work_type: jobWorkTypeController.text,
-        employment_type: jobEmploymentTypeController.text,
-        seniority: jobSeniorityController.text,
-      );
+      final response =
+          (qualifications ?? []).isNotEmpty
+              ? await apiService.updateJobPost(
+                job_id: jobId,
+                qualifications: qualifications,
+              )
+              : (key_responsibilities ?? []).isNotEmpty
+              ? await apiService.updateJobPost(
+                job_id: jobId,
+                key_responsibilities: key_responsibilities,
+              )
+              : await apiService.updateJobPost(
+                job_id: jobId,
+                job_title: jobTitleController.text,
+                job_address: jobAddressController.text,
+                location:
+                    jobLocationController.text.contains(",")
+                        ? [
+                          double.tryParse(
+                                jobLocationController.text.split(",")[0],
+                              ) ??
+                              0.0,
+                          double.tryParse(
+                                jobLocationController.text.split(",")[1],
+                              ) ??
+                              0.0,
+                        ]
+                        : [0.0, 0.0],
+                closing_statement: jobClosingStatementController.text,
+                salary_min: int.tryParse(jobSalaryMinController.text),
+                salary_max: int.tryParse(jobSalaryMaxController.text),
+                salary_currency: jobSalaryCurrencyController.text,
+                salary_period: jobSalaryPeriodController.text,
+                work_type: jobWorkTypeController.text,
+                employment_type: jobEmploymentTypeController.text,
+                seniority: jobSeniorityController.text,
+              );
 
-      if (!response.success) {
-        errorMessage = response.error;
-        isLoading = false;
-        notifyListeners();
-        currentContext?.pop();
-        return false;
-      }
+      print("response = $response");
 
       successMessage = response.data['message'] ?? "";
       errorMessage = response.data['error'] ?? "";
@@ -223,13 +241,12 @@ class JobProvider extends ChangeNotifier {
         this.job = job;
       }
 
-      notifyListeners();
-
-      return true;
+      return response.data['success'];
     } on DioException catch (e) {
       errorMessage = DioExceptions.fromDioError(e).toString();
       return false;
     } finally {
+      print("errorMessage = $errorMessage, successMessage = $successMessage");
       isLoading = false;
       clearControllers();
       notifyListeners();
@@ -651,6 +668,8 @@ class JobProvider extends ChangeNotifier {
   }
 
   void clearControllers() {
+    jobSummaryController.clear();
+    jobClosingStatementController.clear();
     jobTitleController.clear();
     jobAddressController.clear();
     jobLocationController.clear();

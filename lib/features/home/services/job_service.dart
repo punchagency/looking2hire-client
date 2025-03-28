@@ -43,7 +43,10 @@ class JobService {
     String? job_title,
     String? job_address,
     List<double>? location,
-    String? qualifications,
+    String? summary,
+    List<String>? qualifications,
+    List<String>? key_responsibilities,
+    String? closing_statement,
     int? salary_min,
     int? salary_max,
     String? salary_currency,
@@ -55,17 +58,27 @@ class JobService {
     return dioClient.patch(
       "${ApiRoutes.updateJobPost}/$job_id",
       data: {
-        if (job_title != null) "job_title": job_title,
-        if (job_address != null) "job_address": job_address,
-        if (location != null) "location": location,
-        if (qualifications != null) "qualifications": qualifications,
-        if (salary_min != null) "salary_min": salary_min,
-        if (salary_max != null) "salary_max": salary_max,
-        if (salary_currency != null) "salary_currency": salary_currency,
-        if (salary_period != null) "salary_period": salary_period,
-        if (work_type != null) "work_type": work_type,
-        if (employment_type != null) "employment_type": employment_type,
-        if (seniority != null) "seniority": seniority,
+        if (job_title != null && job_title.isNotEmpty) "job_title": job_title,
+        if (job_address != null && job_address.isNotEmpty)
+          "job_address": job_address,
+        if (location != null && location.isNotEmpty) "location": location,
+        if (summary != null && summary.isNotEmpty) "summary": summary,
+        if (qualifications != null && qualifications.isNotEmpty)
+          "qualifications": qualifications,
+        if (key_responsibilities != null && key_responsibilities.isNotEmpty)
+          "key_responsibilities": key_responsibilities,
+        if (closing_statement != null && closing_statement.isNotEmpty)
+          "closing_statement": closing_statement,
+        if (salary_min != null && salary_min > 0) "salary_min": salary_min,
+        if (salary_max != null && salary_max > 0) "salary_max": salary_max,
+        if (salary_currency != null && salary_currency.isNotEmpty)
+          "salary_currency": salary_currency,
+        if (salary_period != null && salary_period.isNotEmpty)
+          "salary_period": salary_period,
+        if (work_type != null && work_type.isNotEmpty) "work_type": work_type,
+        if (employment_type != null && employment_type.isNotEmpty)
+          "employment_type": employment_type,
+        if (seniority != null && seniority.isNotEmpty) "seniority": seniority,
       },
     );
   }
