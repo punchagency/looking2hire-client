@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:looking2hire/app_colors.dart';
+import 'package:looking2hire/components/app_progress_bar.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/extensions/scroll_controller_extensions.dart';
 import 'package:looking2hire/features/home/providers/job_provider.dart';
 
 import 'package:looking2hire/features/profile/components/profile_card.dart';
 import 'package:looking2hire/features/profile/provider/user_provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+
+import '../home/models/nfc_employer_jobs.dart';
+import '../home/widgets/active_job_item.dart';
 
 class NFCCompanyProfilePage extends StatefulWidget {
   static const String routeName = '/employerprofile';
@@ -49,6 +54,7 @@ class _NFCCompanyProfilePageState extends State<NFCCompanyProfilePage> {
 
     final userProvider = context.read<UserProvider>();
     await userProvider.getNFCEmployerProfile(id: args?['id'] ?? "");
+    await userProvider.getNFCEmployerJobs(id: args?['id'] ?? "", page: 1);
     setState(() {});
   }
 
@@ -152,36 +158,64 @@ class _NFCCompanyProfilePageState extends State<NFCCompanyProfilePage> {
                 SizedBox(height: 35),
                 const SizedBox(height: 20),
                 Text(
-                  "Job Posts",
+                  "Our Active Jobs",
                   style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.lightBlack,
                   ),
                 ),
                 const SizedBox(height: 14),
 
-                // ListView.separated(
-                //   shrinkWrap: true,
-                //   physics: const NeverScrollableScrollPhysics(),
-                //   itemCount: jobProvider.jobPosts.length,
-                //   separatorBuilder: (context, index) {
-                //     return const SizedBox(height: 26);
-                //   },
-                //   itemBuilder: (context, index) {
-                //     final job = jobProvider.jobPosts[index];
-                //     return ActiveJobItem(job: job, onPressed: () {});
-                //   },
-                // ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: provider.nfcEmployerJobs.jobs?.length ?? 0,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 26);
+                  },
+                  itemBuilder: (context, index) {
+                    final job = provider.nfcEmployerJobs.jobs?[index];
+                    return NFCActiveJobItem(job: job ?? Job(), onPressed: () {});
+                  },
+                ),
 
-                // SizedBox(height: 35),
+                SizedBox(height: 35),
 
-                // //],
-                // if (jobProvider.isLoading) ...[
-                //   const SizedBox(height: 20),
-                //   Center(child: const AppProgressBar()),
-                //   const SizedBox(height: 20),
-                // ],
+                //],
+                if (provider.nfcEmployerJobs.jobs != null && provider.nfcEmployerJobs.jobs!.isEmpty) ...[
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Column(
+                      children: [
+                        Lottie.asset(
+                          'assets/lottie/empty.json',
+                          height: 200.0,
+                          // width: 80,
+                          repeat: true,
+                          // reverse: true,
+                          animate: true,
+                        ),
+                        const Text(
+                          "No Job Found",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.lightBlack,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+
+                if (provider.isLoading) ...[
+                  const SizedBox(height: 20),
+                  Center(child: const AppProgressBar()),
+                  const SizedBox(height: 20),
+                ],
               ],
             ),
           ),

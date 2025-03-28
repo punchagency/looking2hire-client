@@ -20,8 +20,7 @@ class UserService {
       ApiRoutes.updateApplicantDetails,
       data:
           {
-            if ((profilePic ?? "").isNotEmpty)
-              "profile_pic": await profilePic!.toMulitpartFile,
+            if ((profilePic ?? "").isNotEmpty) "profile_pic": await profilePic!.toMulitpartFile,
             if ((full_name ?? "").isNotEmpty) "full_name": full_name,
             if ((heading ?? "").isNotEmpty) "heading": heading,
             if ((description ?? "").isNotEmpty) "description": description,
@@ -44,16 +43,12 @@ class UserService {
             'company_logo': await companyLogo.toMulitpartFile,
           if ((jobTitle ?? "").isNotEmpty) 'job_title': jobTitle,
           if ((companyName ?? "").isNotEmpty) 'company_name': companyName,
-          if ((employmentType ?? "").isNotEmpty)
-            'employment_type': employmentType,
+          if ((employmentType ?? "").isNotEmpty) 'employment_type': employmentType,
           if ((jobStartDate ?? "").isNotEmpty) 'start_date': jobStartDate,
           if ((jobEndDate ?? "").isNotEmpty) 'end_date': jobEndDate,
           if ((jobDescription ?? "").isNotEmpty) 'description': jobDescription,
         }.toFormData;
-    return await dioClient.patch(
-      ApiRoutes.updateApplicantJobHistory,
-      data: data,
-    );
+    return await dioClient.patch(ApiRoutes.updateApplicantJobHistory, data: data);
   }
 
   Future<Response> applicantProfileApi() async {
@@ -68,6 +63,10 @@ class UserService {
     return await dioClient.get(ApiRoutes.getNFCEmployerProfile + id);
   }
 
+  Future<Response> getNFCEmployerJobs({required String id, int? page}) async {
+    return await dioClient.get("${ApiRoutes.getNFCEmployerJobs}$id?page=$page");
+  }
+
   Future<Response> updateEmployerDetails({
     String? companyLogo,
     String? companyName,
@@ -79,8 +78,7 @@ class UserService {
       ApiRoutes.updateEmployerDetails,
       data:
           {
-            if ((companyLogo ?? "").isNotEmpty &&
-                File(companyLogo!).existsSync())
+            if ((companyLogo ?? "").isNotEmpty && File(companyLogo!).existsSync())
               'company_logo': await companyLogo.toMulitpartFile,
             if ((companyName ?? "").isNotEmpty) 'company_name': companyName,
             if ((heading ?? "").isNotEmpty) 'heading': heading,

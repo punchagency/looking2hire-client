@@ -45,9 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> handleDeepLink() async {
     handleNfcIntent().then((tagData) {
       if (tagData != null) {
-        Navigator.pushNamed(
+        Navigator.pushNamedAndRemoveUntil(
           context,
           tagData.route,
+          (route) => false,
           arguments: {
             'id': tagData.id,
             'name': tagData.name,

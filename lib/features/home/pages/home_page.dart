@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:looking2hire/components/progress_dialog.dart';
 import 'package:looking2hire/constants/app_colors.dart';
 import 'package:looking2hire/components/custom_app_bar.dart';
 import 'package:looking2hire/constants/app_assets.dart';
@@ -40,6 +41,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final pageController = PageController(viewportFraction: 0.9);
+
   // List<String> recentSearches = [
   //   "All Jobs",
   //   "Designer",
@@ -105,13 +107,15 @@ class _HomePageState extends State<HomePage> {
   String? uType;
 
   Future<void> init() async {
+    Future.delayed(Duration(milliseconds: 200));
+
     uType = await SecureStorage().retrieveUserType();
-    currentContext?.read<JobProvider>().getRecentSearches();
-    currentContext?.read<JobProvider>().getRecommendedJobPosts();
-    currentContext?.read<JobProvider>().getPopularJobs();
-    currentContext?.read<UserProvider>().getApplicantProfile();
-    currentContext?.read<JobProvider>().getSavedJobs();
-    currentContext?.read<JobProvider>().getViewedJobs();
+    await currentContext?.read<JobProvider>().getRecentSearches();
+    await currentContext?.read<JobProvider>().getRecommendedJobPosts();
+    await currentContext?.read<JobProvider>().getPopularJobs();
+    await currentContext?.read<UserProvider>().getApplicantProfile();
+    await currentContext?.read<JobProvider>().getSavedJobs();
+    await currentContext?.read<JobProvider>().getViewedJobs();
     setState(() {});
   }
 
@@ -181,66 +185,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final jobWidgets = [
-    //   JobCard(
-    //     logoUrl: AppAssets.jobLogo1,
-    //     price: "\$50 - \$75 / Mo",
-    //     title: "Senior Project Manager",
-    //     location: "Tokopedia - Jakarta, ID",
-    //     isFullTime: true,
-    //     isRemote: true,
-    //     isSenior: true,
-    //     bgColor: AppColors.bluishGrey,
-    //     onPressed: gotoJobDetails,
-    //   ),
-    //   JobCard(
-    //     logoUrl: AppAssets.jobLogo2,
-    //     price: "\$50 - \$75 / Mo",
-    //     title: "Junior Graphic Designer",
-    //     location: "OLX - Jakarta, ID",
-    //     isFullTime: true,
-    //     isRemote: true,
-    //     isSenior: false,
-    //     bgColor: Colors.white,
-    //     onPressed: gotoJobDetails,
-    //   ),
-    // ];
-
-    // final jobHistoryWidgets = [
-    //   JobHistoryItem(
-    //     imageUrl: AppAssets.bananaRepublic,
-    //     title: "Target - Marketing Specialist",
-    //     description:
-    //         "Implemented campaigns focusing on community engagement..,",
-    //     location: "California",
-    //     startDate: "Jan 2020",
-    //     endDate: "Feb 2023",
-    //     onPressed: gotoJobActiveJobs,
-    //   ),
-
-    //   JobHistoryItem(
-    //     imageUrl: AppAssets.gap,
-    //     title: "Google - Product Designer",
-    //     description:
-    //         "Specialized in creating intuitive interfaces for web applications...",
-    //     location: "Pakistan",
-    //     startDate: "Jan 2020",
-    //     endDate: "Feb 2023",
-    //     onPressed: gotoJobActiveJobs,
-    //   ),
-
-    //   JobHistoryItem(
-    //     imageUrl: AppAssets.apple,
-    //     title: "Apple - UX Designer",
-    //     description:
-    //         "Focused on enhancing user experience for mobile applications...",
-    //     location: "London",
-    //     startDate: "Jan 2020",
-    //     endDate: "Feb 2023",
-    //     onPressed: gotoJobActiveJobs,
-    //   ),
-    // ];
-
     final provider = context.watch<JobProvider>();
 
     if (selectedSearch.isEmpty) {
@@ -285,10 +229,7 @@ class _HomePageState extends State<HomePage> {
                                   onTap: gotoJobSearch,
                                   child: Text(
                                     "Search jobs within 10 miles",
-                                    style: TextStyle(
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    style: TextStyle(color: AppColors.darkGrey, fontWeight: FontWeight.w400),
                                   ),
                                 ),
                               ),
@@ -318,39 +259,36 @@ class _HomePageState extends State<HomePage> {
                       child: ListView(
                         children: [
                           const SizedBox(height: 11),
-                          Text(
-                            "Recent searches",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.lightBlack,
+                          if (provider.recentSearches.isNotEmpty) ...[
+                            Text(
+                              "Recent searches",
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.lightBlack,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          SizedBox(
-                            height: 30,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: provider.recentSearches.length,
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(width: 5);
-                              },
-                              itemBuilder: (context, index) {
-                                final recentSearch =
-                                    provider.recentSearches[index];
-                                return RecentSearchItem(
-                                  title: recentSearch.query ?? "",
-                                  selected:
-                                      selectedSearch == recentSearch.query,
-                                  onPressed:
-                                      () => updateSearch(
-                                        recentSearch.query ?? "",
-                                      ),
-                                );
-                              },
+                            const SizedBox(height: 4),
+                            SizedBox(
+                              height: 30,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: provider.recentSearches.length,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(width: 5);
+                                },
+                                itemBuilder: (context, index) {
+                                  final recentSearch = provider.recentSearches[index];
+                                  return RecentSearchItem(
+                                    title: recentSearch.query ?? "",
+                                    selected: selectedSearch == recentSearch.query,
+                                    onPressed: () => updateSearch(recentSearch.query ?? ""),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 35),
+                            const SizedBox(height: 35),
+                          ],
                           Row(
                             children: [
                               Expanded(
@@ -409,15 +347,9 @@ class _HomePageState extends State<HomePage> {
                                 int colorIndex = 0;
 
                                 if (color == null) {
-                                  colorIndex = Random().nextInt(
-                                    bgColors.length,
-                                  );
-                                  while (index > 0 &&
-                                      popularJobColors[index - 1] ==
-                                          bgColors[colorIndex]) {
-                                    colorIndex = Random().nextInt(
-                                      bgColors.length,
-                                    );
+                                  colorIndex = Random().nextInt(bgColors.length);
+                                  while (index > 0 && popularJobColors[index - 1] == bgColors[colorIndex]) {
+                                    colorIndex = Random().nextInt(bgColors.length);
                                   }
 
                                   color = bgColors[colorIndex];
@@ -425,15 +357,12 @@ class _HomePageState extends State<HomePage> {
                                 } else {
                                   colorIndex = bgColors.indexOf(color);
                                 }
-                                bool isWhite =
-                                    textColors[colorIndex] == Colors.white;
+                                bool isWhite = textColors[colorIndex] == Colors.white;
 
                                 return JobCard(
                                   logoUrl: AppAssets.jobLogo1,
                                   price: "\$50 - \$75 / Mo",
-                                  title:
-                                      data?.jobDetails?.jobTitle ??
-                                      "Senior Project Manager",
+                                  title: data?.jobDetails?.jobTitle ?? "Senior Project Manager",
                                   location:
                                       "${data?.jobDetails?.companyName ?? ""} - ${data?.jobDetails?.jobAddress ?? ""}",
                                   isFullTime: false,
@@ -445,9 +374,7 @@ class _HomePageState extends State<HomePage> {
                                   //     index == 0
                                   //         ? AppColors.bluishGrey
                                   //         : Colors.white,
-                                  onPressed:
-                                      () =>
-                                          gotoJobDetails(data?.jobDetails?.id),
+                                  onPressed: () => gotoJobDetails(data?.jobDetails?.id),
                                 );
                               },
                             ),
@@ -464,32 +391,21 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(height: 14),
                           LoadingOrMessageView(
                             isLoading: false,
-                            showChild:
-                                (provider.recommendedJobs.recommendedJobs ?? [])
-                                    .isNotEmpty,
+                            showChild: (provider.recommendedJobs.recommendedJobs ?? []).isNotEmpty,
                             message:
-                                (provider.recommendedJobs.recommendedJobs ?? [])
-                                        .isEmpty
+                                (provider.recommendedJobs.recommendedJobs ?? []).isEmpty
                                     ? "No recommended jobs found"
                                     : "",
                             // height: 200,
                             child: ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  provider
-                                      .recommendedJobs
-                                      .recommendedJobs
-                                      ?.length ??
-                                  0,
+                              itemCount: provider.recommendedJobs.recommendedJobs?.length ?? 0,
                               separatorBuilder: (context, index) {
                                 return const SizedBox(height: 15);
                               },
                               itemBuilder: (context, index) {
-                                final data =
-                                    provider
-                                        .recommendedJobs
-                                        .recommendedJobs?[index];
+                                final data = provider.recommendedJobs.recommendedJobs?[index];
                                 return JobHistoryItem(
                                   imageUrl: AppAssets.gap,
                                   title: data?.jobTitle ?? "",
@@ -498,8 +414,7 @@ class _HomePageState extends State<HomePage> {
                                   startDate: "Jan 2020",
                                   endDate: "Feb 2023",
                                   onPressed: () {
-                                    provider.recommendedJob =
-                                        data ?? RecommendedJob();
+                                    provider.recommendedJob = data ?? RecommendedJob();
                                     context.pushTo(HireJobDetailsPage());
                                   },
                                 );

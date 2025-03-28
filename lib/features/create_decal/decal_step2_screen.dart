@@ -188,7 +188,7 @@ class _DecalStep2ScreenState extends State<DecalStep2Screen> {
                                       .read<UserProvider>()
                                       .employerProfile
                                       .user
-                                      ?.fullName ??
+                                      ?.companyName ??
                                   "",
                             ),
                             pageController: widget.pageController,
