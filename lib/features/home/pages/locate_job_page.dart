@@ -180,10 +180,11 @@ class _LocateJobPageState extends State<LocateJobPage>
     final jobsInDistance = jobProvider.jobsInDistance;
     print("mile: $mile, jobsInDistance: $jobsInDistance");
     for (var job in jobsInDistance) {
+      if (job.location == null) continue;
       final markerIcon = await _createMarkerIcon(job);
       final marker = Marker(
         markerId: MarkerId(job.id),
-        position: LatLng(job.location[1], job.location[0]),
+        position: LatLng(job.location![1], job.location![0]),
         icon: markerIcon,
         onTap: () => gotoJobDetails(job),
       );
@@ -206,12 +207,15 @@ class _LocateJobPageState extends State<LocateJobPage>
   }
 
   Future<BitmapDescriptor> _createMarkerIcon(Job job) async {
-    final miles = getMilesBetweenTwoPoints(
-      currentPosition!.latitude,
-      currentPosition!.longitude,
-      job.location[1],
-      job.location[0],
-    );
+    final miles =
+        job.location != null
+            ? getMilesBetweenTwoPoints(
+              currentPosition!.latitude,
+              currentPosition!.longitude,
+              job.location![1],
+              job.location![0],
+            )
+            : 0;
     final Widget markerWidget = Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -234,20 +238,36 @@ class _LocateJobPageState extends State<LocateJobPage>
             CircleAvatar(
               radius: 15,
               backgroundImage:
-                  (job.employer?.company_logo ?? "").isNotEmpty
-                      ? CachedNetworkImageProvider(job.employer!.company_logo!)
+                  job.company_logo != null && job.company_logo!.isNotEmpty
+                      ? CachedNetworkImageProvider(job.company_logo!)
                       : AssetImage(AppAssets.defaultProfilePic)
                           as ImageProvider,
               // backgroundImage: NetworkImage(user.imageUrl),
               backgroundColor: Colors.grey[200],
             ),
             const SizedBox(width: 4),
-            Text(
-              "${miles.toInt()} mile${miles.toInt() == 1 ? "" : "s"}",
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
+            Flexible(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    job.company_name ?? "",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.lightBlack,
+                    ),
+                  ),
+                  Text(
+                    "${miles.toInt()} mile${miles.toInt() == 1 ? "" : "s"}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.lightBlack.withOpacity(0.6),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 4),

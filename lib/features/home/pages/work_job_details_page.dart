@@ -266,7 +266,7 @@ class _WorkJobDetailsPageState extends State<WorkJobDetailsPage> {
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
-                                        job.closing_statement,
+                                        job.closing_statement ?? "",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
